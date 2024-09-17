@@ -83,6 +83,9 @@
     <module>api</module>
 	<module>common</module>
     <module>impl</module>
+    <module>biz</module>
+    <module>jpa</module>
+    <module>eco</module>
     <module>pack</module>
 	<module>controller</module>
 	<module>tool</module>
