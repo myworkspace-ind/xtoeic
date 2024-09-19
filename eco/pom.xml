@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>toeic</artifactId>
 		<groupId>mks.myworkspace.english.toeic</groupId>
-		<version>23.0</version>
+		<version>23.2</version>
 	</parent>
 <!-- 	<groupId>mks.myworkspace.english.toeic</groupId> -->
 	<artifactId>toeic-eco</artifactId>
