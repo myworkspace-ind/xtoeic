@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOEIC Assessment Start</title>
+    <!-- Link Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .header {
+            padding: 20px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .header img {
+            height: 30px;
+        }
+        .time-remaining {
+            color: red;
+        }
+        .content-box {
+            background-color: #f8f9fa;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .btn-toggle {
+            display: inline-block;
+            padding: 6px 12px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        .btn-toggle.active {
+            background-color: #28a745;
+        }
+        .btn-toggle input {
+            display: none;
+        }
+        .btn-start {
+            background-color: #17a2b8;
+            color: white;
+            padding: 10px 20px;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header d-flex justify-content-between align-items-center">
+        <div>
+            <img src="https://img.icons8.com/ios/50/000000/book.png" alt="TOEIC Logo">
+            <span class="ml-2">TOEIC</span>
+        </div>
+        <div class="time-remaining">
+            Time remaining: <span>120:00</span>
+        </div>
+    </div>
+
+    <div class="text-center mt-5">
+        <h3>ETS 2024 #1</h3>
+        <div class="content-box my-4">
+            <p class="font-weight-bold">PRACTICE TOEIC EVERYDAY.</p>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <div class="d-flex justify-content-center align-items-center mb-3">
+            <span>Load all resources before starting the assessment</span>
+            <div class="btn-toggle ml-2" id="resource-toggle">
+                <input type="checkbox">
+                <span class="ml-2">ON</span>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <span class="font-weight-bold">Layout for Reading Parts 5~7</span>
+            <div class="btn-group btn-group-toggle ml-3" data-toggle="buttons">
+                <label class="btn btn-outline-primary active">
+                    <input type="radio" name="options" id="option1" checked> Question By Question
+                </label>
+                <label class="btn btn-outline-primary">
+                    <input type="radio" name="options" id="option2"> Part by Part
+                </label>
+            </div>
+        </div>
+
+        <div class="text-left">
+            <p class="font-weight-bold">Question by question:</p>
+            <p>Each question is on a separate page.</p>
+            <p class="font-weight-bold">Part by part:</p>
+            <p>All questions of each part are displayed on a page.</p>
+        </div>
+
+        <button class="btn btn-start">START</button>
+    </div>
+    <footer class="mt-4">
+        <small>Version: 2.0-RC1</small>
+    </footer>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // Toggle button logic for resource load switch
+    const toggle = document.getElementById('resource-toggle');
+    toggle.addEventListener('click', function() {
+        this.classList.toggle('active');
+    });
+</script>
+
+</body>
+</html>
