@@ -35,7 +35,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * Handles requests for the application home page.
  */
 @Controller
-public class xToeicController extends BaseController {
+public class ToeicController extends BaseController {
  
 	   /**
      * This method is called when binding the HTTP parameter to bean (or model).
