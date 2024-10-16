@@ -104,6 +104,18 @@ public class ToeicController extends BaseController {
 		return mav;
 	}
 	
+	@RequestMapping(value = "/exam-and-listening-explanations", method = RequestMethod.GET)
+	public ModelAndView displayExamAndListeningExplanations(HttpServletRequest request, HttpSession httpSession) {
+		ModelAndView mav = new ModelAndView("exam-and-listening-explanations");
+
+		initSession(request, httpSession);
+		
+		mav.addObject("currentSiteId", getCurrentSiteId());
+		mav.addObject("userDisplayName", getCurrentUserDisplayName());
+
+		return mav;
+	}
+	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public ModelAndView displayTest(HttpServletRequest request, HttpSession httpSession) {
 		ModelAndView mav = new ModelAndView("test");
