@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOEIC Test Screen</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f5;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 1200px;
+      margin: auto;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border: 1px solid #333;
+      /* Border cho toàn màn hình */
+    }
+
+    .left-panel,
+    .right-panel {
+      width: 48%;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .left-panel {
+      border-right: 1px solid #ddd;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    .audio-section {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .audio-button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      border: none !important;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .audio-button:hover {
+      background-color: #45a049;
+    }
+
+    .question {
+      margin: 20px 0;
+      font-weight: bold;
+    }
+
+    .options {
+      margin-top: 10px;
+    }
+
+    .option {
+      margin: 5px 0;
+    }
+
+    .next-button,
+    .back-button {
+      margin-top: 30px;
+      padding: 10px 20px;
+      border: none;
+      background-color: white;
+      color: #333;
+      border-radius: 5px;
+      cursor: pointer;
+      border: 1px solid #ddd;
+    }
+
+    .next-button:hover,
+    .back-button:hover {
+      background-color: #f0f0f0;
+    }
+
+      {
+      <audio controls id="audio-control"style="border: none;"><source src="part1-question1-audio.mp3"type="audio/mpeg">Your browser does not support the audio tag. </audio>
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .right-panel {
+      position: relative;
+    }
+
+    .answer-sheet {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+    }
+
+    .answer-sheet-icon {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+    }
+
+    .answers {
+      max-height: 400px;
+      overflow-y: auto;
+      /* Enable vertical scroll */
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .answer {
+      margin: 5px 0;
+      padding: 5px;
+    }
+
+    .highlight {
+      border: 2px solid #4CAF50;
+      background-color: #f0fff0;
+    }
+
+    .save-submit {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .save-button,
+    .submit-button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .save-button {
+      background-color: #2196F3;
+      color: white;
+    }
+
+    .submit-button {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    .save-button:hover {
+      background-color: #1976d2;
+    }
+
+    .submit-button:hover {
+      background-color: #c0392b;
+    }
+
+    /* Khung cho các part từ Part 1 đến Part 4 */
+    .part-section {
+      border: 1px solid #333;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    /* Khung cho Audio text */
+    .audio-text-section {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+    }
+
+    .audio-text-button {
+      padding: 10px;
+      background-color: #f4f4f4;
+      border: 1px solid #333;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .audio-text-button:hover {
+      background-color: #e0e0e0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <!-- Left Panel -->
+    <div class="left-panel">
+      <h2 id="part-title">Part 1: Picture description</h2>
+      <div class="part-section">
+        <div class="audio-section" id="audio-section">
+          <audio controls id="audio-control">
+            <source src="part1-question1-audio.mp3" type="audio/mpeg">
+            Your browser does not support the audio tag.
+          </audio>
+        </div>
+        <div class="audio-text-section" id="audio-text-section">
+          <button class="audio-text-button" onclick="showAudioText()">Show Audio Text</button>
+        </div>
+      </div>
+      <div class="question" id="current-question">Question 1: What is the main topic of the conversation?</div>
+      <div class="options" id="options">
+        <!-- Dynamic options will be rendered here -->
+      </div>
+      <div class="button-group">
+        <button class="back-button" onclick="prevQuestion()">BACK</button>
+        <button class="next-button" onclick="nextQuestion()">NEXT</button>
+      </div>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="right-panel">
+      <div class="answer-sheet">
+        <img src="icon.png" alt="Icon" class="answer-sheet-icon">
+        <span>Answer Sheet</span>
+      </div>
+      <div class="answers" id="answer-sheet">
+        <!-- Loop to generate 200 answer options with specific conditions -->
+        <script>
+          for (let i = 1; i <= 200; i++) {
+            if ((i >= 1 && i <= 6) || (i >= 32 && i <= 200)) {
+              // Add Answer D for questions 1-6 and 32-200
+              document.write(`<div class="answer" id="answer${i}">${i}. 
+                        <input type="radio" name="a${i}" value="A" onclick="syncAnswer(${i}, 'A')"> A 
+                        <input type="radio" name="a${i}" value="B" onclick="syncAnswer(${i}, 'B')"> B 
+                        <input type="radio" name="a${i}" value="C" onclick="syncAnswer(${i}, 'C')"> C 
+                        <input type="radio" name="a${i}" value="D" onclick="syncAnswer(${i}, 'D')"> D</div>`);
+            } else {
+              // No Answer D for other questions
+              document.write(`<div class="answer" id="answer${i}">${i}. 
+                        <input type="radio" name="a${i}" value="A" onclick="syncAnswer(${i}, 'A')"> A 
+                        <input type="radio" name="a${i}" value="B" onclick="syncAnswer(${i}, 'B')"> B 
+                        <input type="radio" name="a${i}" value="C" onclick="syncAnswer(${i}, 'C')"> C</div>`);
+            }
+          }
+        </script>
+      </div>
+      <div class="save-submit">
+        <button class="save-button">SAVE</button>
+        <button class="submit-button">SUBMIT</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentQuestionIndex = 1;
+    // Function to dynamically render options for the current question
+    function renderOptions(questionIndex) {
+      const optionsDiv = document.getElementById('options');
+      optionsDiv.innerHTML = ''; // Clear current options
+      if ((questionIndex >= 1 && questionIndex <= 6) || (questionIndex >= 32 && questionIndex <= 200)) {
+        // Render options A, B, C, D for these questions
+        optionsDiv.innerHTML += `<div class="option"><input type="radio" name="q${questionIndex}" value="A" onclick="highlightAnswer(${questionIndex}, 'A')"> A. Option A</div>`;
+        optionsDiv.innerHTML += `<div class="option"><input type="radio" name="q${questionIndex}" value="B" onclick="highlightAnswer(${questionIndex}, 'B')"> B. Option B</div>`;
+        optionsDiv.innerHTML += `<div class="option"><input type="radio" name="q${questionIndex}" value="C" onclick="highlightAnswer(${questionIndex}, 'C')"> C. Option C</div>`;
+        optionsDiv.innerHTML += `<div class="option"><input type="radio" name="q${questionIndex}" value="D" onclick="highlightAnswer(${questionIndex}, 'D')"> D. Option D</div>`;
+      } else {
+        // Render options A, B, C for other questions
+        optionsDiv.innerHTML += `<div class="option"><input type="radio" name="q${questionIndex}" value="A" onclick="highlightAnswer(${questionIndex}, 'A')"> A. Option A</div>`;
+        optionsDiv.innerHTML += `<div class="option"><input type="radio" name="q${questionIndex}" value="B" onclick="highlightAnswer(${questionIndex}, 'B')"> B. Option B</div>`;
+        optionsDiv.innerHTML += `<div class="option"><input type="radio" name="q${questionIndex}" value="C" onclick="highlightAnswer(${questionIndex}, 'C')"> C. Option C</div>`;
+      }
+    }
+    // Function to update the part title based on the current question index
+    function updatePartTitle(questionIndex) {
+      const partTitle = document.getElementById('part-title');
+      const audioSection = document.getElementById('audio-section');
+      const audioTextSection = document.getElementById('audio-text-section');
+      if (questionIndex >= 1 && questionIndex <= 6) {
+        partTitle.innerHTML = 'Part 1: Picture description';
+        audioSection.style.display = 'block';
+        audioTextSection.style.display = 'block';
+      } else if (questionIndex >= 7 && questionIndex <= 31) {
+        partTitle.innerHTML = 'Part 2: Question and Response';
+        audioSection.style.display = 'block';
+        audioTextSection.style.display = 'block';
+      } else if (questionIndex >= 32 && questionIndex <= 70) {
+        partTitle.innerHTML = 'Part 3: Short conversation';
+        audioSection.style.display = 'block';
+        audioTextSection.style.display = 'block';
+      } else if (questionIndex >= 71 && questionIndex <= 100) {
+        partTitle.innerHTML = 'Part 4: Short talk';
+        audioSection.style.display = 'block';
+        audioTextSection.style.display = 'block';
+      } else {
+        // No audio for Part 5 to Part 7
+        partTitle.innerHTML = `Part ${Math.floor((questionIndex - 1) / 30) + 5}: ${
+                questionIndex <= 130 ? 'Incomplete sentences' : questionIndex <= 146 ? 'Text completion' : 'Passages'
+            }`;
+        audioSection.style.display = 'none';
+        audioTextSection.style.display = 'none';
+      }
+    }
+    // Function to go to the next question
+    function nextQuestion() {
+      if (currentQuestionIndex < 200) {
+        currentQuestionIndex++;
+        document.getElementById('current-question').innerHTML = `Question ${currentQuestionIndex}: What is the main topic of the conversation?`;
+        renderOptions(currentQuestionIndex);
+        updatePartTitle(currentQuestionIndex);
+        updateAudio(currentQuestionIndex);
+        highlightAnswer(currentQuestionIndex);
+      }
+    }
+    // Function to go to the previous question
+    function prevQuestion() {
+      if (currentQuestionIndex > 1) {
+        currentQuestionIndex--;
+        document.getElementById('current-question').innerHTML = `Question ${currentQuestionIndex}: What is the main topic of the conversation?`;
+        renderOptions(currentQuestionIndex);
+        updatePartTitle(currentQuestionIndex);
+        updateAudio(currentQuestionIndex);
+        highlightAnswer(currentQuestionIndex);
+      }
+    }
+    // Function to highlight the answer in the answer sheet and scroll to it
+    function highlightAnswer(questionIndex, selectedAnswer) {
+      // Remove highlight from previous answer
+      if (document.querySelector('.highlight')) {
+        document.querySelector('.highlight').classList.remove('highlight');
+      }
+      // Highlight the new answer
+      const answerElement = document.getElementById('answer' + questionIndex);
+      answerElement.classList.add('highlight');
+      // Scroll to the highlighted answer
+      const answersContainer = document.getElementById('answer-sheet');
+      answersContainer.scrollTop = answerElement.offsetTop - answersContainer.offsetTop;
+      // Sync answer selection in the answer sheet
+      syncAnswerSheet(questionIndex, selectedAnswer);
+    }
+    // Function to sync answer selection between question and answer sheet
+    function syncAnswer(questionIndex, selectedAnswer) {
+      // Update the selected answer in the question options
+      const options = document.querySelectorAll(`input[name="q${questionIndex}"]`);
+      options.forEach(option => {
+        if (option.value === selectedAnswer) {
+          option.checked = true;
+        }
+      });
+      // Highlight the corresponding answer in the answer sheet
+      highlightAnswer(questionIndex, selectedAnswer);
+    }
+    // Function to sync the answer sheet selection when selecting from the question panel
+    function syncAnswerSheet(questionIndex, selectedAnswer) {
+      const answerOptions = document.querySelectorAll(`input[name="a${questionIndex}"]`);
+      answerOptions.forEach(option => {
+        if (option.value === selectedAnswer) {
+          option.checked = true;
+        }
+      });
+    }
+    // Function to show audio text (placeholder for now)
+    function showAudioText() {
+      alert("Audio text for question " + currentQuestionIndex);
+    }
+    // Function to update audio source based on the current question index
+    function updateAudio(questionIndex) {
+      const audioControl = document.getElementById('audio-control');
+      if (questionIndex >= 1 && questionIndex <= 100) {
+        audioControl.src = `part${Math.floor((questionIndex - 1) / 6) + 1}-question${questionIndex}-audio.mp3`;
+        audioControl.load();
+      }
+    }
+    // Initial rendering of options for the first question
+    renderOptions(currentQuestionIndex);
+  </script>
+
+</body>
+
+</html>

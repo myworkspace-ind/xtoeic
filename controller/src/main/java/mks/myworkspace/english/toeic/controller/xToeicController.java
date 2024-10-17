@@ -127,4 +127,15 @@ public class xToeicController extends BaseController {
 
 	return mav;
 	}
+
+
+	@RequestMapping(value = "/exam-screen", method = RequestMethod.GET)
+	public ModelAndView displayExamScreen(HttpServletRequest request, HttpSession httpSession) {
+	ModelAndView mav = new ModelAndView("exam-screen");
+	initSession(request, httpSession);
+	mav.addObject("currentSiteId", getCurrentSiteId());
+	mav.addObject("userDisplayName", getCurrentUserDisplayName());
+
+		return mav;
+}
 }
