@@ -104,6 +104,7 @@ public class xToeicController extends BaseController {
 		return mav;
 	}
 	
+	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public ModelAndView displayTest(HttpServletRequest request, HttpSession httpSession) {
 		ModelAndView mav = new ModelAndView("test");
@@ -114,5 +115,16 @@ public class xToeicController extends BaseController {
 		mav.addObject("userDisplayName", getCurrentUserDisplayName());
 
 		return mav;
+	
+	}
+	
+	@RequestMapping(value = "/post-exam-results", method = RequestMethod.GET)
+	public ModelAndView displayPostExamResultsn(HttpServletRequest request, HttpSession httpSession) {
+	ModelAndView mav = new ModelAndView("post-exam-results");
+	initSession(request, httpSession);
+	mav.addObject("currentSiteId", getCurrentSiteId());
+	mav.addObject("userDisplayName", getCurrentUserDisplayName());
+
+	return mav;
 	}
 }
