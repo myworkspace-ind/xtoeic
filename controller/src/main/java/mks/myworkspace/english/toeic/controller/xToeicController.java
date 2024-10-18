@@ -138,4 +138,16 @@ public class xToeicController extends BaseController {
 
 		return mav;
 }
+
+
+
+	@RequestMapping(value = "/results-history", method = RequestMethod.GET)
+	public ModelAndView displayResultsHistory(HttpServletRequest request, HttpSession httpSession) {
+	ModelAndView mav = new ModelAndView("results-history");
+	initSession(request, httpSession);
+	mav.addObject("currentSiteId", getCurrentSiteId());
+	mav.addObject("userDisplayName", getCurrentUserDisplayName());
+
+	return mav;
+}
 }
