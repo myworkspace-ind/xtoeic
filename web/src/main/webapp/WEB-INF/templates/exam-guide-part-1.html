@@ -36,6 +36,9 @@
 
 <!-- End of Head material from Tool -->
 <title>xTOEIC</title>
+<!--[if (lt IE 9)]>
+  <link href="/library/skin/morpheus-default/tool-ie.css?version=51361631" rel="stylesheet">
+<![endif]-->
 <link
 	href="https://xlms.myworkspace.vn/library/skin/morpheus-default/tool.css?version=51361631"
 	rel="stylesheet" media="screen, tty, tv, handheld, projection">
@@ -140,90 +143,34 @@
 					<div class="area-part" id="question_contain">
 
 						<div class="direction-container">
-							<h1>TOEIC</h1>
-							<h2>Test of English for International Communication</h2>
-							<h2>YBM</h2>
-							<h3>LISTENING TEST</h3>
-							In the Listening test, you will be asked to demonstrate how well
-							you understand spoken English. The entire Listening test will
-							last approximately 45 minutes. There are four parts, and
-							directions are given for each part. You must mark your answers on
-							the separate answer sheet. Do not write your answers in your test
-							book.
-
+							<h3>PART 1</h3>
+							<b>Directions:</b> For each question in this part.you will hear
+							four statements about a picture in your test book.When you hear
+							the statements,you must select the one statement that best
+							describes what are see in the picture.Then find the number of the
+							question on your answer sheet and mark your answer.The statements
+							will not be printed in your test book and will be spoken only one
+							time.<br> <img
+								src="resources/app-assets/images/photo/img-exam-guide-part-1.jpg">
+							<p>
+								<!-- <audio id="direction" controls="" hidden="">
+									<source
+										src="blob:https://xlms.myworkspace.vn/14588273-4657-45b5-b2ed-8ecba550f767"
+										type="audio/mpeg">
+									Your browser does not support the audio element.
+								</audio> -->
+							</p>
 						</div>
 						<div class="footer-bar">
 							<div class="contain text-right">
-								<button id="skipBtn" class="btn btn-info">Skip</button>
+								<button class="btn btn-info" onclick="nextQuestion(true)">Skip</button>
 							</div>
 						</div>
-						<!-- <div>
-							<audio id="direction" controls="" hidden="">
-								<source
-									src="https://xlms.myworkspace.vn/access/content/group/331180a0-0361-48d4-bc82-d120869731f9/TOEIC/2024/ETS_2024_N2/media/common/1_Intro.mp3"
-									type="audio/mpeg">
-								Your browser does not support the audio element.
-							</audio>
-							<script>
-								var isNextQuestion = false; // make sure the method "nextQuestion(boolean)" is called one time.
-
-								var introAudio = document
-										.getElementById("direction");
-								var listeningAudio;
-
-								// Using flag isDisplayedBegin to prevent this script is loaded twice.
-								// Refer /toeic/tool/src/main/webapp/resources/js/toeic.js
-								if (!isDisplayedBegin) {
-
-									listeningAudio = new Audio(
-											"https://xlms.myworkspace.vn/access/content/group/331180a0-0361-48d4-bc82-d120869731f9/TOEIC/2024/ETS_2024_N2/media/common/2_Listening-Test.mp3");
-									if (document.getElementById("direction").onended == null) {
-										document.getElementById("direction").onended = function() {
-											console
-													.log("Begin.html calls listeningAudio.play...");
-											listeningAudio.play();
-										};
-									}
-									if (listeningAudio.onended == null) {
-										listeningAudio.onended = function() {
-											console
-													.log("Begin.html calls nextQuestion...");
-											if (!isNextQuestion) {
-												nextQuestion(true);
-												isNextQuestion = true;
-											}
-										};
-									}
-
-									isDisplayedBegin = true;
-								}
-
-								$("#skipBtn").click(
-										function(e) {
-
-											// console.log("introAudio.ended=" + introAudio.ended);
-											if (!introAudio.ended) {
-												// introAudio.currentTime = introAudio.duration;
-												introAudio.pause();
-
-												if (listeningAudio != null
-														&& !isNextQuestion) {
-													listeningAudio.play();
-												}
-											}
-
-											if (listeningAudio != null
-													&& !listeningAudio.ended) {
-												// listeningAudio.currentTime = listeningAudio.duration;
-												if (!isNextQuestion) {
-													listeningAudio.pause();
-													nextQuestion(true);
-													isNextQuestion = true;
-												}
-											}
-										});
-							</script>
-						</div> -->
+						<!-- <script>
+						document.getElementById("direction").addEventListener("ended", () => {
+							nextQuestion(true);
+							});
+						</script> -->
 
 					</div>
 				</div>

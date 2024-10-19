@@ -1,453 +1,558 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en-US" dir="ltr" class="Mrphs-html">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta charset="UTF-8">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
 
 <!-- Style -->
-<link href="https://xlms.myworkspace.vn/portal/site/331180a0-0361-48d4-bc82-d120869731f9/tool/ec30a288-c102-4d00-8f67-798e4d29f47d/resources/css/mystyle.css" rel="stylesheet" type="text/css" media="all">
-<link href="https://xlms.myworkspace.vn/portal/site/331180a0-0361-48d4-bc82-d120869731f9/tool/ec30a288-c102-4d00-8f67-798e4d29f47d/resources/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all">
-<link rel="stylesheet" type="text/css" href="https://mksol.vn/themes/robust-admin/app-assets/css/plugins/ui/jqueryui.css">
-<link rel="stylesheet" type="text/css" href="https://mksol.vn/themes/robust-admin/app-assets/vendors/css/ui/jquery-ui.min.css">
+<link href="resources/app-assets/css/mystyle.css" rel="stylesheet"
+	type="text/css" media="all">
 <link rel="stylesheet" type="text/css"
-    href="https://mksol.vn/themes/robust-admin/app-assets/vendors/css/extensions/jquery.toolbar.css">
-<link rel="stylesheet" type="text/css" href="https://mksol.vn/themes/robust-admin/app-assets/vendors/css/extensions/sweetalert.css">
-<link rel="stylesheet" type="text/css" href="https://mksol.vn/themes/robust-admin/app-assets/vendors/css/extensions/toastr.css">
+	href="resources/app-assets/vendors/css/tables/datatable/datatables.min.css">
 <link rel="stylesheet" type="text/css"
-    href="https://mksol.vn/themes/robust-admin/app-assets/vendors/css/forms/toggle/bootstrap-switch.min.css">
-<style type="text/css" id="extraStyle">
-.toast {
-	opacity: 1 !important;
-}
+	href="resources/app-assets/vendors/css/tables/extensions/autoFill.dataTables.min.css">
+<link rel="stylesheet" type="text/css"
+	href="resources/app-assets/vendors/css/tables/extensions/colReorder.dataTables.min.css">
+<link rel="stylesheet" type="text/css"
+	href="resources/app-assets/vendors/css/tables/datatable/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" type="text/css"
+	href="resources/app-assets/vendors/css/tables/datatable/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css"
+	href="resources/app-assets/vendors/css/tables/datatable/select.dataTables.min.css">
+<link rel="stylesheet" type="text/css"
+	href="resources/app-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css">
+<link rel="stylesheet" type="text/css"
+	href="resources/app-assets/vendors/css/extensions/offline/themes/offline-theme-slide.css">
+<link rel="stylesheet" type="text/css"
+	href="resources/app-assets/vendors/css/extensions/offline/themes/offline-language-english.css">
+<!-- For Sakai only -->
+<script type="text/javascript"
+	src="https://xlms.myworkspace.vn/library/js/headscripts.js"></script>
 
-.ui-dialog .ui-icon-closethick:after {
-	content: none;
-}
-</style>
-
-    <!-- For Sakai only -->
-    <script type="text/javascript" src="https://xlms.myworkspace.vn/library/js/headscripts.js"></script>
-
-    <!-- End of Head material from Tool -->
- <title>xLMS : English : TOEIC</title>
-        <!--[if (lt IE 9)]>
+<!-- End of Head material from Tool -->
+<title>xTOEIC</title>
+<!--[if (lt IE 9)]>
   <link href="https://xlms.myworkspace.vn/library/skin/morpheus-default/tool-ie.css?version=51361631" rel="stylesheet">
 <![endif]-->
-<link href="https://xlms.myworkspace.vn/library/skin/morpheus-default/tool.css?version=51361631" rel="stylesheet" media="screen, tty, tv, handheld, projection">
-<link href="https://xlms.myworkspace.vn/library/skin/morpheus-default/print.css?version=51361631" rel="stylesheet" media="print">
-<link href="https://xlms.myworkspace.vn/library/skin/morpheus-default/addon-apps.css?version=51361631" rel="stylesheet" type="text/css">        
-        <link href="https://xlms.myworkspace.vn/library/webjars/jquery-ui/1.12.1/jquery-ui.min.css?version=51361631" rel="stylesheet" />  
-        <link href="https://xlms.myworkspace.vn/library/js/jquery/cluetip/1.2.10/css/jquery.cluetip.css?version=51361631" rel="stylesheet">
-        <link href="https://xlms.myworkspace.vn/library/webjars/qtip2/3.0.3/jquery.qtip.min.css?version=51361631" rel="stylesheet">
-        <link href="https://xlms.myworkspace.vn/library/webjars/pnotify/3.2.1/pnotify.css?version=51361631" rel="stylesheet">
-        <link href="https://xlms.myworkspace.vn/library/webjars/pnotify/3.2.1/pnotify.buttons.css?version=51361631" rel="stylesheet">
-        <link href="https://xlms.myworkspace.vn/library/webjars/cropper/4.0.0/dist/cropper.min.css?version=51361631" rel="stylesheet">
-        <link href="https://xlms.myworkspace.vn/library/webjars/fontawesome/4.7.0/css/font-awesome.min.css?version=51361631" rel="stylesheet">
-        <script src="https://xlms.myworkspace.vn/library/skin/morpheus-default/js/lib/modernizr.js?version=51361631"></script>
-        <script src="/webcomponents/assets/@webcomponents/webcomponentsjs/webcomponents-loader.js?version=51361631"></script>
-        <script src="https://xlms.myworkspace.vn/library/webjars/momentjs/2.24.0/min/moment-with-locales.min.js?version=51361631"></script>
-            <script src="/profile2-tool/javascript/profile2-eb.js?version=51361631"></script>
-            
-        <!-- inlined tool header contribution -->
-                        	        		
-        	                        <!-- end inlined tool header contribution -->
-    </head>
+<link
+	href="https://xlms.myworkspace.vn/library/skin/morpheus-default/tool.css?version=51361631"
+	rel="stylesheet" media="screen, tty, tv, handheld, projection">
+<link
+	href="https://xlms.myworkspace.vn/library/skin/morpheus-default/print.css?version=51361631"
+	rel="stylesheet" media="print">
+<link
+	href="https://xlms.myworkspace.vn/library/skin/morpheus-default/addon-apps.css?version=51361631"
+	rel="stylesheet" type="text/css">
+<link
+	href="https://xlms.myworkspace.vn/library/webjars/jquery-ui/1.12.1/jquery-ui.min.css?version=51361631"
+	rel="stylesheet" />
+<link
+	href="https://xlms.myworkspace.vn/library/js/jquery/cluetip/1.2.10/css/jquery.cluetip.css?version=51361631"
+	rel="stylesheet">
+<link
+	href="https://xlms.myworkspace.vn/library/webjars/qtip2/3.0.3/jquery.qtip.min.css?version=51361631"
+	rel="stylesheet">
+<link
+	href="https://xlms.myworkspace.vn/library/webjars/pnotify/3.2.1/pnotify.css?version=51361631"
+	rel="stylesheet">
+<link
+	href="https://xlms.myworkspace.vn/library/webjars/pnotify/3.2.1/pnotify.buttons.css?version=51361631"
+	rel="stylesheet">
+<link
+	href="https://xlms.myworkspace.vn/library/webjars/cropper/4.0.0/dist/cropper.min.css?version=51361631"
+	rel="stylesheet">
+<link
+	href="https://xlms.myworkspace.vn/library/webjars/fontawesome/4.7.0/css/font-awesome.min.css?version=51361631"
+	rel="stylesheet">
+<script
+	src="https://xlms.myworkspace.vn/library/skin/morpheus-default/js/lib/modernizr.js?version=51361631"></script>
+<script
+	src="/webcomponents/assets/@webcomponents/webcomponentsjs/webcomponents-loader.js?version=51361631"></script>
+<script
+	src="https://xlms.myworkspace.vn/library/webjars/momentjs/2.24.0/min/moment-with-locales.min.js?version=51361631"></script>
+<script src="/profile2-tool/javascript/profile2-eb.js?version=51361631"></script>
+
+<!-- inlined tool header contribution -->
+
+<!-- end inlined tool header contribution -->
+</head>
 
 
 
 <div class="Mrphs-pagebody">
-        
- 
-        <nav class="Mrphs-siteHierarchy">
-    <div class="Mrphs-hierarchy--sites">
-
-         
-                            <span class="Mrphs-hierarchy--siteName" title="English">
-                <a href="http://xlms.myworkspace.vn/portal/site/331180a0-0361-48d4-bc82-d120869731f9/page-reset/e61c380b-e068-4ed9-b966-cc9fbf92c447">
-                                        <span class="Mrphs-hierarchy--siteName-label">
-                        English
-                    </span>
-                </a>
-            </span>
-            <span class="Mrphs-hierarchy--siteNameSeparator Mrphs-hierarchy--separator"><i class="fa fa-lg fa-angle-right" aria-hidden="true"></i></span>
-                                        </div>
-
-    
-                                    <a href="http://xlms.myworkspace.vn/portal/site/331180a0-0361-48d4-bc82-d120869731f9/tool-reset/ec30a288-c102-4d00-8f67-798e4d29f47d" title="Tool Home" class="Mrphs-hierarchy-item Mrphs-hierarchy--toolName">
-                <span class="Mrphs-breadcrumb--reset-icon fa fa-share" aria-hidden="true"></span>
-                <span class="Mrphs-breadcrumb--icon icon-sakai--sakai-toeic "></span>
-                <span class="Mrphs-breadcrumb--toolNameText">TOEIC</span>
-            </a>
-
-                                    </nav>
-
-        
-
-    
-
- 
-            <!-- START VM includePageBody.vm -->
-
-<h1 class="skip" tabindex="-1" id="tocontent">Content begins here</h1>
-
-        
-    <main id="content" class="Mrphs-mainContent " role="main">
-
-        <div id="col1" class="Mrphs-pageColumns Mrphs-pageColumns--single">
-
-            
-                
-                                    
-                    <!-- start Tool Container -->
-                    
-                    
-                    <div class="Mrphs-container Mrphs-sakai-toeic">
-                    
-                    <!-- start Tool Header -->
-
-                    
-                        
-
-                            <nav class="Mrphs-toolTitleNav Mrphs-container--toolTitleNav">
-
-                                
-                                    
-                                        <h2 class="Mrphs-toolTitleNav__title">
-                                            <a href="http://xlms.myworkspace.vn/portal/site/331180a0-0361-48d4-bc82-d120869731f9/tool-reset/ec30a288-c102-4d00-8f67-798e4d29f47d" title="Tool Home: TOEIC">
-                                                <span class="Mrphs-toolTitleNav__link Mrphs-toolTitleNav__link--reset"></span>
-                                                <span class="Mrphs-toolTitleNav__text">TOEIC</span>
-                                            </a>
-					    <span class="Mrphs-toolTitleNav__addLeft"></span>
-                                        </h2>
-
-                                     
-                                 
-                                <div class="Mrphs-toolTitleNav__button_container ">
 
 
-                                 
-				                <span class="Mrphs-toolTitleNav__addRight"></span>
-                                
-                                    <button class="Mrphs-toolTitleNav__link Mrphs-toolTitleNav__link--directurl" rel="#Mainec30a288xc102x4d00x8f67x798e4d29f47d_directurl" title="Direct link to this tool" aria-haspopup="dialog">
-                                        <span class="Mrphs-itemTitle">Link</span>
-                                    </button>
-                                    <div id="Mainec30a288xc102x4d00x8f67x798e4d29f47d_directurl" role="dialog" aria-labelledby="Mainec30a288xc102x4d00x8f67x798e4d29f47d_directurl__title" class="Mrphs-directUrl Mrphs-directUrl__dropDown">
-                                        <i class="fa fa-times dropDown_close" aria-hidden="true" tabindex="0"></i>
-                                        <label for="Mainec30a288xc102x4d00x8f67x798e4d29f47d_urlholder" id="Mainec30a288xc102x4d00x8f67x798e4d29f47d_directurl__title" class="dropDown_title">Direct link to this tool</label>
-                                        
-                                            <input tabindex="0" type="checkbox" id="directToolUrl-1" onclick="toggleShortUrlOutput('http://xlms.myworkspace.vn/portal/directtool/ec30a288-c102-4d00-8f67-798e4d29f47d/', this, 'Mainec30a288xc102x4d00x8f67x798e4d29f47d_urlholder');" class="Mrphs-directUrl__checkbox"><label for="directToolUrl-1">Short URL</label>
+	<nav class="Mrphs-siteHierarchy">
+		<div class="Mrphs-hierarchy--sites">
 
-                                         
-                                        <textarea name="Mainec30a288xc102x4d00x8f67x798e4d29f47d_urlholder" id="Mainec30a288xc102x4d00x8f67x798e4d29f47d_urlholder" tabindex="0" class="Mrphs-directUrl__textarea Mainec30a288xc102x4d00x8f67x798e4d29f47d_urlholder" >http://xlms.myworkspace.vn/portal/directtool/ec30a288-c102-4d00-8f67-798e4d29f47d/</textarea>
-                                    </div>
 
-                                 
-                                
-                                    
-                                        <a class="Mrphs-toolTitleNav__link Mrphs-toolTitleNav__link--help-popup" href="http://xlms.myworkspace.vn/portal/help/main?help=sakai.toeic" title="Help for TOEIC" target="_blank" onclick="openWindow('http://xlms.myworkspace.vn/portal/help/main?help=sakai.toeic', 'Help', 'resizable=yes,toolbar=no,scrollbars=yes,menubar=yes,width=1024,height=768'); return false">
-                                            <span class="Mrphs-itemTitle">Help</span>
-                                            <span class="skip">Opens in a new window</span>
-                                        </a>
+			<span class="Mrphs-hierarchy--siteName" title="English"> <a
+				href="http://xlms.myworkspace.vn/portal/site/331180a0-0361-48d4-bc82-d120869731f9/page-reset/e61c380b-e068-4ed9-b966-cc9fbf92c447">
+					<span class="Mrphs-hierarchy--siteName-label"> English </span>
+			</a>
+			</span> <span
+				class="Mrphs-hierarchy--siteNameSeparator Mrphs-hierarchy--separator"><i
+				class="fa fa-lg fa-angle-right" aria-hidden="true"></i></span>
+		</div>
 
-                                     
-                                 
-                                </div>
 
-                            </nav> 
-                         
-                     
-                    <!-- END Tool Header -->
+		<a
+			href="http://xlms.myworkspace.vn/portal/site/331180a0-0361-48d4-bc82-d120869731f9/tool-reset/ec30a288-c102-4d00-8f67-798e4d29f47d"
+			title="Tool Home"
+			class="Mrphs-hierarchy-item Mrphs-hierarchy--toolName"> <span
+			class="Mrphs-breadcrumb--reset-icon fa fa-share" aria-hidden="true"></span>
+			<span class="Mrphs-breadcrumb--icon icon-sakai--sakai-toeic "></span>
+			<span class="Mrphs-breadcrumb--toolNameText">TOEIC</span>
+		</a>
 
-                    <!-- START Tool Body -->
+	</nav>
 
-                    
-                        <!-- Buffered Body Tool Content -->
-                        
 
-    <div class="full-width-dialog ui-dialog-content ui-widget-content" style="display: none; z-index: 9999;" id="dlgImg">
-        <img id="imgQ" src="" alt="No Image...">
-    </div>
-    <div class="full-width-dialog ui-dialog-content ui-widget-content" style="display: none; z-index: 9999;"
-        id="rankDlg">
-        <div class="text-center">
-            <h4>Top Students</h4>
-        </div>
-        <ul class="list list-unstyled">
-            <li><div class="message">1. 22110334@student.hcmute.edu.vn</div>
-                <span class="time">435 point</span></li>
-            <li><div class="message">2. anhkhoaxn11@gmail.com</div>
-                <span class="time">340 point</span></li>
-            <li><div class="message">3. Mr. Demo Mrs</div>
-                <span class="time">305 point</span></li>
-            <li><div class="message">4. qhuy2k249@gmail.com</div>
-                <span class="time">095 point</span></li>
-            <li><div class="message">5. 22110461@student.hcmute.edu.vn</div>
-                <span class="time">080 point</span></li>
-            <li><div class="message">6. giusehuuduc@gmail.com</div>
-                <span class="time">065 point</span></li>
-            <li><div class="message">7. td13052004@gmail.com</div>
-                <span class="time">010 point</span></li>
-            <li><div class="message">8. 22110423@student.hcmute.edu.vn</div>
-                <span class="time">010 point</span></li>
-            <li><div class="message">9. 22110297@student.hcmute.edu.vn</div>
-                <span class="time">010 point</span></li>
-            <li><div class="message">10. 22110384@student.hcmute.edu.vn</div>
-                <span class="time">010 point</span></li>
-        </ul>
-    </div>
 
-    <div id="transport-options" class="toolbar-icons hidden">
-        <a href="score"><i class="fa fa-file" title="Conversion chart"></i></a> <a href="usage"><i
-            class="fa fa-question" title="Instruction manual"></i></a> <a href="rNotes"><i class="fa fa-list-alt"
-            title="Release notes"></i></a> <a href="ranks"><i class="fa fa-list-ol" title="Ranking"></i></a>
-    </div>
 
-    <div class="default-dialog ui-dialog-content ui-widget-content" style="display: none; z-index: 9999;"
-        id="dlgAudioText"></div>
 
-    <div class="modal fade bd-search-product-modal-lg" id="rNotes" tabindex="-1"
-    role="dialog" aria-labelledby="selectSearchProductModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" style="color: black !important; opacity: 1 !important;" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Release notes</h4>
-            </div>
-            <div class="modal-body">
-                <div style="border-bottom: 2px;border-bottom-style: solid;">
-                    <h3>Version: 1.0-RC52-20181221-</h3>
-                    <div style="margin-left: 20px">
-                    <h4>FIX BUGS</h4>
-                    <p>- Time remaining show at test page before hit start button is not sync.</p>
-                    </div>
-                </div>
-                <div style="border-bottom: 2px;border-bottom-style: solid;">
-                    <h3>Version: 1.0-RC52-20181205-</h3>
-                    <div style="margin-left: 20px">
-                    <p>- Export result now support column 'ANSWER'.</p>
-                    <h4>FIX BUGS</h4>
-                    <p>- Time elapsed = null if auto submit.</p>
-                    </div>
-                </div>
-                <div style="border-bottom: 2px;border-bottom-style: solid;">
-                    <h3>Version: 1.0-RC52-20181129-fcbf726f</h3>
-                    <div style="margin-left: 20px">
-                        <p>- Increase data progressing performance.</p>
-                        <p>- Add config file for countdown 10s auto save after user choose answer.</p>
-                        <h4>UI/UX</h4>
-                        <p>- Change clear alert button position.</p>
-                        <p>- Disable text selection, cut, copy, paste (for EXAM mode only).</p>
-                        <p>- [FWACTCFTC-10237] Disable tab for input radio.</p>
-                        <p>- [FWACTCFTC-10227] Add animation for scrolling</p>
-                        <p>- [FWACTCFTC-10220, FWACTCFTC-10168]</p>
-                        <h4>FIX BUGS</h4>
-                        <p>- [FWACTCFTC-10216] Can choose answer when click on blank area.</p>
-                        <p>- [FWACTCFTC-10231] Can choose answer after auto submit.</p>
-                        <p>- Mobile device's screen focus on answer sheet after next or back to previous question.</p>
-                    </div>
-                </div>
-                <div style="border-bottom: 2px;border-bottom-style: solid;">
-                    <h3>Version: 1.0-RC49-20181127-d7a5831a</h3>
-                    <div style="margin-left: 20px">
-                        <p>- Remove data of column 'ANSWER' from exported file.</p>
-                        <p>- [FWACTCFTC-10215] Add question section and answer sheet section responsive.</p>
-                        <h4>UI/UX</h4>
-                        <p>- [FWACTCFTC-10214] Add remove alert message button.</p>
-                        <p>- Hide column 'ANSWER' in result detail dialog.</p>
-                        <h4>FIX BUGS</h4>
-                        <p>- Not show error alert message when export result fail.</p>
-                        <p>- Show result detail not correct.</p>
-                    </div>
-                </div>
 
-                <div style="border-bottom: 2px;border-bottom-style: solid;">
-                    <h3>Version: 1.0-RC48-20181126-94220f62</h3>
-                    <div style="margin-left: 20px">
-                        <p>- Time elapsed will be continue to count even when the website is closing (for EXAM mode).</p>
-                        <h4>UI/UX</h4>
-                        <p>- Remove small loading icon on the right side of submit button.</p>
-                        <h4>FIX BUGS</h4>
-                        <p>- [FWACTCFTC-10182] Question numbers in question text at part 6 not sync with small question number.</p>
-                        <p>- Auto submit is not functionable</p>
-                    </div>
-                </div>
+	<!-- START VM includePageBody.vm -->
 
-                <div>
-                    <h3>Version: 1.0-RC47-20181122-d0d4951d</h3>
-                    <div style="margin-left: 20px">
-                        <p>- Increase data progressing performance.</p>
-                        <p>- Change auto load and store question data to: load from assessment last visited past (1 if new) to 7.</p>
-                        <p>- Change auto save answers from only save answers to save assessment's data and user's answers.</p>
-                        <h4>UI/UX</h4>
-                        <p>- Add release notes.</p>
-                        <p>- Change display of question number button's tooltip in question text.</p>
-                        <p>- [FWACTCFTC-10165] Remove button blue outline.</p>
-                        <p>- Start button text change to 'Resume' if the assessment unfinished.</p>
-                        <p>- Submit answer now require user confirmation.</p>
-                        <h4>FIX BUGS</h4>
-                        <p>- [FWACTCFTC-10162] Can not export result in Firefox browser.</p>
-                        <p>- [FWACTCFTC-10174] Export result's data not match with user selected answers.</p>
-                        <p>- [FWACTCFTC-10145, FWACTCFTC-10152] Dialogs & toolbar not show up in full screen mode.</p>
-                        <p>- Conversion chart & Instruction manual dialog show up in small size before hit start test.</p>
-                        <p>- Not wait load and store question data to finish before display the question.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+	<h1 class="skip" tabindex="-1" id="tocontent">Content begins here</h1>
 
-    <div class="container-fluid">
-        <!-- Modal -->
-<div class="modal fade" id="dlgConfirm" role="dialog">
-    <div class="modal-dialog">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 id="confirmModalTitle"></h4>
-            </div>
-            <div class="modal-body">
-                <p id="confirmTitle"></p>
-                <p id="questionNum"></p>
-            </div>
-            <div class="modal-footer">
-                <button onclick="checkSubmit()" type="button" class="btn btn-success" data-dismiss="modal" id="submitModalBtn">Submit</button>
-                <button type="button" class="btn btn-info" data-dismiss="modal" id="cancelModalBtn">Cancel</button>
-            </div>
-        </div>
+	<main id="content" class="Mrphs-mainContent " role="main">
 
-    </div>
-</div>
-        <!--         <div class="scroll-text" id="rankBoard" style="width: 300px;"> -->
-        <!--             <ul class="list list-unstyled"> -->
-        <!--                 <li th:each="agd,iter : ${ags}"><div class="message" th:text="${iter.count + '. ' + agd.agentId}"></div> -->
-        <!--                     <span class="time" th:text="${#numbers.formatInteger(agd.finalScore,3) + ' point'}"></span></li> -->
-        <!--             </ul> -->
-        <!--         </div> -->
-        <div class="row">
-            <div class="col-md-4">
-                <div data-toolbar="set-04" class="btn-toolbar btn-toolbar-primary mx-auto" data-toolbar-style="primary">
-                    <i class="fa fa-info-circle"></i>
-                </div>
-            </div>
-            <div class="col-md-4 text-center">
-                <h2 id="assessmentTitle">THE TOEIC TEST</h2>
-            </div>
-            <div class="col-md-4">
-                <div class="toeic-clock text-center">
-                    <div id="time-remain-area" class="collapse in">
-                        Time remaining: <span id="time_remain"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="recognition" class="hidden">
-            <div style="margin-bottom: 10px;">
-                <label for="videoSource">Video source: </label><select id="videoSource" style="margin-left: 5px;"></select>
-            </div>
-            <div class="text-center" style="position: relative;">
-                <video muted="" autoplay="" id="screenshot"></video>
-                <br> <i id="screenshot-button" class="fa fa-camera"
-                    style="position: relative; font-size: 50px; cursor: pointer; bottom: 70px;"></i>
-            </div>
-            <img src="" id="screenshot" style="display: none;">
-            <canvas style="display: none;"></canvas>
-        </div>
-        <div id="start_page">
-            <div class="contain text-center">
-                <div id="info_toeic" class="info-toeic"></div>
-                <div class="info-test jumbotron">
-                    <div id="description"></div>
-                </div>
+		<div id="col1" class="Mrphs-pageColumns Mrphs-pageColumns--single">
 
-                <label class="checkbox-inline" style="margin-bottom: 10px;"> Load all resources before
-                    starting the assessment <input type="checkbox" class="switchBootstrap" id="switchBootstrap20"
-                    data-on-color="info" checked="">
-                </label>
-                <br>
-                <label class="checkbox-inline" style="padding-left: 30px;"> Layout for Reading Parts 5~7 <input id="templateT" type="checkbox" checked data-toggle="toggle" data-on-text="Question By Question" data-off-text="Part by Part" data-on-color="success" data-off-color="info">
-                </label>
-                <br>
-                <p><strong>Question by question:</strong> Each question is on a separate page.</p>
-                <p><strong>Part by part:</strong> All questions of each part are displayed on a page.</p>
-                <a id="start_test" class="btn btn-primary btn-lg mt-1 disabled" style="margin-top: 20px;">Start</a>
-            </div>
-        </div>
-        <div id="test_page" class="hidden">
-            <div class="toeic-contain">
-                <div class="row">
-                    <!-- question area -->
-                    <div class="col-sm-8 question-area">
-                        <div class="area-part" id="question_contain"></div>
-                    </div>
-                    <!-- end col 8 -->
 
-                    <!-- answer area -->
-                    <div class="col-sm-4">
-                        <div class="title-part">
-                            <h3 class="text-center">
-                                <button class="btn btn-info" style="margin: 5px;" onclick="toastr.remove();">
-                                    <i class="fa fa-bell-slash"></i>
-                                </button>
-                                Answer sheet
-                            </h3>
-                        </div>
-                        <div id="answer_sheet" class="answer-area"></div>
-                        <div class="btnGroup">
-                            <div class="col-md-12">
-                                <button type="button" class="btn btn-success" id="saveBtn">SAVE</button>
-                                <button type="button" class="btn btn-success" id="submitBtn">SUBMIT</button>
-                                <div id="result" class="hidden-xs" role="alert" style="display: none" align="center">
-                                    <strong align="center">Save OK</strong>
-                                </div>
-                                <div class="loader" style="display: none" id="loading"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end col 4 -->
 
-                </div>
-                <!-- Footer bar -->
-                <div class="row">
-                    <div class="col-sm-8">
-                        <div class="footer-bar">
-                            <div class="toeic-btn text-center">
-                                <button type="button" class="btn btn-default hidden" id="backBtn">BACK</button>
-                                <button type="button" class="btn btn-default" id="nextBtn">NEXT</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-            </div>
-        </div>
-    </div>
-    <div id="result_page" class="jumbotron text-center hidden"></div>
+			<!-- start Tool Container -->
 
-    <div id="version" style="font-size: 10px;"><p>Version: 2.0-RC1</p></div>
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <!-- 	<script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script> -->
-    <!-- 	<script type="text/javascript" src="resources/js/bootstrap.min.js"></script> -->
-    <!-- jQuery library -->
-    <script src="/library/webjars/jquery/3.4.1/dist/jquery.min.js"></script>
-    <script src="/library/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="resources/robust-admin/app-assets/js/core/libraries/jquery_ui/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="resources/robust-admin/app-assets/js/scripts/extensions/block-ui.js"></script>
-    <script type="text/javascript" src="resources/robust-admin/app-assets/vendors/js/ui/jquery.sticky.js"></script>
-    <script type="text/javascript" src="resources/robust-admin/app-assets/vendors/js/charts/chart.min.js"></script>
-    <script type="text/javascript" src="resources/robust-admin/app-assets/vendors/js/extensions/jquery.toolbar.min.js"></script>
-    <script type="text/javascript" src="resources/robust-admin/app-assets/vendors/js/extensions/toastr.min.js"></script>
-    <script type="text/javascript" src="resources/js/jquery.scrollbox.js"></script>
-    <script type="text/javascript" src="resources/robust-admin/app-assets/vendors/js/extensions/sweetalert.min.js"></script>
-    <script type="text/javascript"
-        src="resources/robust-admin/app-assets/vendors/js/forms/toggle/bootstrap-switch.min.js"></script>
-    <script type="text/javascript"
-        src="resources/robust-admin/app-assets/vendors/js/forms/toggle/bootstrap-checkbox.min.js"></script>
+			<div class="Mrphs-container Mrphs-sakai-toeic">
 
-    <script>
+				<!-- start Tool Header -->
+
+
+
+
+				<nav class="Mrphs-toolTitleNav Mrphs-container--toolTitleNav">
+
+
+
+					<h2 class="Mrphs-toolTitleNav__title">
+						<a
+							href="http://xlms.myworkspace.vn/portal/site/331180a0-0361-48d4-bc82-d120869731f9/tool-reset/ec30a288-c102-4d00-8f67-798e4d29f47d"
+							title="Tool Home: TOEIC"> <span
+							class="Mrphs-toolTitleNav__link Mrphs-toolTitleNav__link--reset"></span>
+							<span class="Mrphs-toolTitleNav__text">TOEIC</span>
+						</a> <span class="Mrphs-toolTitleNav__addLeft"></span>
+					</h2>
+
+
+
+					<div class="Mrphs-toolTitleNav__button_container ">
+
+
+
+						<span class="Mrphs-toolTitleNav__addRight"></span>
+
+						<button
+							class="Mrphs-toolTitleNav__link Mrphs-toolTitleNav__link--directurl"
+							rel="#Mainec30a288xc102x4d00x8f67x798e4d29f47d_directurl"
+							title="Direct link to this tool" aria-haspopup="dialog">
+							<span class="Mrphs-itemTitle">Link</span>
+						</button>
+						<div id="Mainec30a288xc102x4d00x8f67x798e4d29f47d_directurl"
+							role="dialog"
+							aria-labelledby="Mainec30a288xc102x4d00x8f67x798e4d29f47d_directurl__title"
+							class="Mrphs-directUrl Mrphs-directUrl__dropDown">
+							<i class="fa fa-times dropDown_close" aria-hidden="true"
+								tabindex="0"></i> <label
+								for="Mainec30a288xc102x4d00x8f67x798e4d29f47d_urlholder"
+								id="Mainec30a288xc102x4d00x8f67x798e4d29f47d_directurl__title"
+								class="dropDown_title">Direct link to this tool</label> <input
+								tabindex="0" type="checkbox" id="directToolUrl-1"
+								onclick="toggleShortUrlOutput('http://xlms.myworkspace.vn/portal/directtool/ec30a288-c102-4d00-8f67-798e4d29f47d/', this, 'Mainec30a288xc102x4d00x8f67x798e4d29f47d_urlholder');"
+								class="Mrphs-directUrl__checkbox"><label
+								for="directToolUrl-1">Short URL</label>
+
+
+							<textarea
+								name="Mainec30a288xc102x4d00x8f67x798e4d29f47d_urlholder"
+								id="Mainec30a288xc102x4d00x8f67x798e4d29f47d_urlholder"
+								tabindex="0"
+								class="Mrphs-directUrl__textarea Mainec30a288xc102x4d00x8f67x798e4d29f47d_urlholder">http://xlms.myworkspace.vn/portal/directtool/ec30a288-c102-4d00-8f67-798e4d29f47d/</textarea>
+						</div>
+
+
+
+
+						<a
+							class="Mrphs-toolTitleNav__link Mrphs-toolTitleNav__link--help-popup"
+							href="http://xlms.myworkspace.vn/portal/help/main?help=sakai.toeic"
+							title="Help for TOEIC" target="_blank"
+							onclick="openWindow('http://xlms.myworkspace.vn/portal/help/main?help=sakai.toeic', 'Help', 'resizable=yes,toolbar=no,scrollbars=yes,menubar=yes,width=1024,height=768'); return false">
+							<span class="Mrphs-itemTitle">Help</span> <span class="skip">Opens
+								in a new window</span>
+						</a>
+
+
+
+					</div>
+
+				</nav>
+
+
+				<!-- END Tool Header -->
+
+				<!-- START Tool Body -->
+
+
+				<!-- Buffered Body Tool Content -->
+
+
+				<div class="full-width-dialog ui-dialog-content ui-widget-content"
+					style="display: none; z-index: 9999;" id="dlgImg">
+					<img id="imgQ" src="" alt="No Image...">
+				</div>
+				<div class="full-width-dialog ui-dialog-content ui-widget-content"
+					style="display: none; z-index: 9999;" id="rankDlg">
+					<div class="text-center">
+						<h4>Top Students</h4>
+					</div>
+					<ul class="list list-unstyled">
+						<li><div class="message">1.
+								22110334@student.hcmute.edu.vn</div> <span class="time">435
+								point</span></li>
+						<li><div class="message">2. anhkhoaxn11@gmail.com</div> <span
+							class="time">340 point</span></li>
+						<li><div class="message">3. Mr. Demo Mrs</div> <span
+							class="time">305 point</span></li>
+						<li><div class="message">4. qhuy2k249@gmail.com</div> <span
+							class="time">095 point</span></li>
+						<li><div class="message">5.
+								22110461@student.hcmute.edu.vn</div> <span class="time">080
+								point</span></li>
+						<li><div class="message">6. giusehuuduc@gmail.com</div> <span
+							class="time">065 point</span></li>
+						<li><div class="message">7. td13052004@gmail.com</div> <span
+							class="time">010 point</span></li>
+						<li><div class="message">8.
+								22110423@student.hcmute.edu.vn</div> <span class="time">010
+								point</span></li>
+						<li><div class="message">9.
+								22110297@student.hcmute.edu.vn</div> <span class="time">010
+								point</span></li>
+						<li><div class="message">10.
+								22110384@student.hcmute.edu.vn</div> <span class="time">010
+								point</span></li>
+					</ul>
+				</div>
+
+				<div id="transport-options" class="toolbar-icons hidden">
+					<a href="score"><i class="fa fa-file" title="Conversion chart"></i></a>
+					<a href="usage"><i class="fa fa-question"
+						title="Instruction manual"></i></a> <a href="rNotes"><i
+						class="fa fa-list-alt" title="Release notes"></i></a> <a href="ranks"><i
+						class="fa fa-list-ol" title="Ranking"></i></a>
+				</div>
+
+				<div class="default-dialog ui-dialog-content ui-widget-content"
+					style="display: none; z-index: 9999;" id="dlgAudioText"></div>
+
+				<div class="modal fade bd-search-product-modal-lg" id="rNotes"
+					tabindex="-1" role="dialog"
+					aria-labelledby="selectSearchProductModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-lg" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close"
+									style="color: black !important; opacity: 1 !important;"
+									data-dismiss="modal">&times;</button>
+								<h4 class="modal-title" id="myModalLabel">Release notes</h4>
+							</div>
+							<div class="modal-body">
+								<div style="border-bottom: 2px; border-bottom-style: solid;">
+									<h3>Version: 1.0-RC52-20181221-</h3>
+									<div style="margin-left: 20px">
+										<h4>FIX BUGS</h4>
+										<p>- Time remaining show at test page before hit start
+											button is not sync.</p>
+									</div>
+								</div>
+								<div style="border-bottom: 2px; border-bottom-style: solid;">
+									<h3>Version: 1.0-RC52-20181205-</h3>
+									<div style="margin-left: 20px">
+										<p>- Export result now support column 'ANSWER'.</p>
+										<h4>FIX BUGS</h4>
+										<p>- Time elapsed = null if auto submit.</p>
+									</div>
+								</div>
+								<div style="border-bottom: 2px; border-bottom-style: solid;">
+									<h3>Version: 1.0-RC52-20181129-fcbf726f</h3>
+									<div style="margin-left: 20px">
+										<p>- Increase data progressing performance.</p>
+										<p>- Add config file for countdown 10s auto save after
+											user choose answer.</p>
+										<h4>UI/UX</h4>
+										<p>- Change clear alert button position.</p>
+										<p>- Disable text selection, cut, copy, paste (for EXAM
+											mode only).</p>
+										<p>- [FWACTCFTC-10237] Disable tab for input radio.</p>
+										<p>- [FWACTCFTC-10227] Add animation for scrolling</p>
+										<p>- [FWACTCFTC-10220, FWACTCFTC-10168]</p>
+										<h4>FIX BUGS</h4>
+										<p>- [FWACTCFTC-10216] Can choose answer when click on
+											blank area.</p>
+										<p>- [FWACTCFTC-10231] Can choose answer after auto
+											submit.</p>
+										<p>- Mobile device's screen focus on answer sheet after
+											next or back to previous question.</p>
+									</div>
+								</div>
+								<div style="border-bottom: 2px; border-bottom-style: solid;">
+									<h3>Version: 1.0-RC49-20181127-d7a5831a</h3>
+									<div style="margin-left: 20px">
+										<p>- Remove data of column 'ANSWER' from exported file.</p>
+										<p>- [FWACTCFTC-10215] Add question section and answer
+											sheet section responsive.</p>
+										<h4>UI/UX</h4>
+										<p>- [FWACTCFTC-10214] Add remove alert message button.</p>
+										<p>- Hide column 'ANSWER' in result detail dialog.</p>
+										<h4>FIX BUGS</h4>
+										<p>- Not show error alert message when export result fail.</p>
+										<p>- Show result detail not correct.</p>
+									</div>
+								</div>
+
+								<div style="border-bottom: 2px; border-bottom-style: solid;">
+									<h3>Version: 1.0-RC48-20181126-94220f62</h3>
+									<div style="margin-left: 20px">
+										<p>- Time elapsed will be continue to count even when the
+											website is closing (for EXAM mode).</p>
+										<h4>UI/UX</h4>
+										<p>- Remove small loading icon on the right side of submit
+											button.</p>
+										<h4>FIX BUGS</h4>
+										<p>- [FWACTCFTC-10182] Question numbers in question text
+											at part 6 not sync with small question number.</p>
+										<p>- Auto submit is not functionable</p>
+									</div>
+								</div>
+
+								<div>
+									<h3>Version: 1.0-RC47-20181122-d0d4951d</h3>
+									<div style="margin-left: 20px">
+										<p>- Increase data progressing performance.</p>
+										<p>- Change auto load and store question data to: load
+											from assessment last visited past (1 if new) to 7.</p>
+										<p>- Change auto save answers from only save answers to
+											save assessment's data and user's answers.</p>
+										<h4>UI/UX</h4>
+										<p>- Add release notes.</p>
+										<p>- Change display of question number button's tooltip in
+											question text.</p>
+										<p>- [FWACTCFTC-10165] Remove button blue outline.</p>
+										<p>- Start button text change to 'Resume' if the
+											assessment unfinished.</p>
+										<p>- Submit answer now require user confirmation.</p>
+										<h4>FIX BUGS</h4>
+										<p>- [FWACTCFTC-10162] Can not export result in Firefox
+											browser.</p>
+										<p>- [FWACTCFTC-10174] Export result's data not match with
+											user selected answers.</p>
+										<p>- [FWACTCFTC-10145, FWACTCFTC-10152] Dialogs & toolbar
+											not show up in full screen mode.</p>
+										<p>- Conversion chart & Instruction manual dialog show up
+											in small size before hit start test.</p>
+										<p>- Not wait load and store question data to finish
+											before display the question.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="container-fluid">
+					<!-- Modal -->
+					<div class="modal fade" id="dlgConfirm" role="dialog">
+						<div class="modal-dialog">
+
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 id="confirmModalTitle"></h4>
+								</div>
+								<div class="modal-body">
+									<p id="confirmTitle"></p>
+									<p id="questionNum"></p>
+								</div>
+								<div class="modal-footer">
+									<button onclick="checkSubmit()" type="button"
+										class="btn btn-success" data-dismiss="modal"
+										id="submitModalBtn">Submit</button>
+									<button type="button" class="btn btn-info" data-dismiss="modal"
+										id="cancelModalBtn">Cancel</button>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<!--         <div class="scroll-text" id="rankBoard" style="width: 300px;"> -->
+					<!--             <ul class="list list-unstyled"> -->
+					<!--                 <li th:each="agd,iter : ${ags}"><div class="message" th:text="${iter.count + '. ' + agd.agentId}"></div> -->
+					<!--                     <span class="time" th:text="${#numbers.formatInteger(agd.finalScore,3) + ' point'}"></span></li> -->
+					<!--             </ul> -->
+					<!--         </div> -->
+					<div class="row">
+						<div class="col-md-4">
+							<div data-toolbar="set-04"
+								class="btn-toolbar btn-toolbar-primary mx-auto"
+								data-toolbar-style="primary">
+								<i class="fa fa-info-circle"></i>
+							</div>
+						</div>
+						<div class="col-md-4 text-center">
+							<h2 id="assessmentTitle">THE TOEIC TEST</h2>
+						</div>
+						<div class="col-md-4">
+							<div class="toeic-clock text-center">
+								<div id="time-remain-area" class="collapse in">
+									Time remaining: <span id="time_remain"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="recognition" class="hidden">
+						<div style="margin-bottom: 10px;">
+							<label for="videoSource">Video source: </label><select
+								id="videoSource" style="margin-left: 5px;"></select>
+						</div>
+						<div class="text-center" style="position: relative;">
+							<video muted="" autoplay="" id="screenshot"></video>
+							<br> <i id="screenshot-button" class="fa fa-camera"
+								style="position: relative; font-size: 50px; cursor: pointer; bottom: 70px;"></i>
+						</div>
+						<img src="" id="screenshot" style="display: none;">
+						<canvas style="display: none;"></canvas>
+					</div>
+					<div id="start_page">
+						<div class="contain text-center">
+							<div id="info_toeic" class="info-toeic"></div>
+							<div class="info-test jumbotron">
+								<div id="description"></div>
+							</div>
+
+							<label class="checkbox-inline" style="margin-bottom: 10px;">
+								Load all resources before starting the assessment <input
+								type="checkbox" class="switchBootstrap" id="switchBootstrap20"
+								data-on-color="info" checked="">
+							</label> <br> <label class="checkbox-inline"
+								style="padding-left: 30px;"> Layout for Reading Parts
+								5~7 <input id="templateT" type="checkbox" checked
+								data-toggle="toggle" data-on-text="Question By Question"
+								data-off-text="Part by Part" data-on-color="success"
+								data-off-color="info">
+							</label> <br>
+							<p>
+								<strong>Question by question:</strong> Each question is on a
+								separate page.
+							</p>
+							<p>
+								<strong>Part by part:</strong> All questions of each part are
+								displayed on a page.
+							</p>
+							<a id="start_test" class="btn btn-primary btn-lg mt-1 disabled"
+								style="margin-top: 20px;">Start</a>
+						</div>
+					</div>
+					<div id="test_page" class="hidden">
+						<div class="toeic-contain">
+							<div class="row">
+								<!-- question area -->
+								<div class="col-sm-8 question-area">
+									<div class="area-part" id="question_contain"></div>
+								</div>
+								<!-- end col 8 -->
+
+								<!-- answer area -->
+								<div class="col-sm-4">
+									<div class="title-part">
+										<h3 class="text-center">
+											<button class="btn btn-info" style="margin: 5px;"
+												onclick="toastr.remove();">
+												<i class="fa fa-bell-slash"></i>
+											</button>
+											Answer sheet
+										</h3>
+									</div>
+									<div id="answer_sheet" class="answer-area"></div>
+									<div class="btnGroup">
+										<div class="col-md-12">
+											<button type="button" class="btn btn-success" id="saveBtn">SAVE</button>
+											<button type="button" class="btn btn-success" id="submitBtn">SUBMIT</button>
+											<div id="result" class="hidden-xs" role="alert"
+												style="display: none" align="center">
+												<strong align="center">Save OK</strong>
+											</div>
+											<div class="loader" style="display: none" id="loading"></div>
+										</div>
+									</div>
+								</div>
+								<!-- end col 4 -->
+
+							</div>
+							<!-- Footer bar -->
+							<div class="row">
+								<div class="col-sm-8">
+									<div class="footer-bar">
+										<div class="toeic-btn text-center">
+											<button type="button" class="btn btn-default hidden"
+												id="backBtn">BACK</button>
+											<button type="button" class="btn btn-default" id="nextBtn">NEXT</button>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div id="result_page" class="jumbotron text-center hidden"></div>
+
+				<div id="version" style="font-size: 10px;">
+					<p>Version: 2.0-RC1</p>
+				</div>
+
+				<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+				<!-- 	<script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script> -->
+				<!-- 	<script type="text/javascript" src="resources/js/bootstrap.min.js"></script> -->
+				<!-- jQuery library -->
+				<script src="/library/webjars/jquery/3.4.1/dist/jquery.min.js"></script>
+				<script src="/library/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+				<script type="text/javascript"
+					src="resources/robust-admin/app-assets/js/core/libraries/jquery_ui/jquery-ui.min.js"></script>
+				<script type="text/javascript"
+					src="resources/robust-admin/app-assets/js/scripts/extensions/block-ui.js"></script>
+				<script type="text/javascript"
+					src="resources/robust-admin/app-assets/vendors/js/ui/jquery.sticky.js"></script>
+				<script type="text/javascript"
+					src="resources/robust-admin/app-assets/vendors/js/charts/chart.min.js"></script>
+				<script type="text/javascript"
+					src="resources/robust-admin/app-assets/vendors/js/extensions/jquery.toolbar.min.js"></script>
+				<script type="text/javascript"
+					src="resources/robust-admin/app-assets/vendors/js/extensions/toastr.min.js"></script>
+				<script type="text/javascript"
+					src="resources/js/jquery.scrollbox.js"></script>
+				<script type="text/javascript"
+					src="resources/robust-admin/app-assets/vendors/js/extensions/sweetalert.min.js"></script>
+				<script type="text/javascript"
+					src="resources/robust-admin/app-assets/vendors/js/forms/toggle/bootstrap-switch.min.js"></script>
+				<script type="text/javascript"
+					src="resources/robust-admin/app-assets/vendors/js/forms/toggle/bootstrap-checkbox.min.js"></script>
+
+				<script>
 	/*<![CDATA[*/
 
 		var userEid = "qhuy2k249@gmail.com";
@@ -456,28 +561,29 @@
 	/*]]>*/
 	</script>
 
-    <script type="text/javascript" src="resources/js/d3.min.js"></script>
-    <script type="text/javascript" src="resources/js/FileSaver.js"></script>
-    <script type="text/javascript" src="resources/js/data_toeic.js"></script>
-    <script type="text/javascript" src="resources/js/adapter.js"></script>
-    <script type="text/javascript" src="resources/js/chart.js"></script>
-    <script type="text/javascript" src="resources/js/config.js"></script>
-    <script type="text/javascript" src="resources/js/toeic.js"></script>
-    <script type="text/javascript" src="resources/js/camera.js"></script>
-    <script type="text/javascript" src="resources/js/initFunc.js"></script>
+				<script type="text/javascript" src="resources/js/d3.min.js"></script>
+				<script type="text/javascript" src="resources/js/FileSaver.js"></script>
+				<script type="text/javascript" src="resources/js/data_toeic.js"></script>
+				<script type="text/javascript" src="resources/js/adapter.js"></script>
+				<script type="text/javascript" src="resources/js/chart.js"></script>
+				<script type="text/javascript" src="resources/js/config.js"></script>
+				<script type="text/javascript" src="resources/js/toeic.js"></script>
+				<script type="text/javascript" src="resources/js/camera.js"></script>
+				<script type="text/javascript" src="resources/js/initFunc.js"></script>
 
-                        <!-- End Buffered Body Tool Content -->
+				<!-- End Buffered Body Tool Content -->
 
-                     
-                    <!-- end Tool Body -->
-                    
-                    </div>
 
-                    <!-- end Tool Container -->
+				<!-- end Tool Body -->
 
-                 
-             
-        </div>
+			</div>
 
-         
-    </main> <!-- END of main.Mrphs-mainContent -->
+			<!-- end Tool Container -->
+
+
+
+		</div>
+
+
+	</main>
+	<!-- END of main.Mrphs-mainContent -->

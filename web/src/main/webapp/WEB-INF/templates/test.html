@@ -35,7 +35,10 @@
 	src="https://xlms.myworkspace.vn/library/js/headscripts.js"></script>
 
 <!-- End of Head material from Tool -->
-<title>xTOEIC</title>
+<title>xLMS : English : TOEIC</title>
+<!--[if (lt IE 9)]>
+  <link href="/library/skin/morpheus-default/tool-ie.css?version=51361631" rel="stylesheet">
+<![endif]-->
 <link
 	href="https://xlms.myworkspace.vn/library/skin/morpheus-default/tool.css?version=51361631"
 	rel="stylesheet" media="screen, tty, tv, handheld, projection">
@@ -140,90 +143,32 @@
 					<div class="area-part" id="question_contain">
 
 						<div class="direction-container">
-							<h1>TOEIC</h1>
-							<h2>Test of English for International Communication</h2>
-							<h2>YBM</h2>
-							<h3>LISTENING TEST</h3>
-							In the Listening test, you will be asked to demonstrate how well
-							you understand spoken English. The entire Listening test will
-							last approximately 45 minutes. There are four parts, and
-							directions are given for each part. You must mark your answers on
-							the separate answer sheet. Do not write your answers in your test
-							book.
-
+							<h3>PART 2</h3>
+							<b>Directions:</b> You will hear a question or statement and
+							three responses spoken in English. They will not be printed in
+							your test book and will be spoken only one time. Select the best
+							response to the question or statement and mark the letter (A),
+							(B), or (C) on your answer sheet.
+							<!-- <img src="https://xlms.myworkspace.vn/access/content/group/331180a0-0361-48d4-bc82-d120869731f9/TOEIC/2024/ETS_2024_N1/ETS_2024_N1/media/part2/directions.png"> -->
+							<p>
+								<audio id="direction" controls="" hidden="">
+									<source
+										src="blob:https://xlms.myworkspace.vn/ea2d7608-e503-4932-a4b2-fafa3f5ec250"
+										type="audio/mpeg">
+									Your browser does not support the audio element.
+								</audio>
+							</p>
 						</div>
 						<div class="footer-bar">
 							<div class="contain text-right">
-								<button id="skipBtn" class="btn btn-info">Skip</button>
+								<button class="btn btn-info" onclick="nextQuestion(true)">Skip</button>
 							</div>
 						</div>
-						<!-- <div>
-							<audio id="direction" controls="" hidden="">
-								<source
-									src="https://xlms.myworkspace.vn/access/content/group/331180a0-0361-48d4-bc82-d120869731f9/TOEIC/2024/ETS_2024_N2/media/common/1_Intro.mp3"
-									type="audio/mpeg">
-								Your browser does not support the audio element.
-							</audio>
-							<script>
-								var isNextQuestion = false; // make sure the method "nextQuestion(boolean)" is called one time.
-
-								var introAudio = document
-										.getElementById("direction");
-								var listeningAudio;
-
-								// Using flag isDisplayedBegin to prevent this script is loaded twice.
-								// Refer /toeic/tool/src/main/webapp/resources/js/toeic.js
-								if (!isDisplayedBegin) {
-
-									listeningAudio = new Audio(
-											"https://xlms.myworkspace.vn/access/content/group/331180a0-0361-48d4-bc82-d120869731f9/TOEIC/2024/ETS_2024_N2/media/common/2_Listening-Test.mp3");
-									if (document.getElementById("direction").onended == null) {
-										document.getElementById("direction").onended = function() {
-											console
-													.log("Begin.html calls listeningAudio.play...");
-											listeningAudio.play();
-										};
-									}
-									if (listeningAudio.onended == null) {
-										listeningAudio.onended = function() {
-											console
-													.log("Begin.html calls nextQuestion...");
-											if (!isNextQuestion) {
-												nextQuestion(true);
-												isNextQuestion = true;
-											}
-										};
-									}
-
-									isDisplayedBegin = true;
-								}
-
-								$("#skipBtn").click(
-										function(e) {
-
-											// console.log("introAudio.ended=" + introAudio.ended);
-											if (!introAudio.ended) {
-												// introAudio.currentTime = introAudio.duration;
-												introAudio.pause();
-
-												if (listeningAudio != null
-														&& !isNextQuestion) {
-													listeningAudio.play();
-												}
-											}
-
-											if (listeningAudio != null
-													&& !listeningAudio.ended) {
-												// listeningAudio.currentTime = listeningAudio.duration;
-												if (!isNextQuestion) {
-													listeningAudio.pause();
-													nextQuestion(true);
-													isNextQuestion = true;
-												}
-											}
-										});
-							</script>
-						</div> -->
+						<!-- <script>
+						document.getElementById("direction").addEventListener("ended", () => {
+							nextQuestion(true);
+							});
+						</script> -->
 
 					</div>
 				</div>
@@ -241,7 +186,7 @@
 						</h3>
 					</div>
 					<div id="answer_sheet" class="answer-area">
-						<div class="toeic-form selected-border" id="answer_form_1"
+						<div class="toeic-form" id="answer_form_1"
 							style="margin-left: 9px;">
 							<label class="ques-no">01.</label> <label class="radio-inline">
 								<input type="radio" tabindex="-1" attrid="2300" poolname="Part1"
@@ -331,8 +276,8 @@
 							</label>
 						</div>
 
-						<div class="toeic-form" id="answer_form_6"
-							style="margin-left: 9px;">
+						<div class="toeic-form selected-border mark-color"
+							id="answer_form_6" style="margin-left: 9px;">
 							<label class="ques-no">06.</label> <label class="radio-inline">
 								<input type="radio" tabindex="-1" attrid="2303" poolname="Part1"
 								answerid="11105" num="6" name="optradio[2303]" value="A">
