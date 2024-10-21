@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test History - Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .show-entries {
+            display: flex;
+            align-items: center;
+        }
+        .show-entries label {
+            margin-right: 5px;
+        }
+        .show-entries select {
+            padding: 5px;
+            margin-right: 10px;
+        }
+        .search-bar {
+            display: flex;
+            justify-content: flex-end;
+        }
+        .search-bar input[type="text"] {
+            padding: 5px;
+            width: 200px;
+        }
+        .search-bar button {
+            padding: 5px 10px;
+            margin-left: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .pagination .info {
+            font-size: 14px;
+        }
+        .pagination .controls {
+            display: flex;
+            gap: 5px;
+        }
+        .pagination button {
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Test History - Result</h1>
+    
+    <!-- Top bar with "Show entries" and Search -->
+    <div class="top-bar">
+        <div class="show-entries">
+            <label for="entries">Show</label>
+            <select id="entries">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+            <label>entries</label>
+        </div>
+        
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+            <button>Search</button>
+            <button>Export</button>
+        </div>
+    </div>
+    
+    <!-- Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>Attempt Date</th>
+                <th>Submitted Date</th>
+                <th>Final Score</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>2024-10-01</td>
+                <td>2024-10-01</td>
+                <td>850</td>
+                <td><button>View Details</button></td>
+            </tr>
+            <tr>
+                <td>2024-09-25</td>
+                <td>2024-09-25</td>
+                <td>790</td>
+                <td><button>View Details</button></td>
+            </tr>
+            <!-- Add more rows as needed -->
+        </tbody>
+    </table>
+    
+    <!-- Pagination -->
+    <div class="pagination">
+        <div class="info">Showing 1 to 10 of 11 entries</div>
+        <div class="controls">
+            <button>Previous</button>
+            <button>1</button>
+            <button>2</button>
+            <button>Next</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

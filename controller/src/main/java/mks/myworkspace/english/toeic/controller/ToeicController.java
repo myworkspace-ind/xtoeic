@@ -104,6 +104,7 @@ public class ToeicController extends BaseController {
 		return mav;
 	}
 	
+	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public ModelAndView displayTest(HttpServletRequest request, HttpSession httpSession) {
 		ModelAndView mav = new ModelAndView("test");
@@ -114,5 +115,39 @@ public class ToeicController extends BaseController {
 		mav.addObject("userDisplayName", getCurrentUserDisplayName());
 
 		return mav;
+	
 	}
+	
+	@RequestMapping(value = "/post-exam-results", method = RequestMethod.GET)
+	public ModelAndView displayPostExamResultsn(HttpServletRequest request, HttpSession httpSession) {
+	ModelAndView mav = new ModelAndView("post-exam-results");
+	initSession(request, httpSession);
+	mav.addObject("currentSiteId", getCurrentSiteId());
+	mav.addObject("userDisplayName", getCurrentUserDisplayName());
+
+	return mav;
+	}
+
+
+	@RequestMapping(value = "/exam-screen", method = RequestMethod.GET)
+	public ModelAndView displayExamScreen(HttpServletRequest request, HttpSession httpSession) {
+	ModelAndView mav = new ModelAndView("exam-screen");
+	initSession(request, httpSession);
+	mav.addObject("currentSiteId", getCurrentSiteId());
+	mav.addObject("userDisplayName", getCurrentUserDisplayName());
+
+		return mav;
+}
+
+
+
+	@RequestMapping(value = "/results-history", method = RequestMethod.GET)
+	public ModelAndView displayResultsHistory(HttpServletRequest request, HttpSession httpSession) {
+	ModelAndView mav = new ModelAndView("results-history");
+	initSession(request, httpSession);
+	mav.addObject("currentSiteId", getCurrentSiteId());
+	mav.addObject("userDisplayName", getCurrentUserDisplayName());
+
+	return mav;
+}
 }
