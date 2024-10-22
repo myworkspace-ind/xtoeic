@@ -11,10 +11,87 @@
 	<artifactId>toeic-eco</artifactId>
 
 	<dependencies>
+	    <!-- sub project dependencies -->
+        <dependency>
+            <groupId>mks.myworkspace.english.toeic</groupId>
+            <artifactId>toeic-api</artifactId>
+<!--             <version>${module.version}</version> -->
+        </dependency>
+		<dependency>
+            <groupId>mks.myworkspace.english.toeic</groupId>
+            <artifactId>toeic-common</artifactId>
+            <version>${module.version}</version>
+        </dependency>
+		<dependency>
+            <groupId>mks.myworkspace.english.toeic</groupId>
+            <artifactId>toeic-impl</artifactId>
+<!--             <version>${module.version}</version> -->
+        </dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+            <version>${spring.data.commons.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+<!--            <version>${spring.data.jpa.version}</version>-->
+        </dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+
+		<!-- Sakai dependencies -->
+		<dependency>
+			<groupId>org.sakaiproject.kernel</groupId>
+			<artifactId>sakai-kernel-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.sakaiproject.kernel</groupId>
+			<artifactId>sakai-component-manager</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>org.sakaiproject.sitemanage</groupId>
+            <artifactId>sakai-site-manage-util</artifactId>
+        </dependency>
+<!--      <dependency>-->
+<!--        <groupId>org.springframework</groupId>-->
+<!--        <artifactId>spring-webflux</artifactId>-->
+<!--        <version>${sakai.spring.version>}</version>-->
+<!--      </dependency>-->
+      <dependency>
+        <groupId>com.googlecode.json-simple</groupId>
+        <artifactId>json-simple</artifactId>
+      </dependency>
 	</dependencies>
 	<build>
 		<!-- configure the build to use the standard maven structure -->

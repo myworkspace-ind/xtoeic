@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOEIC Test Results</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f5;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      display: flex;
+      /* Use flexbox for layout */
+      justify-content: space-between;
+      /* Space between items */
+      align-items: flex-start;
+      /* Align items at the top */
+      width: 90%;
+      max-width: 800px;
+      margin: auto;
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .left-section {
+      flex: 1;
+      /* Take up available space */
+      text-align: left;
+      /* Align text to the left */
+    }
+
+    .right-section {
+      flex: 1;
+      /* Take up available space */
+      text-align: right;
+      /* Align text to the right */
+    }
+
+    h1 {
+      text-align: center;
+      /* Center the title */
+      color: #333;
+    }
+
+    .scores {
+      font-size: 18px;
+      margin-top: 10px;
+      text-align: right;
+      /* Align scores to the right */
+    }
+
+    .total-score {
+      font-size: 24px;
+      font-weight: bold;
+      color: #e74c3c;
+      margin-top: 30px;
+      text-align: center;
+      /* Center the total score */
+    }
+
+    .buttons {
+      margin-top: 20px;
+      /* Margin for buttons */
+      display: flex;
+      justify-content: center;
+      /* Center buttons */
+    }
+
+    .buttons button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      margin: 0 10px;
+      /* Margin between buttons */
+    }
+
+    .buttons button:hover {
+      background-color: #45a049;
+    }
+
+    .buttons button.export {
+      background-color: #2196F3;
+    }
+
+    .buttons button.export:hover {
+      background-color: #1976d2;
+    }
+
+    .radar-chart-container {
+      margin-top: 30px;
+      width: 100%;
+      /* Full width */
+      text-align: center;
+      /* Center text for the chart */
+    }
+
+    canvas {
+      width: 100% !important;
+      /* Responsive canvas */
+      height: auto !important;
+      /* Maintain aspect ratio */
+      max-width: 400px;
+      /* Limit max width */
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="left-section">
+      <div class="radar-chart-container">
+        <canvas id="radarChart"></canvas>
+      </div>
+    </div>
+
+    <div class="right-section">
+      <h1>THE TOEIC TEST</h1>
+      <div class="scores">
+        <p><strong>Listening Score:</strong> <span id="listeningScore">5</span> - <strong>Reading Score:</strong> <span id="readingScore">5</span></p>
+      </div>
+      <div class="total-score">
+        TOTAL SCORE: <span id="totalScore">10</span>
+      </div>
+      <div class="buttons">
+        <button onclick="goHome()">Home</button>
+        <button class="export" onclick="exportResults()">Export</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Sample total score (to be dynamically updated)
+    const totalScore = 10; // Example score
+    const listeningScore = 5; // Example Listening Score
+    const readingScore = 5; // Example Reading Score
+    // Update the displayed values
+    document.getElementById('totalScore').textContent = totalScore;
+    document.getElementById('listeningScore').textContent = listeningScore;
+    document.getElementById('readingScore').textContent = readingScore;
+
+    function goHome() {
+      window.location.href = '#';
+    }
+
+    function exportResults() {
+      alert('Exporting results...');
+      // Here you can implement the logic to generate a PDF or export the results
+    }
+    // Radar chart for TOEIC scores
+    const ctx = document.getElementById('radarChart').getContext('2d');
+    const radarChart = new Chart(ctx, {
+      type: 'radar',
+      data: {
+        labels: ['Listening', 'Reading', 'Grammar', 'Vocabulary', 'Writing'],
+        datasets: [{
+          label: 'TOEIC Scores',
+          data: [listeningScore, readingScore, 20, 15, 10], // Example scores
+          fill: true,
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(54, 162, 235, 1)'
+        }]
+      },
+      options: {
+        scales: {
+          r: {
+            beginAtZero: true,
+            max: 100
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+
+</html>
