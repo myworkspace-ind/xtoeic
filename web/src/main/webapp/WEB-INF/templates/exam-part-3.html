@@ -142,47 +142,85 @@
 				<div class="question-area col-sm-7">
 					<div class="area-part" id="question_contain">
 						<div class="title-part">
-							<h3 id="title_part">Part 1: Picture description</h3>
+							<h3 id="title_part_multi">Part 3: Short conversation</h3>
 							<button class="btn btn-info" style="margin: 5px"
 								onclick="showAudioTextDialog()">Show Audio Text</button>
 						</div>
 						<div class="test-box">
 							<div class="toeic-index">
-								<h4 id="question_number">Question 1</h4>
+								<h4 id="question_number_multi">Question 32 - 34</h4>
 							</div>
 							<div class="toiec-question">
-								<div id="pic_question">
-									<img style="cursor: pointer;"
-										src="resources/app-assets/images/photo/img-exam-part-1.png"
-										onclick="showImage(this)"
-										alt="Couldn't load question, your internet access might be disconnected.">
-								</div>
-								<p class="text-question" id="text_question"></p>
+								<div id="pic_question_multi"></div>
+								<p class="text-question" id="text_question_multi"></p>
 							</div>
 
-							<div class="for-listening text-center" id="audio_question">
+							<div class="for-listening text-center" id="audio_question_multi">
 								<div class="black"></div>
-								<audio class="mt-md-3s" preload="auto"
-									src="blob:https://xlms.myworkspace.vn/bc7557a7-4a71-494f-a4a5-9a66e3ac394c"
+								<audio preload="auto"
+									src="blob:https://xlms.myworkspace.vn/2eaa0485-de8f-421e-8075-da2999db376f"
 									id="audioQuestion" controls="" controlslist="nodownload">
 								</audio>
 							</div>
-							<div class="toeic-select">
-								<form class="toiec-form">
-									<label class="radio-inline answerTextOption"
-										onclick="selectAnswer(12702)"> <strong>A. </strong> <span
-										id="answerA"></span>
-									</label> <label class="radio-inline answerTextOption"
-										onclick="selectAnswer(12705)"> <strong>B. </strong> <span
-										id="answerB"></span>
-									</label> <label class="radio-inline answerTextOption"
-										onclick="selectAnswer(12703)"> <strong>C. </strong> <span
-										id="answerC"></span>
-									</label> <label class="radio-inline answerTextOption"
-										onclick="selectAnswer(12706)"> <strong>D. </strong><span>
-									</span>
-									</label>
 
+
+							<div class="multi-question" id="multi_question">
+								<div class="toiec-question">
+									<p class="text-question" id="text_question">32. Where does
+										the conversation most likely take place?</p>
+								</div>
+								<form class="toiec-form id-2027" id="0">
+									<label class="radio-inline answerTextOption"
+										onclick="selectAnswer(9675)"> <strong>A. </strong> <span>On
+											a train</span>
+									</label> <label class="radio-inline answerTextOption"
+										onclick="selectAnswer(9672)"> <strong>B. </strong> <span>On
+											a boat</span>
+									</label> <label class="radio-inline answerTextOption"
+										onclick="selectAnswer(9674)"> <strong>C. </strong> <span>At
+											a factory</span>
+									</label> <label class="radio-inline answerTextOption"
+										onclick="selectAnswer(9676)"> <strong>D. </strong> <span>At
+											an airport</span>
+									</label>
+								</form>
+								<div class="toiec-question">
+									<p class="text-question" id="text_question">33. What caused
+										a delay?</p>
+								</div>
+								<form class="toiec-form id-2027" id="1">
+									<label class="radio-inline answerTextOption"
+										onclick="selectAnswer(9762)"> <strong>A. </strong> <span>An
+											electrical failure occurred.</span>
+									</label> <label class="radio-inline answerTextOption"
+										onclick="selectAnswer(9764)"> <strong>B. </strong> <span>A
+											worker was unavailable.</span>
+									</label> <label class="radio-inline answerTextOption"
+										onclick="selectAnswer(9765)"> <strong>C. </strong> <span>Some
+											information was incorrect.</span>
+									</label> <label class="radio-inline answerTextOption"
+										onclick="selectAnswer(9763)"> <strong>D. </strong> <span>The
+											weather was bad.</span>
+									</label>
+								</form>
+								<div class="toiec-question">
+									<p class="text-question" id="text_question">34. What will
+										the man do next?</p>
+								</div>
+								<form class="toiec-form id-2027" id="2">
+									<label class="radio-inline answerTextOption"
+										onclick="selectAnswer(9770)"> <strong>A. </strong> <span>Update
+											a shift schedule</span>
+									</label> <label class="radio-inline answerTextOption"
+										onclick="selectAnswer(9768)"> <strong>B. </strong> <span>Clear
+											a work space</span>
+									</label> <label class="radio-inline answerTextOption"
+										onclick="selectAnswer(9767)"> <strong>C. </strong> <span>Complete
+											a checklist</span>
+									</label> <label class="radio-inline answerTextOption"
+										onclick="selectAnswer(9771)"> <strong>D. </strong> <span>Place
+											a call</span>
+									</label>
 								</form>
 							</div>
 						</div>
@@ -202,21 +240,21 @@
 						</h3>
 					</div>
 					<div id="answer_sheet" class="answer-area">
-						<div class="toeic-form selected-border mark-color"
-							id="answer_form_1" style="margin-left: 9px;">
+						<div class="toeic-form" id="answer_form_1"
+							style="margin-left: 9px;">
 							<label class="ques-no">01.</label> <label class="radio-inline">
-								<input type="radio" tabindex="-1" attrid="2182" poolname="Part1"
-								answerid="10497" num="1" name="optradio[2182]" value="A">
+								<input type="radio" tabindex="-1" attrid="2300" poolname="Part1"
+								answerid="11087" num="1" name="optradio[2300]" value="A">
 								<strong>A</strong>
 							</label> <label class="radio-inline"> <input type="radio"
-								tabindex="-1" attrid="2182" poolname="Part1" answerid="10500"
-								num="1" name="optradio[2182]" value="B"> <strong>B</strong>
+								tabindex="-1" attrid="2300" poolname="Part1" answerid="11088"
+								num="1" name="optradio[2300]" value="B"> <strong>B</strong>
 							</label> <label class="radio-inline"> <input type="radio"
-								tabindex="-1" attrid="2182" poolname="Part1" answerid="10498"
-								num="1" name="optradio[2182]" value="C"> <strong>C</strong>
+								tabindex="-1" attrid="2300" poolname="Part1" answerid="11090"
+								num="1" name="optradio[2300]" value="C"> <strong>C</strong>
 							</label> <label class="radio-inline"> <input type="radio"
-								tabindex="-1" attrid="2182" poolname="Part1" answerid="10499"
-								num="1" name="optradio[2182]" value="D"><strong>D</strong>
+								tabindex="-1" attrid="2300" poolname="Part1" answerid="11089"
+								num="1" name="optradio[2300]" value="D"><strong>D</strong>
 							</label>
 						</div>
 
@@ -685,8 +723,8 @@
 							</label> <label class="radio-inline"> </label>
 						</div>
 
-						<div class="toeic-form" id="answer_form_32"
-							style="margin-left: 9px;">
+						<div class="toeic-form  selected-border mark-color"
+							id="answer_form_32" style="margin-left: 9px;">
 							<label class="ques-no">32.</label> <label class="radio-inline">
 								<input type="radio" tabindex="-1" attrid="2282" poolname="Part3"
 								answerid="10999" num="32" name="optradio[2282]" value="A">
@@ -703,7 +741,7 @@
 							</label>
 						</div>
 
-						<div class="toeic-form" id="answer_form_33"
+						<div class="toeic-form mark-color" id="answer_form_33"
 							style="margin-left: 9px;">
 							<label class="ques-no">33.</label> <label class="radio-inline">
 								<input type="radio" tabindex="-1" attrid="2284" poolname="Part3"
@@ -721,7 +759,7 @@
 							</label>
 						</div>
 
-						<div class="toeic-form" id="answer_form_34"
+						<div class="toeic-form mark-color" id="answer_form_34"
 							style="margin-left: 9px;">
 							<label class="ques-no">34.</label> <label class="radio-inline">
 								<input type="radio" tabindex="-1" attrid="2269" poolname="Part3"

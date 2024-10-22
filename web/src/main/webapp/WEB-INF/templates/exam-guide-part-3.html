@@ -141,51 +141,36 @@
 				<!-- question area -->
 				<div class="question-area col-sm-7">
 					<div class="area-part" id="question_contain">
-						<div class="title-part">
-							<h3 id="title_part">Part 1: Picture description</h3>
-							<button class="btn btn-info" style="margin: 5px"
-								onclick="showAudioTextDialog()">Show Audio Text</button>
-						</div>
-						<div class="test-box">
-							<div class="toeic-index">
-								<h4 id="question_number">Question 1</h4>
-							</div>
-							<div class="toiec-question">
-								<div id="pic_question">
-									<img style="cursor: pointer;"
-										src="resources/app-assets/images/photo/img-exam-part-1.png"
-										onclick="showImage(this)"
-										alt="Couldn't load question, your internet access might be disconnected.">
-								</div>
-								<p class="text-question" id="text_question"></p>
-							</div>
 
-							<div class="for-listening text-center" id="audio_question">
-								<div class="black"></div>
-								<audio class="mt-md-3s" preload="auto"
-									src="blob:https://xlms.myworkspace.vn/bc7557a7-4a71-494f-a4a5-9a66e3ac394c"
-									id="audioQuestion" controls="" controlslist="nodownload">
+						<div class="direction-container">
+							<h3>PART 3</h3>
+							<b>Directions:</b> You will hear some conversations between two
+							people. You will be asked to answer three questions about what
+							the speakers say in each conversation. Select the best response
+							to each question and mark the letter (A), (B), (C), or (D) on
+							your answer sheet. The conversations will not be printed in your
+							test book and will be spoken only one time.
+							<!-- <img src="https://xlms.myworkspace.vn/access/content/group/331180a0-0361-48d4-bc82-d120869731f9/TOEIC/2024/ETS_2024_N1/ETS_2024_N1/media/part2/directions.png"> -->
+							<p>
+								<audio id="direction" controls="" hidden="">
+									<source
+										src="blob:https://xlms.myworkspace.vn/ea2d7608-e503-4932-a4b2-fafa3f5ec250"
+										type="audio/mpeg">
+									Your browser does not support the audio element.
 								</audio>
-							</div>
-							<div class="toeic-select">
-								<form class="toiec-form">
-									<label class="radio-inline answerTextOption"
-										onclick="selectAnswer(12702)"> <strong>A. </strong> <span
-										id="answerA"></span>
-									</label> <label class="radio-inline answerTextOption"
-										onclick="selectAnswer(12705)"> <strong>B. </strong> <span
-										id="answerB"></span>
-									</label> <label class="radio-inline answerTextOption"
-										onclick="selectAnswer(12703)"> <strong>C. </strong> <span
-										id="answerC"></span>
-									</label> <label class="radio-inline answerTextOption"
-										onclick="selectAnswer(12706)"> <strong>D. </strong><span>
-									</span>
-									</label>
-
-								</form>
+							</p>
+						</div>
+						<div class="footer-bar">
+							<div class="contain text-right">
+								<button class="btn btn-info" onclick="nextQuestion(true)">Skip</button>
 							</div>
 						</div>
+						<!-- <script>
+						document.getElementById("direction").addEventListener("ended", () => {
+							nextQuestion(true);
+							});
+						</script> -->
+
 					</div>
 				</div>
 				<!-- end col 8 -->
@@ -202,21 +187,21 @@
 						</h3>
 					</div>
 					<div id="answer_sheet" class="answer-area">
-						<div class="toeic-form selected-border mark-color"
-							id="answer_form_1" style="margin-left: 9px;">
+						<div class="toeic-form" id="answer_form_1"
+							style="margin-left: 9px;">
 							<label class="ques-no">01.</label> <label class="radio-inline">
-								<input type="radio" tabindex="-1" attrid="2182" poolname="Part1"
-								answerid="10497" num="1" name="optradio[2182]" value="A">
+								<input type="radio" tabindex="-1" attrid="2300" poolname="Part1"
+								answerid="11087" num="1" name="optradio[2300]" value="A">
 								<strong>A</strong>
 							</label> <label class="radio-inline"> <input type="radio"
-								tabindex="-1" attrid="2182" poolname="Part1" answerid="10500"
-								num="1" name="optradio[2182]" value="B"> <strong>B</strong>
+								tabindex="-1" attrid="2300" poolname="Part1" answerid="11088"
+								num="1" name="optradio[2300]" value="B"> <strong>B</strong>
 							</label> <label class="radio-inline"> <input type="radio"
-								tabindex="-1" attrid="2182" poolname="Part1" answerid="10498"
-								num="1" name="optradio[2182]" value="C"> <strong>C</strong>
+								tabindex="-1" attrid="2300" poolname="Part1" answerid="11090"
+								num="1" name="optradio[2300]" value="C"> <strong>C</strong>
 							</label> <label class="radio-inline"> <input type="radio"
-								tabindex="-1" attrid="2182" poolname="Part1" answerid="10499"
-								num="1" name="optradio[2182]" value="D"><strong>D</strong>
+								tabindex="-1" attrid="2300" poolname="Part1" answerid="11089"
+								num="1" name="optradio[2300]" value="D"><strong>D</strong>
 							</label>
 						</div>
 
@@ -670,8 +655,8 @@
 							</label> <label class="radio-inline"> </label>
 						</div>
 
-						<div class="toeic-form" id="answer_form_31"
-							style="margin-left: 9px;">
+						<div class="toeic-form selected-border mark-color"
+							id="answer_form_31" style="margin-left: 9px;">
 							<label class="ques-no">31.</label> <label class="radio-inline">
 								<input type="radio" tabindex="-1" attrid="2336" poolname="Part2"
 								answerid="11271" num="31" name="optradio[2336]" value="A">
@@ -3647,7 +3632,7 @@
 					<div class="footer-bar">
 						<div class="toeic-btn text-center">
 							<button type="button" class="btn btn-default hidden" id="backBtn">BACK</button>
-							<button type="button" class="btn btn-default" id="nextBtn">NEXT</button>
+							<button type="button" class="btn btn-default hidden" id="nextBtn">NEXT</button>
 						</div>
 					</div>
 				</div>
