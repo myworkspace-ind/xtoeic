@@ -231,6 +231,78 @@ public class ToeicController extends BaseController {
 		return mav;
 	}
 	
+	@RequestMapping(value = "/exam-guide-part-5", method = RequestMethod.GET)
+	public ModelAndView displayExamGuidePart5(HttpServletRequest request, HttpSession httpSession) {
+		ModelAndView mav = new ModelAndView("exam-guide-part-5");
+
+		initSession(request, httpSession);
+		
+		mav.addObject("currentSiteId", getCurrentSiteId());
+		mav.addObject("userDisplayName", getCurrentUserDisplayName());
+
+		return mav;
+	}
+	
+	@RequestMapping(value = "/exam-part-5", method = RequestMethod.GET)
+	public ModelAndView displayExamPart5(HttpServletRequest request, HttpSession httpSession) {
+		ModelAndView mav = new ModelAndView("exam-part-5");
+
+		initSession(request, httpSession);
+		
+		mav.addObject("currentSiteId", getCurrentSiteId());
+		mav.addObject("userDisplayName", getCurrentUserDisplayName());
+
+		return mav;
+	}
+	
+	@RequestMapping(value = "/exam-guide-part-6", method = RequestMethod.GET)
+	public ModelAndView displayExamGuidePart6(HttpServletRequest request, HttpSession httpSession) {
+		ModelAndView mav = new ModelAndView("exam-guide-part-6");
+
+		initSession(request, httpSession);
+		
+		mav.addObject("currentSiteId", getCurrentSiteId());
+		mav.addObject("userDisplayName", getCurrentUserDisplayName());
+
+		return mav;
+	}
+	
+	@RequestMapping(value = "/exam-part-6", method = RequestMethod.GET)
+	public ModelAndView displayExamPart6(HttpServletRequest request, HttpSession httpSession) {
+		ModelAndView mav = new ModelAndView("exam-part-6");
+
+		initSession(request, httpSession);
+		
+		mav.addObject("currentSiteId", getCurrentSiteId());
+		mav.addObject("userDisplayName", getCurrentUserDisplayName());
+
+		return mav;
+	}
+	
+	@RequestMapping(value = "/exam-guide-part-7", method = RequestMethod.GET)
+	public ModelAndView displayExamGuidePart7(HttpServletRequest request, HttpSession httpSession) {
+		ModelAndView mav = new ModelAndView("exam-guide-part-7");
+
+		initSession(request, httpSession);
+		
+		mav.addObject("currentSiteId", getCurrentSiteId());
+		mav.addObject("userDisplayName", getCurrentUserDisplayName());
+
+		return mav;
+	}
+	
+	@RequestMapping(value = "/exam-part-7", method = RequestMethod.GET)
+	public ModelAndView displayExamPart7(HttpServletRequest request, HttpSession httpSession) {
+		ModelAndView mav = new ModelAndView("exam-part-7");
+
+		initSession(request, httpSession);
+		
+		mav.addObject("currentSiteId", getCurrentSiteId());
+		mav.addObject("userDisplayName", getCurrentUserDisplayName());
+
+		return mav;
+	}
+	
 	@RequestMapping(value = "/warning-when-submitting", method = RequestMethod.GET)
 	public ModelAndView displayWarningWhenSubmitting(HttpServletRequest request, HttpSession httpSession) {
 		ModelAndView mav = new ModelAndView("warning-when-submitting");
