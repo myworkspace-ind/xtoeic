@@ -1,6 +1,8 @@
 
 <!DOCTYPE html>
-<html lang="en-US" dir="ltr" class="Mrphs-html">
+<html lang="en-US" dir="ltr" class="Mrphs-html"
+	xmlns:th="http://www.thymeleaf.org">
+
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,8 +13,9 @@
 <meta charset="UTF-8">
 
 <!-- Style -->
-<link href="https://xlms.myworkspace.vn/portal/site/331180a0-0361-48d4-bc82-d120869731f9/tool/ec30a288-c102-4d00-8f67-798e4d29f47d/resources/css/mystyle.css" rel="stylesheet" type="text/css"
-	media="all">
+<link
+	href="https://xlms.myworkspace.vn/portal/site/331180a0-0361-48d4-bc82-d120869731f9/tool/ec30a288-c102-4d00-8f67-798e4d29f47d/resources/css/mystyle.css"
+	rel="stylesheet" type="text/css" media="all">
 <link rel="stylesheet" type="text/css"
 	href="https://mksol.vn/themes/robust-admin/app-assets/vendors/css/tables/datatable/datatables.min.css">
 <link rel="stylesheet" type="text/css"
@@ -32,16 +35,19 @@
 <link rel="stylesheet" type="text/css"
 	href="https://mksol.vn/themes/robust-admin/app-assets/vendors/css/extensions/offline/themes/offline-language-english.css">
 <!-- For Sakai only -->
-<script type="text/javascript" src="https://xlms.myworkspace.vnhttps://xlms.myworkspace.vn/library/js/headscripts.js"></script>
+<script type="text/javascript"
+	src="https://xlms.myworkspace.vn/library/js/headscripts.js"></script>
 
 <!-- End of Head material from Tool -->
-<title>xLMS : English : TOEIC</title>
+<title>xTOEIC</title>
 <!--[if (lt IE 9)]>
   <link href="https://xlms.myworkspace.vn/library/skin/morpheus-default/tool-ie.css?version=51361631" rel="stylesheet">
 <![endif]-->
-<link href="https://xlms.myworkspace.vn/library/skin/morpheus-default/tool.css?version=51361631"
+<link
+	href="https://xlms.myworkspace.vn/library/skin/morpheus-default/tool.css?version=51361631"
 	rel="stylesheet" media="screen, tty, tv, handheld, projection">
-<link href="https://xlms.myworkspace.vn/library/skin/morpheus-default/print.css?version=51361631"
+<link
+	href="https://xlms.myworkspace.vn/library/skin/morpheus-default/print.css?version=51361631"
 	rel="stylesheet" media="print">
 <link
 	href="https://xlms.myworkspace.vn/library/skin/morpheus-default/addon-apps.css?version=51361631"
@@ -55,7 +61,8 @@
 <link
 	href="https://xlms.myworkspace.vn/library/webjars/qtip2/3.0.3/jquery.qtip.min.css?version=51361631"
 	rel="stylesheet">
-<link href="https://xlms.myworkspace.vn/library/webjars/pnotify/3.2.1/pnotify.css?version=51361631"
+<link
+	href="https://xlms.myworkspace.vn/library/webjars/pnotify/3.2.1/pnotify.css?version=51361631"
 	rel="stylesheet">
 <link
 	href="https://xlms.myworkspace.vn/library/webjars/pnotify/3.2.1/pnotify.buttons.css?version=51361631"
@@ -267,8 +274,16 @@
 							</tr>
 						</thead>
 						<tbody>
+							<tr th:each="exam : ${exams}">
+								<td th:text="${exam.title}"></td>
+								<td th:text="${exam.timeLimit}"></td>
+								<td th:text="${exam.dueDateTime}"></td>
+								<td><a href="#showResult" id="126">Show</a></td>
+							</tr>
+						</tbody>
+					</table>
 
-							<tr>
+					<!-- <tr>
 								<td><a
 									href="/portal/site/331180a0-0361-48d4-bc82-d120869731f9/tool/ec30a288-c102-4d00-8f67-798e4d29f47d/test?&amp;idA=126">ETS
 										2024 #1</a></td>
@@ -312,10 +327,10 @@
 								<td><span></span></td>
 								<td><a href="#showResult" id="133">Show</a></td>
 
-							</tr>
+							</tr> -->
 
-						</tbody>
-					</table>
+						<!-- </tbody> -->
+					<!-- </table> -->
 
 					<div style="width: 100%;"
 						class="modal fade bd-search-product-modal-lg"
@@ -382,8 +397,10 @@
 					<p>Version: 2.0-RC1</p>
 				</div>
 
-				<script src="https://xlms.myworkspace.vn/library/webjars/jquery/3.4.1/dist/jquery.min.js"></script>
-				<script src="https://xlms.myworkspace.vn/library/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+				<script
+					src="https://xlms.myworkspace.vn/library/webjars/jquery/3.4.1/dist/jquery.min.js"></script>
+				<script
+					src="https://xlms.myworkspace.vn/library/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 				<script
 					src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
 				<script type="text/javascript"
