@@ -1,0 +1,27 @@
+package mks.myworkspace.english.toeic.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import mks.myworkspace.english.toeic.entity.Exam;
+import mks.myworkspace.english.toeic.service.ExamService;
+import mks.myworkspace.english.toeic.repository.ExamRepository;
+
+@Service
+public class ExamServiceImpl implements ExamService{
+
+	@Autowired
+	private ExamRepository repo;
+	
+	@Override
+	public ExamRepository getRepo() {
+		return repo;
+	}
+	
+	@Override
+	public List<Exam> getAllExams() {	
+		return repo.findAll();
+	}
+}
