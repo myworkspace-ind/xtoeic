@@ -19,9 +19,14 @@
 
 package mks.myworkspace.english.toeic.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import mks.myworkspace.english.toeic.entity.Exam;
+import mks.myworkspace.english.toeic.service.ExamService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -29,10 +34,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Handles requests for the application home page.
  */
 @Controller
+@Slf4j
 public class ToeicController extends BaseController {
 
 	/**
@@ -66,15 +75,29 @@ public class ToeicController extends BaseController {
 
 		return mav;
 	}
+	
+	/**
+	 * Call service
+	 */
+	@Autowired
+	private ExamService examService;
 
 	@RequestMapping(value = "/list-of-exam", method = RequestMethod.GET)
 	public ModelAndView displayListOfExam(HttpServletRequest request, HttpSession httpSession) {
 		ModelAndView mav = new ModelAndView("list-of-exam");
-
+	
 		initSession(request, httpSession);
 
 		mav.addObject("currentSiteId", getCurrentSiteId());
 		mav.addObject("userDisplayName", getCurrentUserDisplayName());
+		
+		List<Exam> exams =  examService.getAllExams();
+		
+		mav.addObject("exams", exams);
+		
+		for (Exam exam : exams) {
+			log.debug("Thông tin đề thi: {}", exam);
+		}
 
 		return mav;
 	}
@@ -318,7 +341,7 @@ public class ToeicController extends BaseController {
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public ModelAndView displayTest(HttpServletRequest request, HttpSession httpSession) {
 		ModelAndView mav = new ModelAndView("test");
-
+		
 		initSession(request, httpSession);
 
 		mav.addObject("currentSiteId", getCurrentSiteId());

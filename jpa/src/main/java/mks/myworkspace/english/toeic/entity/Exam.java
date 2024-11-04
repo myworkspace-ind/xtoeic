@@ -31,10 +31,10 @@ public class Exam implements Serializable {
 	@Column(length = 99)
 	private String title; 
 
-	@Column(length = 99)
+	@Column(name = "time_limit", length = 99)
 	private String timeLimit;
 
-	@Column(length = 99)
+	@Column(name = "due_date_time", length = 99)
 	private String dueDateTime;
 
 	public Exam(Long id, String title, String timeLimit, String dueDateTime) {
