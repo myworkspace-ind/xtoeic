@@ -91,7 +91,7 @@ public class ToeicController extends BaseController {
 		mav.addObject("currentSiteId", getCurrentSiteId());
 		mav.addObject("userDisplayName", getCurrentUserDisplayName());
 		
-		List<Exam> exams =  examService.getAllExams();
+		List<Exam> exams =  examService.getExamsWithETSTitlePrefix();
 		
 		mav.addObject("exams", exams);
 		
@@ -349,4 +349,17 @@ public class ToeicController extends BaseController {
 
 		return mav;
 	}
+	
+	@RequestMapping(value = "/test2", method = RequestMethod.GET)
+	public ModelAndView displayTest2(HttpServletRequest request, HttpSession httpSession) {
+		ModelAndView mav = new ModelAndView("fragments/headerXToeic");
+		
+		initSession(request, httpSession);
+
+		mav.addObject("currentSiteId", getCurrentSiteId());
+		mav.addObject("userDisplayName", getCurrentUserDisplayName());
+
+		return mav;
+	}
+
 }

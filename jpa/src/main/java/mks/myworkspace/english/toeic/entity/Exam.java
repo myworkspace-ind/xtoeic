@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "xtoeic_exam", uniqueConstraints = @UniqueConstraint(columnNames = "id"))
+@Table(name = "sam_publishedassessment_t", uniqueConstraints = @UniqueConstraint(columnNames = "ID"))
 @Getter
 @Setter
 @NoArgsConstructor
@@ -26,10 +26,13 @@ public class Exam implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id; // system field
+	private Long ID; // system field
 
-	@Column(length = 99)
-	private String title; 
+	@Column(name = "TITLE", length = 99)
+	private String title;
+	
+	@Column(name = "DESCRIPTION", length = 255)
+	private String description;
 
 	@Column(name = "time_limit", length = 99)
 	private String timeLimit;
@@ -37,46 +40,19 @@ public class Exam implements Serializable {
 	@Column(name = "due_date_time", length = 99)
 	private String dueDateTime;
 
-	public Exam(Long id, String title, String timeLimit, String dueDateTime) {
+	@Override
+	public String toString() {
+		return "Exam [ID=" + ID + ", title=" + title + ", timeLimit=" + timeLimit + ", dueDateTime=" + dueDateTime
+				+ "]";
+	}
+
+	public Exam(Long iD, String title, String timeLimit, String dueDateTime) {
 		super();
-		this.id = id;
+		ID = iD;
 		this.title = title;
 		this.timeLimit = timeLimit;
 		this.dueDateTime = dueDateTime;
 	}
 
-	@Override
-	public String toString() {
-		return "Exam [id=" + id + ", title=" + title + ", timeLimit=" + timeLimit + ", dueDateTime=" + dueDateTime
-				+ "]";
-	}
 
 }
-
-
-//package mks.myworkspace.english.toeic.entity;
-//
-//public class Exam {
-//    private String title;
-//    private String timeLimit;
-//    private String dueDateTime;  
-//
-//    public Exam(String title, String timeLimit, String dueDateTime) {
-//        this.title = title;
-//        this.timeLimit = timeLimit;
-//        this.dueDateTime = dueDateTime;
-//    }
-//
-//    public String getTitle() {
-//        return title;
-//    }
-//
-//    public String getTimeLimit() {
-//        return timeLimit;
-//    }
-//
-//    public String getDueDateTime() {
-//        return dueDateTime;
-//    }
-//
-//}

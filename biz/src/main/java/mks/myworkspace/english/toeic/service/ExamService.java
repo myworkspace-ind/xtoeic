@@ -14,4 +14,9 @@ public interface ExamService {
 
     List<Exam> getAllExams(); 
     
+    List<Exam> getExamsWithETSTitlePrefix();
+    
+    List<Exam> getExamsWithETSTitleAndPracticeType();
+
+    List<Exam> getExamsWithETSTitleAndExamType();
 }

@@ -24,4 +24,20 @@ public class ExamServiceImpl implements ExamService{
 	public List<Exam> getAllExams() {	
 		return repo.findAll();
 	}
+	
+	@Override
+	public List<Exam> getExamsWithETSTitlePrefix() {	
+		return repo.findExamsWithETSTitlePrefix();
+	}
+	
+	@Override
+	public List<Exam> getExamsWithETSTitleAndPracticeType() {	
+		return repo.findExamsWithETSTitleAndPracticeType();
+	}
+	
+	@Override
+	public List<Exam> getExamsWithETSTitleAndExamType() {	
+		return repo.findExamsWithETSTitleAndExamType();
+	}
+	
 }
