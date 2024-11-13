@@ -26,7 +26,8 @@ public class Exam implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long ID; // system field
+	@Column(name = "ID")
+	private Long id; // system field
 
 	@Column(name = "TITLE", length = 99)
 	private String title;
@@ -40,19 +41,19 @@ public class Exam implements Serializable {
 	@Column(name = "due_date_time", length = 99)
 	private String dueDateTime;
 
-	@Override
-	public String toString() {
-		return "Exam [ID=" + ID + ", title=" + title + ", timeLimit=" + timeLimit + ", dueDateTime=" + dueDateTime
-				+ "]";
-	}
-
-	public Exam(Long iD, String title, String timeLimit, String dueDateTime) {
+	public Exam(Long id, String title, String description, String timeLimit, String dueDateTime) {
 		super();
-		ID = iD;
+		this.id = id;
 		this.title = title;
+		this.description = description;
 		this.timeLimit = timeLimit;
 		this.dueDateTime = dueDateTime;
 	}
 
+	@Override
+	public String toString() {
+		return "Exam [id=" + id + ", title=" + title + ", description=" + description + ", timeLimit=" + timeLimit
+				+ ", dueDateTime=" + dueDateTime + "]";
+	}
 
 }

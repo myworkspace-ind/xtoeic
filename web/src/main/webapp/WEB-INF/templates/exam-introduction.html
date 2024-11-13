@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en-US" dir="ltr" class="Mrphs-html">
+<html lang="en-US" dir="ltr" class="Mrphs-html"
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,6 +27,9 @@
 	href="resources/app-assets/vendors/css/extensions/offline/themes/offline-theme-slide.css">
 <link rel="stylesheet" type="text/css"
 	href="resources/app-assets/vendors/css/extensions/offline/themes/offline-language-english.css">
+<link rel="stylesheet" type="text/css"
+	href="resources/app-assets/vendors/css/forms/toggle/bootstrap-switch.min.css">
+
 <!-- For Sakai only -->
 <script type="text/javascript"
 	src="https://xlms.myworkspace.vn/library/js/headscripts.js"></script>
@@ -78,15 +82,9 @@
 <!-- end inlined tool header contribution -->
 </head>
 
-
-
 <div class="Mrphs-pagebody">
-
-
 	<nav class="Mrphs-siteHierarchy">
 		<div class="Mrphs-hierarchy--sites">
-
-
 			<span class="Mrphs-hierarchy--siteName" title="English"> <a
 				href="http://xlms.myworkspace.vn/portal/site/331180a0-0361-48d4-bc82-d120869731f9/page-reset/e61c380b-e068-4ed9-b966-cc9fbf92c447">
 					<span class="Mrphs-hierarchy--siteName-label"> English </span>
@@ -108,37 +106,16 @@
 
 	</nav>
 
-
-
-
-
-
 	<!-- START VM includePageBody.vm -->
-
 	<h1 class="skip" tabindex="-1" id="tocontent">Content begins here</h1>
-
-
 	<main id="content" class="Mrphs-mainContent " role="main">
-
 		<div id="col1" class="Mrphs-pageColumns Mrphs-pageColumns--single">
 
-
-
-
 			<!-- start Tool Container -->
-
-
 			<div class="Mrphs-container Mrphs-sakai-toeic">
 
 				<!-- start Tool Header -->
-
-
-
-
 				<nav class="Mrphs-toolTitleNav Mrphs-container--toolTitleNav">
-
-
-
 					<h2 class="Mrphs-toolTitleNav__title">
 						<a
 							href="http://xlms.myworkspace.vn/portal/site/331180a0-0361-48d4-bc82-d120869731f9/tool-reset/ec30a288-c102-4d00-8f67-798e4d29f47d"
@@ -147,15 +124,8 @@
 							<span class="Mrphs-toolTitleNav__text">TOEIC</span>
 						</a> <span class="Mrphs-toolTitleNav__addLeft"></span>
 					</h2>
-
-
-
 					<div class="Mrphs-toolTitleNav__button_container ">
-
-
-
 						<span class="Mrphs-toolTitleNav__addRight"></span>
-
 						<button
 							class="Mrphs-toolTitleNav__link Mrphs-toolTitleNav__link--directurl"
 							rel="#Mainec30a288xc102x4d00x8f67x798e4d29f47d_directurl"
@@ -175,18 +145,12 @@
 								onclick="toggleShortUrlOutput('http://xlms.myworkspace.vn/portal/directtool/ec30a288-c102-4d00-8f67-798e4d29f47d/', this, 'Mainec30a288xc102x4d00x8f67x798e4d29f47d_urlholder');"
 								class="Mrphs-directUrl__checkbox"><label
 								for="directToolUrl-1">Short URL</label>
-
-
 							<textarea
 								name="Mainec30a288xc102x4d00x8f67x798e4d29f47d_urlholder"
 								id="Mainec30a288xc102x4d00x8f67x798e4d29f47d_urlholder"
 								tabindex="0"
 								class="Mrphs-directUrl__textarea Mainec30a288xc102x4d00x8f67x798e4d29f47d_urlholder">http://xlms.myworkspace.vn/portal/directtool/ec30a288-c102-4d00-8f67-798e4d29f47d/</textarea>
 						</div>
-
-
-
-
 						<a
 							class="Mrphs-toolTitleNav__link Mrphs-toolTitleNav__link--help-popup"
 							href="http://xlms.myworkspace.vn/portal/help/main?help=sakai.toeic"
@@ -195,11 +159,7 @@
 							<span class="Mrphs-itemTitle">Help</span> <span class="skip">Opens
 								in a new window</span>
 						</a>
-
-
-
 					</div>
-
 				</nav>
 
 
@@ -414,7 +374,8 @@
 							</div>
 						</div>
 						<div class="col-md-4 text-center">
-							<h2 id="assessmentTitle">THE TOEIC TEST</h2>
+							<h2 th:text="${exam.title}">Exam Title</h2>
+							<!-- <h2 id="assessmentTitle">THE TOEIC TEST</h2> -->
 						</div>
 						<div class="col-md-4">
 							<div class="toeic-clock text-center">
@@ -441,30 +402,62 @@
 						<div class="contain text-center">
 							<div id="info_toeic" class="info-toeic"></div>
 							<div class="info-test jumbotron">
-								<div id="description"></div>
+								<div id="description">
+									<p th:utext="${exam.description}">Exam Description</p>
+								</div>
 							</div>
 
 							<label class="checkbox-inline" style="margin-bottom: 10px;">
-								Load all resources before starting the assessment <input
-								type="checkbox" class="switchBootstrap" id="switchBootstrap20"
-								data-on-color="info" checked="">
+								Load all resources before starting the assessment
+								<div
+									class="bootstrap-switch-id-switchBootstrap20 bootstrap-switch bootstrap-switch-wrapper
+									bootstrap-switch-focused bootstrap-switch-animate bootstrap-switch-on"
+									style="width: 99.6px;">
+									<div class="bootstrap-switch-container"
+										style="width: 147px; margin-left: 0px;">
+										<span class="bootstrap-switch-handle-on bootstrap-switch-info"
+											style="width: 49px;">ON</span> <span
+											class="bootstrap-switch-label" style="width: 49px;">&nbsp;</span>
+										<span
+											class="bootstrap-switch-handle-off bootstrap-switch-default"
+											style="width: 49px;">OFF</span> <input type="checkbox"
+											class="switchBootstrap" id="switchBootstrap20"
+											data-on-color="info" checked="">
+									</div>
+								</div>
 							</label> <br> <label class="checkbox-inline"
-								style="padding-left: 30px;"> Layout for Reading Parts
-								5~7 <input id="templateT" type="checkbox" checked
-								data-toggle="toggle" data-on-text="Question By Question"
-								data-off-text="Part by Part" data-on-color="success"
-								data-off-color="info">
+								style="padding-left: 30px;"> Layout for Reading Parts 5~7
+								<div
+									class="bootstrap-switch-id-templateT bootstrap-switch bootstrap-switch-wrapper
+									bootstrap-switch-focused bootstrap-switch-animate bootstrap-switch-on"
+									style="width: 333.6px;">
+									<div class="bootstrap-switch-container"
+										style="width: 498px; margin-left: 0px;">
+										<span
+											class="bootstrap-switch-handle-on bootstrap-switch-success"
+											style="width: 166px;">Question By Question</span><span
+											class="bootstrap-switch-label" style="width: 166px;">&nbsp;</span><span
+											class="bootstrap-switch-handle-off bootstrap-switch-info"
+											style="width: 166px;">Part by Part</span><input
+											id="templateT" type="checkbox" checked=""
+											data-toggle="toggle" data-on-text="Question By Question"
+											data-off-text="Part by Part" data-on-color="success"
+											data-off-color="info">
+									</div>
+								</div>
 							</label> <br>
 							<p>
 								<strong>Question by question:</strong> Each question is on a
 								separate page.
 							</p>
+							
 							<p>
 								<strong>Part by part:</strong> All questions of each part are
 								displayed on a page.
 							</p>
-							<a id="start_test" class="btn btn-primary btn-lg mt-1 disabled"
-								style="margin-top: 20px;">Start</a>
+							<a id="start_test" class="btn btn-primary btn-lg mt-1 disable"
+								style="margin-top: 20px;" >START</a>
+							
 						</div>
 					</div>
 					<div id="test_page" class="hidden">
@@ -529,37 +522,37 @@
 				<!-- 	<script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script> -->
 				<!-- 	<script type="text/javascript" src="resources/js/bootstrap.min.js"></script> -->
 				<!-- jQuery library -->
-				<script src="/library/webjars/jquery/3.4.1/dist/jquery.min.js"></script>
-				<script src="/library/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+				<script src="https://xlms.myworkspace.vn/library/webjars/jquery/3.4.1/dist/jquery.min.js"></script>
+				<script src="https://xlms.myworkspace.vn/library/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 				<script type="text/javascript"
-					src="resources/robust-admin/app-assets/js/core/libraries/jquery_ui/jquery-ui.min.js"></script>
+					src="resources/app-assets/js/core/libraries/jquery_ui/jquery-ui.min.js"></script>
 				<script type="text/javascript"
-					src="resources/robust-admin/app-assets/js/scripts/extensions/block-ui.js"></script>
+					src="resources/app-assets/js/scripts/extensions/block-ui.js"></script>
 				<script type="text/javascript"
-					src="resources/robust-admin/app-assets/vendors/js/ui/jquery.sticky.js"></script>
+					src="resources/app-assets/vendors/js/ui/jquery.sticky.js"></script>
 				<script type="text/javascript"
-					src="resources/robust-admin/app-assets/vendors/js/charts/chart.min.js"></script>
+					src="resources/app-assets/vendors/js/charts/chart.min.js"></script>
 				<script type="text/javascript"
-					src="resources/robust-admin/app-assets/vendors/js/extensions/jquery.toolbar.min.js"></script>
+					src="resources/app-assets/vendors/js/extensions/jquery.toolbar.min.js"></script>
 				<script type="text/javascript"
-					src="resources/robust-admin/app-assets/vendors/js/extensions/toastr.min.js"></script>
+					src="resources/app-assets/vendors/js/extensions/toastr.min.js"></script>
 				<script type="text/javascript"
 					src="resources/js/jquery.scrollbox.js"></script>
 				<script type="text/javascript"
-					src="resources/robust-admin/app-assets/vendors/js/extensions/sweetalert.min.js"></script>
+					src="resources/app-assets/vendors/js/extensions/sweetalert.min.js"></script>
 				<script type="text/javascript"
-					src="resources/robust-admin/app-assets/vendors/js/forms/toggle/bootstrap-switch.min.js"></script>
+					src="resources/app-assets/vendors/js/forms/toggle/bootstrap-switch.min.js"></script>
 				<script type="text/javascript"
-					src="resources/robust-admin/app-assets/vendors/js/forms/toggle/bootstrap-checkbox.min.js"></script>
+					src="resources/app-assets/vendors/js/forms/toggle/bootstrap-checkbox.min.js"></script>
 
 				<script>
-	/*<![CDATA[*/
+					/*<![CDATA[*/
 
-		var userEid = "qhuy2k249@gmail.com";
-		console.log(userEid);
+					var userEid = "qhuy2k249@gmail.com";
+					console.log(userEid);
 
-	/*]]>*/
-	</script>
+					/*]]>*/
+				</script>
 
 				<script type="text/javascript" src="resources/js/d3.min.js"></script>
 				<script type="text/javascript" src="resources/js/FileSaver.js"></script>

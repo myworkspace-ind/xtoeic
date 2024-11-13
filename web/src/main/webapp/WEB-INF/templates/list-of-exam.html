@@ -275,7 +275,9 @@
 						</thead>
 						<tbody>
 							<tr th:each="exam : ${exams}">
-								<td><a th:text="${exam.title}" href="/toeic-web/exam-introduction"></a></td>
+								<td><a 
+								th:text="${exam.title}" 
+								th:href="@{exam-introduction(id=${exam.id})}"></a></td>
 								<td th:text="${exam.timeLimit}"></td>
 								<td th:text="${exam.dueDateTime}"></td>
 								<td><a href="#showResult" id="${exam.id}">Show</a></td>

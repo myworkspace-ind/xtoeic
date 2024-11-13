@@ -1,6 +1,7 @@
 package mks.myworkspace.english.toeic.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,4 +41,8 @@ public class ExamServiceImpl implements ExamService{
 		return repo.findExamsWithETSTitleAndExamType();
 	}
 	
+	@Override
+	public Optional<Exam> findById(Long id) {
+        return repo.findById(id);
+    }
 }
