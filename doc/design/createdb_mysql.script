@@ -1,3 +1,7 @@
 CREATE database xtoeic default character set utf8;
 CREATE user 'xtoeic_user'@'%' identified by 'xtoeic@123';
 GRANT ALL PRIVILEGES ON xtoeic.* TO 'xtoeic_user'@'%';
+
+mysql -h localhost -u xtoeic_user -pxtoeic@123 xtoeic
+
+

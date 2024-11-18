@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="toeic-api" />
+        <module name="toeic-jpa" />
+        <module name="toeic-pack" />
+        <module name="toeic-eco" />
+        <module name="toeic-tool" />
+        <module name="toeic-biz" />
+        <module name="toeic-impl" />
+        <module name="toeic-common" />
+        <module name="toeic-controller" />
+        <module name="toeic-web" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="toeic" options="--add-exports=java.xml/com.sun.org.apache.xml.internal.serializer=ALL-UNNAMED --add-exports=java.xml/com.sun.org.apache.xml.internal.utils=ALL-UNNAMED" />
+      <module name="toeic-api" options="--add-exports=java.xml/com.sun.org.apache.xml.internal.serializer=ALL-UNNAMED --add-exports=java.xml/com.sun.org.apache.xml.internal.utils=ALL-UNNAMED" />
+      <module name="toeic-biz" options="--add-exports=java.xml/com.sun.org.apache.xml.internal.serializer=ALL-UNNAMED --add-exports=java.xml/com.sun.org.apache.xml.internal.utils=ALL-UNNAMED" />
+      <module name="toeic-common" options="--add-exports=java.xml/com.sun.org.apache.xml.internal.serializer=ALL-UNNAMED --add-exports=java.xml/com.sun.org.apache.xml.internal.utils=ALL-UNNAMED" />
+      <module name="toeic-controller" options="--add-exports=java.xml/com.sun.org.apache.xml.internal.serializer=ALL-UNNAMED --add-exports=java.xml/com.sun.org.apache.xml.internal.utils=ALL-UNNAMED" />
+      <module name="toeic-eco" options="--add-exports=java.xml/com.sun.org.apache.xml.internal.serializer=ALL-UNNAMED --add-exports=java.xml/com.sun.org.apache.xml.internal.utils=ALL-UNNAMED" />
+      <module name="toeic-impl" options="--add-exports=java.xml/com.sun.org.apache.xml.internal.serializer=ALL-UNNAMED --add-exports=java.xml/com.sun.org.apache.xml.internal.utils=ALL-UNNAMED" />
+      <module name="toeic-jpa" options="--add-exports=java.xml/com.sun.org.apache.xml.internal.serializer=ALL-UNNAMED --add-exports=java.xml/com.sun.org.apache.xml.internal.utils=ALL-UNNAMED" />
+      <module name="toeic-pack" options="--add-exports=java.xml/com.sun.org.apache.xml.internal.serializer=ALL-UNNAMED --add-exports=java.xml/com.sun.org.apache.xml.internal.utils=ALL-UNNAMED" />
+      <module name="toeic-tool" options="--add-exports=java.xml/com.sun.org.apache.xml.internal.serializer=ALL-UNNAMED --add-exports=java.xml/com.sun.org.apache.xml.internal.utils=ALL-UNNAMED" />
+    </option>
+  </component>
+</project>
