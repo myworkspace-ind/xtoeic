@@ -45,6 +45,16 @@
 		</dependency>
 		<dependency>
 			<groupId>mks.myworkspace.english.toeic</groupId>
+			<artifactId>toeic-jpa</artifactId>
+			<version>${module.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>mks.myworkspace.english.toeic</groupId>
+			<artifactId>toeic-biz</artifactId>
+			<version>${module.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>mks.myworkspace.english.toeic</groupId>
 			<artifactId>toeic-controller</artifactId>
 			<version>${module.version}</version>
 		</dependency>
