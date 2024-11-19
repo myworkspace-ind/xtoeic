@@ -19,6 +19,8 @@
 
 package mks.myworkspace.english.toeic.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,13 +32,16 @@ import mks.myworkspace.english.toeic.service.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-
+import lombok.experimental.var;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -188,6 +193,7 @@ public class ToeicController extends BaseController {
 
 		mav.addObject("currentSiteId", getCurrentSiteId());
 		mav.addObject("userDisplayName", getCurrentUserDisplayName());
+		
 
 		return mav;
 	}
@@ -371,5 +377,71 @@ public class ToeicController extends BaseController {
 
 		return mav;
 	}
+	
+	@GetMapping("${pageContext.request.contextPath}/gotoNextQuestion")
+	@ResponseBody
+	public String gotoNextQuestion(HttpServletRequest request, HttpSession httpSession) {
+	    initSession(request, httpSession);
+
+	    // Lấy thời gian hiện tại
+	    LocalDateTime now = LocalDateTime.now();
+	    
+	    // Định dạng theo ngày-tháng-năm giờ:phút:giây
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+	    return now.format(formatter); // Trả về chuỗi định dạng
+	}
+
+	@GetMapping("${pageContext.request.contextPath}/startExam")
+	@ResponseBody
+	public long startExam(HttpSession session) {
+		Object sesStartedDate = session.getAttribute("StartedDate");
+		int timeExam = 120*60;
+		if(sesStartedDate != null) {
+			LocalDateTime startedDate = (LocalDateTime) sesStartedDate;
+			// Tính thời gian đã trôi qua
+		    LocalDateTime now = LocalDateTime.now();
+		    long secondsElapsed = java.time.Duration.between(startedDate, now).getSeconds();
+
+		    // Trả về số giây còn lại
+		    return timeExam - secondsElapsed;
+		}
+	    // Lấy thời gian hiện tại làm thời gian bắt đầu
+		
+	    LocalDateTime startedDate = LocalDateTime.now();
+	    session.setAttribute("StartedDate", startedDate);
+
+	    // Thời gian làm bài, ví dụ: 120 phút
+	    int examDurationInMinutes = 120;
+	    session.setAttribute("ExamDuration", examDurationInMinutes);
+
+	    
+	    return timeExam;
+	}
+	
+	@GetMapping("${pageContext.request.contextPath}/GetRemainingTime")
+	@ResponseBody
+	public long getRemainingTime(HttpSession session) {
+		
+		LocalDateTime startedDate = (LocalDateTime) session.getAttribute("StartedDate");
+		
+	    int examDurationInMinutes = (int) session.getAttribute("ExamDuration");
+
+	    if (startedDate == null) {
+	        throw new IllegalStateException("StartedDate not set in session");
+	    }
+
+	    
+	    // Tổng số giây cho bài thi
+	    long totalSeconds = examDurationInMinutes * 60;
+
+	    // Tính thời gian đã trôi qua
+	    LocalDateTime now = LocalDateTime.now();
+	    long secondsElapsed = java.time.Duration.between(startedDate, now).getSeconds();
+
+	    // Trả về số giây còn lại
+	    return Math.max(totalSeconds - secondsElapsed, 0);
+	}
+
+
 
 }
