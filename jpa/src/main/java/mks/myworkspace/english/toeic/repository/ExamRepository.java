@@ -16,6 +16,7 @@ public interface ExamRepository extends JpaRepository<Exam, Long> {
 	@Query("SELECT e FROM Exam e WHERE e.title LIKE 'ETS%'")
 	List<Exam> findExamsWithETSTitlePrefix();
 	
+	
 	@Query("SELECT e FROM Exam e WHERE e.title LIKE 'ETS%' AND e.description LIKE '%Type: Practice%'")
 	List<Exam> findExamsWithETSTitleAndPracticeType();
 	
