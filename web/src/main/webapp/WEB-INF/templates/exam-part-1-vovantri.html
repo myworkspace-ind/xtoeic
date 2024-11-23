@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-US" dir="ltr" class="Mrphs-html">
+<html lang="en-US" dir="ltr" class="Mrphs-html"  xmlns:th="http://www.thymeleaf.org"> 
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -82,7 +82,7 @@
 <!-- end inlined tool header contribution -->
 </head>
 
-<body> 
+<body>  
 	<div class="Mrphs-pagebody">
 
 
@@ -119,8 +119,8 @@
 				<!-- <i class="fa fa-info-circle"></i> -->
 			</div>
 		</div>
-		<div class="col-md-4 text-center">
-			<h2 id="assessmentTitle">ETS 2024 #3</h2>
+		<div class="col-md-4 text-center">  
+			<h2 id="assessmentTitle" th:text="${exam.title}">ETS ... #...</h2> 
 		</div>
 		<div class="col-md-4">
 			<div class="toeic-clock text-center">
@@ -149,41 +149,59 @@
 							<div class="toeic-index">
 								<h4 id="question_number">Question 1</h4>
 							</div>
+							 
+							<p>Link ảnh gốc:
+							    <a th:href="${imageUrl}" th:text="${imageUrl}"></a>
+							</p>
+							<br>
 							<div class="toiec-question">
-								<div id="pic_question">
-									<img style="cursor: pointer;"
-										src="resources/app-assets/images/photo/img-exam-part-1.png"
-										onclick="showImage(this)"
-										alt="Couldn't load question, your internet access might be disconnected.">
+								<div id="pic_question"> 
+									<!-- <img style="cursor: pointer;"
+											src="resources/app-assets/images/photo/img-exam-part-1.png"
+											onclick="showImage(this)"
+											alt="Couldn't load question, your internet access might be disconnected.">  --> 
+								 	<img style="cursor: pointer;"
+									     th:src="${imageUrl}"
+									     onclick="showImage(this)"
+									     alt="Đường dẫn trên không thể load trực tiếp lên html do yêu cầu đăng nhập vào myworkspace">  <!-- resources/app-assets/images/questions/2024_test1_part1_1.png -->
 								</div>
-								<p class="text-question" id="text_question"></p>
+								<p class="text-question" id="text_question"></p><br>
 							</div>
-
+							 
+							<p>Link Audio gốc:
+							    <a th:href="${audioUrl}" th:text="${audioUrl}"></a>
+							</p>
+							<br>
 							<div class="for-listening text-center" id="audio_question">
 								<div class="black"></div>
+								
 								<audio class="mt-md-3s" preload="auto"
-									src="blob:https://xlms.myworkspace.vn/bc7557a7-4a71-494f-a4a5-9a66e3ac394c"
+									th:src="${audioUrl}"
 									id="audioQuestion" controls="" controlslist="nodownload">
-								</audio>
+								</audio>  <!-- resources/app-assets/audios/2024_test1_part1_1.mp3 -->
 							</div>
+							
 							<div class="toeic-select">
-								<form class="toiec-form">
-									<label class="radio-inline answerTextOption"
-										onclick="selectAnswer(12702)"> <strong>A. </strong> <span
-										id="answerA"></span>
-									</label> <label class="radio-inline answerTextOption"
-										onclick="selectAnswer(12705)"> <strong>B. </strong> <span
-										id="answerB"></span>
-									</label> <label class="radio-inline answerTextOption"
-										onclick="selectAnswer(12703)"> <strong>C. </strong> <span
-										id="answerC"></span>
-									</label> <label class="radio-inline answerTextOption"
-										onclick="selectAnswer(12706)"> <strong>D. </strong><span>
-									</span>
-									</label>
-
-								</form>
+							    <form class="toeic-form">
+							        <label class="radio-inline answerTextOption"
+							            th:onclick="'selectAnswer(' + ${answers[0].answerId} + ')'" >
+							            <strong>A. </strong> <span th:text="${answers[0].text}"></span>
+							        </label>
+							        <label class="radio-inline answerTextOption"
+							            th:onclick="'selectAnswer(' + ${answers[1].answerId} + ')'" >
+							            <strong>B. </strong> <span th:text="${answers[1].text}"></span>
+							        </label>
+							        <label class="radio-inline answerTextOption"
+							            th:onclick="'selectAnswer(' + ${answers[2].answerId} + ')'" >
+							            <strong>C. </strong> <span th:text="${answers[2].text}"></span>
+							        </label>
+							        <label class="radio-inline answerTextOption"
+							            th:onclick="'selectAnswer(' + ${answers[3].answerId} + ')'" >
+							            <strong>D. </strong> <span th:text="${answers[3].text}"></span>
+							        </label>
+							    </form>
 							</div>
+
 						</div>
 					</div>
 				</div>
@@ -3654,4 +3672,38 @@
 
 		</div>
 	</div>
+	
+	<script>
+		// Khởi tạo thời gian đếm ngược (phút:giây)
+		let totalTimeInSeconds = 120 * 60; // 120 phút
+	
+		// Hàm cập nhật đồng hồ
+		function updateClock() {
+		    const timeRemainElement = document.getElementById("time_remain");
+	
+		    // Tính phút và giây còn lại
+		    const minutes = Math.floor(totalTimeInSeconds / 60);
+		    const seconds = totalTimeInSeconds % 60;
+	
+		    // Hiển thị thời gian theo định dạng MM:SS
+		    timeRemainElement.textContent = 
+		        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+	
+		    // Giảm thời gian còn lại
+		    if (totalTimeInSeconds > 0) {
+		        totalTimeInSeconds--;
+		    } else {
+		        // Khi hết thời gian
+		        clearInterval(timerInterval); // Dừng đồng hồ
+		        alert("Time's up!"); // Thông báo
+		    }
+		}
+	
+		// Cập nhật đồng hồ mỗi giây
+		const timerInterval = setInterval(updateClock, 1000);
+	
+		// Gọi ngay lần đầu để tránh trễ 1 giây
+		updateClock();
+	</script>
+	
 </body>

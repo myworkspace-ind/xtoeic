@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import mks.myworkspace.english.toeic.entity.Exam;
-import mks.myworkspace.english.toeic.service.ExamService;
 import mks.myworkspace.english.toeic.repository.ExamRepository;
+import mks.myworkspace.english.toeic.service.ExamService;
 
 @Service
 public class ExamServiceImpl implements ExamService{
@@ -44,5 +44,11 @@ public class ExamServiceImpl implements ExamService{
 	@Override
 	public Optional<Exam> findById(Long id) {
         return repo.findById(id);
+    } 
+	
+	public List<Object[]> getExamPart1Details(Long examId) {
+        return repo.findExamPart1Details(examId);
     }
+	 
+
 }
