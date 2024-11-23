@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en-US" dir="ltr" class="Mrphs-html"  xmlns:th="http://www.thymeleaf.org"> 
+<html lang="en-US" dir="ltr" class="Mrphs-html"
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -82,7 +83,7 @@
 <!-- end inlined tool header contribution -->
 </head>
 
-<body>  
+<body>
 	<div class="Mrphs-pagebody">
 
 
@@ -119,8 +120,8 @@
 				<!-- <i class="fa fa-info-circle"></i> -->
 			</div>
 		</div>
-		<div class="col-md-4 text-center">  
-			<h2 id="assessmentTitle" th:text="${exam.title}">ETS ... #...</h2> 
+		<div class="col-md-4 text-center">
+			<h2 id="assessmentTitle" th:text="${exam.title}">ETS ... #...</h2>
 		</div>
 		<div class="col-md-4">
 			<div class="toeic-clock text-center">
@@ -145,66 +146,74 @@
 							<button class="btn btn-info" style="margin: 5px"
 								onclick="showAudioTextDialog()">Show Audio Text</button>
 						</div>
-						<div class="test-box">
+
+						<!-- Lặp qua danh sách câu hỏi, chỉ hiển thị một câu tại một thời điểm -->
+						<div th:each="questionDetail, iterStat : ${questionDetailsList}"
+							class="test-box"
+							th:classappend="${iterStat.index == 0 ? 'active' : 'hidden'}">
+
+							<!-- Câu hỏi hiện tại -->
 							<div class="toeic-index">
-								<h4 id="question_number">Question 1</h4>
+								<h4 id="question_number">
+									Question <span th:text="${iterStat.index + 1}"></span>
+								</h4>
 							</div>
-							 
-							<p>Link ảnh gốc:
-							    <a th:href="${imageUrl}" th:text="${imageUrl}"></a>
+
+							<p>
+								Link ảnh gốc: <a th:href="${questionDetail.imageUrl}"
+									th:text="${questionDetail.imageUrl}"></a>
 							</p>
 							<br>
 							<div class="toiec-question">
-								<div id="pic_question"> 
-									<!-- <img style="cursor: pointer;"
-											src="resources/app-assets/images/photo/img-exam-part-1.png"
-											onclick="showImage(this)"
-											alt="Couldn't load question, your internet access might be disconnected.">  --> 
-								 	<img style="cursor: pointer;"
-									     th:src="${imageUrl}"
-									     onclick="showImage(this)"
-									     alt="Đường dẫn trên không thể load trực tiếp lên html do yêu cầu đăng nhập vào myworkspace">  <!-- resources/app-assets/images/questions/2024_test1_part1_1.png -->
+								<div id="pic_question">
+									<img style="cursor: pointer;"
+										th:src="${questionDetail.imageUrl}" onclick="showImage(this)"
+										alt="Đường dẫn trên không thể load trực tiếp lên html do yêu cầu đăng nhập vào myworkspace">
 								</div>
-								<p class="text-question" id="text_question"></p><br>
-							</div>
-							 
-							<p>Link Audio gốc:
-							    <a th:href="${audioUrl}" th:text="${audioUrl}"></a>
-							</p>
-							<br>
-							<div class="for-listening text-center" id="audio_question">
-								<div class="black"></div>
-								
-								<audio class="mt-md-3s" preload="auto"
-									th:src="${audioUrl}"
-									id="audioQuestion" controls="" controlslist="nodownload">
-								</audio>  <!-- resources/app-assets/audios/2024_test1_part1_1.mp3 -->
-							</div>
-							
-							<div class="toeic-select">
-							    <form class="toeic-form">
-							        <label class="radio-inline answerTextOption"
-							            th:onclick="'selectAnswer(' + ${answers[0].answerId} + ')'" >
-							            <strong>A. </strong> <span th:text="${answers[0].text}"></span>
-							        </label>
-							        <label class="radio-inline answerTextOption"
-							            th:onclick="'selectAnswer(' + ${answers[1].answerId} + ')'" >
-							            <strong>B. </strong> <span th:text="${answers[1].text}"></span>
-							        </label>
-							        <label class="radio-inline answerTextOption"
-							            th:onclick="'selectAnswer(' + ${answers[2].answerId} + ')'" >
-							            <strong>C. </strong> <span th:text="${answers[2].text}"></span>
-							        </label>
-							        <label class="radio-inline answerTextOption"
-							            th:onclick="'selectAnswer(' + ${answers[3].answerId} + ')'" >
-							            <strong>D. </strong> <span th:text="${answers[3].text}"></span>
-							        </label>
-							    </form>
+								<p class="text-question" id="text_question"
+									th:text="${questionDetail.itemText.text}"></p>
+								<br>
 							</div>
 
+							<p>
+								Link Audio gốc: <a th:href="${questionDetail.audioUrl}"
+									th:text="${questionDetail.audioUrl}"></a>
+							</p>
+							<br>
+
+							<div class="for-listening text-center" id="audio_question">
+								<div class="black"></div>
+								<audio class="mt-md-3s" preload="auto"
+									th:src="${questionDetail.audioUrl}"
+									id="audio-${iterStat.index}" controls=""
+									controlslist="nodownload"
+									th:onended="onAudioEnded(${iterStat.index})">
+								</audio>
+							</div>
+
+							<div class="toeic-select">
+								<form class="toeic-form">
+									<label class="radio-inline answerTextOption"
+										th:onclick="'selectAnswer(' + ${answers[0].answerId} + ')'">
+										<strong>A. </strong> <span th:text="${answers[0].text}"></span>
+									</label> <label class="radio-inline answerTextOption"
+										th:onclick="'selectAnswer(' + ${answers[1].answerId} + ')'">
+										<strong>B. </strong> <span th:text="${answers[1].text}"></span>
+									</label> <label class="radio-inline answerTextOption"
+										th:onclick="'selectAnswer(' + ${answers[2].answerId} + ')'">
+										<strong>C. </strong> <span th:text="${answers[2].text}"></span>
+									</label> <label class="radio-inline answerTextOption"
+										th:onclick="'selectAnswer(' + ${answers[3].answerId} + ')'">
+										<strong>D. </strong> <span th:text="${answers[3].text}"></span>
+									</label>
+								</form>
+							</div>
 						</div>
 					</div>
 				</div>
+
+
+
 				<!-- end col 8 -->
 
 				<!-- answer area -->
@@ -3664,7 +3673,9 @@
 					<div class="footer-bar">
 						<div class="toeic-btn text-center">
 							<button type="button" class="btn btn-default hidden" id="backBtn">BACK</button>
-							<button type="button" class="btn btn-default" id="nextBtn">NEXT</button>
+							<button type="button" class="btn btn-default" id="nextBtn"
+								onclick="nextQuestion()">Next</button>
+
 						</div>
 					</div>
 				</div>
@@ -3672,38 +3683,105 @@
 
 		</div>
 	</div>
-	
+
+
+	let currentIndex = 0;
+	<!-- chuyên cau khi ấn nút Next-->
+	<script>
+
+function nextQuestion() {
+    const allQuestions = document.querySelectorAll('.test-box');  // Lấy tất cả câu hỏi
+    const allAudioElements = document.querySelectorAll('audio');  // Lấy tất cả audio elements
+
+    // Dừng tất cả audio đang phát
+    allAudioElements.forEach(audio => {
+        audio.pause();
+        audio.currentTime = 0;  // Reset audio về đầu
+    });
+
+    // Kiểm tra nếu chưa đến câu hỏi cuối cùng
+    if (currentIndex < allQuestions.length - 1) {
+        // Ẩn câu hỏi hiện tại và hiển thị câu hỏi tiếp theo
+        allQuestions[currentIndex].classList.remove('active');
+        allQuestions[currentIndex].classList.add('hidden');
+        currentIndex++;
+        allQuestions[currentIndex].classList.remove('hidden');
+        allQuestions[currentIndex].classList.add('active');
+
+        // Lấy phần tử audio của câu hỏi tiếp theo và phát
+        const audioElement = document.getElementById('audio-' + currentIndex);
+        if (audioElement) {
+            audioElement.play();  // Phát audio của câu hỏi tiếp theo
+        }
+    }
+}
+</script>
+          <!-- chuyen cau khi phat xong audio (chưa hoat dong) -->
+	          <script>
+					// Giới hạn chỉ hiển thị câu hỏi hiện tại
+					let currentIndex = 0;
+
+					function showNextQuestion() {
+						const allQuestions = document
+								.querySelectorAll('.test-box');
+						if (currentIndex < allQuestions.length - 1) {
+							allQuestions[currentIndex].classList
+									.remove('active');
+							allQuestions[currentIndex].classList.add('hidden');
+							currentIndex++;
+							allQuestions[currentIndex].classList
+									.remove('hidden');
+							allQuestions[currentIndex].classList.add('active');
+
+							// Tự động phát audio
+							const audioElement = document
+									.getElementById('audio-' + currentIndex);
+							if (audioElement) {
+								audioElement.play();
+							}
+						}
+					}
+
+					// Hàm này sẽ được gọi khi audio kết thúc
+					function onAudioEnded(index) {
+						// Sau khi audio kết thúc, tự động chuyển sang câu tiếp theo
+						showNextQuestion();
+					}
+				</script>
+
+
+
+
 	<script>
 		// Khởi tạo thời gian đếm ngược (phút:giây)
 		let totalTimeInSeconds = 120 * 60; // 120 phút
-	
+
 		// Hàm cập nhật đồng hồ
 		function updateClock() {
-		    const timeRemainElement = document.getElementById("time_remain");
-	
-		    // Tính phút và giây còn lại
-		    const minutes = Math.floor(totalTimeInSeconds / 60);
-		    const seconds = totalTimeInSeconds % 60;
-	
-		    // Hiển thị thời gian theo định dạng MM:SS
-		    timeRemainElement.textContent = 
-		        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-	
-		    // Giảm thời gian còn lại
-		    if (totalTimeInSeconds > 0) {
-		        totalTimeInSeconds--;
-		    } else {
-		        // Khi hết thời gian
-		        clearInterval(timerInterval); // Dừng đồng hồ
-		        alert("Time's up!"); // Thông báo
-		    }
+			const timeRemainElement = document.getElementById("time_remain");
+
+			// Tính phút và giây còn lại
+			const minutes = Math.floor(totalTimeInSeconds / 60);
+			const seconds = totalTimeInSeconds % 60;
+
+			// Hiển thị thời gian theo định dạng MM:SS
+			timeRemainElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+			// Giảm thời gian còn lại
+			if (totalTimeInSeconds > 0) {
+				totalTimeInSeconds--;
+			} else {
+				// Khi hết thời gian
+				clearInterval(timerInterval); // Dừng đồng hồ
+				alert("Time's up!"); // Thông báo
+			}
 		}
-	
+
 		// Cập nhật đồng hồ mỗi giây
 		const timerInterval = setInterval(updateClock, 1000);
-	
+
 		// Gọi ngay lần đầu để tránh trễ 1 giây
 		updateClock();
 	</script>
-	
+
 </body>
