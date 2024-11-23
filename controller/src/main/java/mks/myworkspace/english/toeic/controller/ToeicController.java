@@ -98,6 +98,8 @@ public class ToeicController extends BaseController {
 
 	    mav.addObject("currentSiteId", getCurrentSiteId());
 	    mav.addObject("userDisplayName", getCurrentUserDisplayName());
+	    System.out.println(getCurrentSiteId());
+	    System.out.println(getCurrentUserDisplayName());
 
 	    List<Object[]> examPart1Details = examService.getExamPart1Details(examId);
 
