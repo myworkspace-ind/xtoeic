@@ -57,6 +57,12 @@
 			<artifactId>commons-io</artifactId>
 			<!--        <version>${sakai.commons-io.version}</version>-->
 		</dependency>
+		
+		<dependency>
+    		<groupId>com.fasterxml.jackson.core</groupId>
+    		<artifactId>jackson-databind</artifactId>
+    		<version>2.15.2</version> <!-- Bạn có thể dùng phiên bản mới nhất -->
+		</dependency>
 	</dependencies>
 	<build>
 		<!-- configure the build to use the standard maven structure -->

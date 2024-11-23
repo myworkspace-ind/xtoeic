@@ -30,9 +30,11 @@ import javax.servlet.http.HttpSession;
 import mks.myworkspace.english.toeic.entity.Answer;
 import mks.myworkspace.english.toeic.entity.Exam;
 import mks.myworkspace.english.toeic.entity.Question;
+import mks.myworkspace.english.toeic.entity.QuestionText;
 import mks.myworkspace.english.toeic.entity.Section;
 import mks.myworkspace.english.toeic.service.ExamService;
 import mks.myworkspace.english.toeic.service.QuestionService;
+import mks.myworkspace.english.toeic.service.QuestionTextService;
 import mks.myworkspace.english.toeic.service.SectionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -196,6 +198,9 @@ public class ToeicController extends BaseController {
     @Autowired
     private QuestionService questionService;
 
+    @Autowired
+    private QuestionTextService questionTextService;
+
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public ModelAndView displayTest(HttpServletRequest request, HttpSession httpSession) {
         ModelAndView mav = new ModelAndView("test");
@@ -213,11 +218,22 @@ public class ToeicController extends BaseController {
         // Lấy câu hỏi cho mỗi Section
         for (Section section : sections) {
             List<Question> questions = questionService.getQuestionsBySectionId(section.getId());
-            section.setQuestions(questions); // Cần thêm setter trong Section để chứa danh sách câu hỏi
+            
+            // Lấy thông tin TEXT cho mỗi câu hỏi
+            for (Question question : questions) {
+                List<QuestionText> questionTexts = questionTextService.getQuestionTextsByItemId(question.getId());
+                
+                if (!questionTexts.isEmpty()) {
+                    question.setText(questionTexts.get(0).getText()); // Gán dữ liệu TEXT vào câu hỏi
+                }
+            }
+
+            section.setQuestions(questions); // Gán danh sách câu hỏi vào Section
         }
 
         return mav;
     }
+
 
 
 //	@RequestMapping(value = "/test", method = RequestMethod.GET) public
