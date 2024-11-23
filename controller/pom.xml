@@ -122,8 +122,7 @@
 			<artifactId>javax.persistence-api</artifactId>
 			<version>2.2</version> <!-- Example version -->
 		</dependency>
-
-
+ 
 	</dependencies>
 	<build>
 		<!-- configure the build to use the standard maven structure -->

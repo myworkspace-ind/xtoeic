@@ -1,12 +1,14 @@
 package mks.myworkspace.english.toeic.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -19,7 +21,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-//@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class Exam implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -40,6 +41,9 @@ public class Exam implements Serializable {
 
 	@Column(name = "due_date_time", length = 99)
 	private String dueDateTime;
+	
+	@OneToMany(mappedBy = "exam")
+	private List<Part> parts;
 
 	public Exam(Long id, String title, String description, String timeLimit, String dueDateTime) {
 		super();

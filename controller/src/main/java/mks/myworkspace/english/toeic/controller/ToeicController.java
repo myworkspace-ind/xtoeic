@@ -19,14 +19,15 @@
 
 package mks.myworkspace.english.toeic.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import mks.myworkspace.english.toeic.entity.Exam;
-import mks.myworkspace.english.toeic.service.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -36,8 +37,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-
 import lombok.extern.slf4j.Slf4j;
+import mks.myworkspace.english.toeic.entity.Answer;
+import mks.myworkspace.english.toeic.entity.Exam;
+import mks.myworkspace.english.toeic.entity.Item;
+import mks.myworkspace.english.toeic.entity.ItemText;
+import mks.myworkspace.english.toeic.service.ExamService;
 
 /**
  * Handles requests for the application home page.
@@ -55,9 +60,11 @@ public class ToeicController extends BaseController {
 	protected void initBinder(WebDataBinder binder) {
 		// Sample init of Custom Editor
 
-		//        Class<List<ItemKine>> collectionType = (Class<List<ItemKine>>)(Class<?>)List.class;
-		//        PropertyEditor orderNoteEditor = new MotionRuleEditor(collectionType);
-		//        binder.registerCustomEditor((Class<List<ItemKine>>)(Class<?>)List.class, orderNoteEditor);
+		// Class<List<ItemKine>> collectionType =
+		// (Class<List<ItemKine>>)(Class<?>)List.class;
+		// PropertyEditor orderNoteEditor = new MotionRuleEditor(collectionType);
+		// binder.registerCustomEditor((Class<List<ItemKine>>)(Class<?>)List.class,
+		// orderNoteEditor);
 
 	}
 
@@ -84,6 +91,97 @@ public class ToeicController extends BaseController {
 	@Autowired
 	private ExamService examService;
 
+	@RequestMapping(value = "/exam-part-1-vovantri", method = RequestMethod.GET)
+	public ModelAndView displayExamPart1_vovantri(@RequestParam("id") Long examId, HttpServletRequest request, HttpSession httpSession) {
+	    ModelAndView mav = new ModelAndView("exam-part-1-vovantri");
+	    initSession(request, httpSession);
+
+	    mav.addObject("currentSiteId", getCurrentSiteId());
+	    mav.addObject("userDisplayName", getCurrentUserDisplayName());
+
+	    List<Object[]> examPart1Details = examService.getExamPart1Details(examId);
+
+	    // Lấy dòng đầu tiên
+	    Object[] firstRow = examPart1Details.get(0);
+
+	    // Truy cập cột 0 và cột 1
+	    Item item = (Item) firstRow[0];
+	    ItemText itemText = (ItemText) firstRow[1];
+	    System.out.println("Item Sequence: " + item.getSequence()); 
+
+	    // Lấy text từ itemText
+	    String text = itemText.getText();
+	    System.out.println("Item Text: " + text);
+
+	    // Tách thủ công image URL và audio URL từ chuỗi
+	    String imageUrl = extractUrl(text, "image");
+	    String audioUrl = extractUrl(text, "audio");
+	    
+	    mav.addObject("imageUrl", imageUrl);
+	    mav.addObject("audioUrl", audioUrl);
+
+	    System.out.println("Image URL: " + imageUrl);
+	    System.out.println("Audio URL: " + audioUrl);
+
+	    // Ghi các câu a,b,c,d
+	    List<Answer> answers = new ArrayList<>();
+	    for (Object[] row : examPart1Details) {
+	        Answer answer = (Answer) row[2];
+	        answers.add(answer);   
+
+	        System.out.println("-------------------------");
+	        System.out.println("Answer Sequence: " + answer.getSequence());
+	        System.out.println("Answer Label: " + answer.getLabel());
+	        System.out.println("Answer Text: " + answer.getText());
+	        System.out.println("Is Correct: " + answer.getIsCorrect());
+	        System.out.println("Score: " + answer.getScore());
+	        System.out.println("-------------------------");
+	    }
+	    
+	    mav.addObject("answers", answers);  
+	    Optional<Exam> examOpt = examService.findById(examId);
+
+	    examOpt.ifPresentOrElse(
+	        exam -> mav.addObject("exam", exam),
+	        () -> mav.addObject("errorMessage", "Exam not found.")
+	    );
+
+	    return mav;
+	}
+
+	// Hàm tách URL từ chuỗi JSON thủ công
+	private String extractUrl(String text, String key) {
+	    // Biểu thức chính quy tìm URL (cả URL đầy đủ và URL tương đối)
+	    String regex = "\""+ key + "\":\\s*\"([^\"]+)\"";
+	    Pattern pattern = Pattern.compile(regex);
+	    Matcher matcher = pattern.matcher(text);
+
+	    // Nếu tìm thấy URL
+	    if (matcher.find()) {
+	        String url = matcher.group(1);  // group(1) là phần bắt được trong dấu ngoặc của biểu thức chính quy
+  
+	        return url;
+	    }
+	    return "";  // Nếu không tìm thấy, trả về chuỗi rỗng
+	}
+
+	
+//	private String extractUrl(String text, String key) {
+//	    // Biểu thức chính quy tìm URL
+//	    String regex = "\""+ key + "\":\\s*\"(https?://[^\"]+)\"";
+//	    Pattern pattern = Pattern.compile(regex);
+//	    Matcher matcher = pattern.matcher(text);
+//
+//	    // Nếu tìm thấy URL, trả về URL
+//	    if (matcher.find()) {
+//	        return matcher.group(1);  // group(1) là phần bắt được trong dấu ngoặc của biểu thức chính quy
+//	    }
+//	    return "";  // Nếu không tìm thấy, trả về chuỗi rỗng
+//	}
+	  
+
+	
+
 	@RequestMapping(value = "/list-of-exam", method = RequestMethod.GET)
 	public ModelAndView displayListOfExam(HttpServletRequest request, HttpSession httpSession) {
 		ModelAndView mav = new ModelAndView("list-of-exam");
@@ -92,7 +190,7 @@ public class ToeicController extends BaseController {
 		mav.addObject("currentSiteId", getCurrentSiteId());
 		mav.addObject("userDisplayName", getCurrentUserDisplayName());
 
-		List<Exam> exams =  examService.getExamsWithETSTitlePrefix();
+		List<Exam> exams = examService.getExamsWithETSTitlePrefix();
 
 		mav.addObject("exams", exams);
 
@@ -104,7 +202,8 @@ public class ToeicController extends BaseController {
 	}
 
 	@RequestMapping(value = "/exam-introduction", method = RequestMethod.GET)
-	public ModelAndView displayExamIntroduction(@RequestParam("id") Long ExamId, HttpServletRequest request, HttpSession httpSession) {
+	public ModelAndView displayExamIntroduction(@RequestParam("id") Long ExamId, HttpServletRequest request,
+			HttpSession httpSession) {
 		ModelAndView mav = new ModelAndView("exam-introduction");
 
 		initSession(request, httpSession);
@@ -120,7 +219,7 @@ public class ToeicController extends BaseController {
 		}, () -> {
 			mav.addObject("errorMessage", "Exam not found.");
 		});
-		
+
 		return mav;
 	}
 
