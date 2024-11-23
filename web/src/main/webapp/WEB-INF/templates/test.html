@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Test Page</title>
+</head>
+<body>
+    <h1>Sections and Questions</h1>
+    <div th:each="section : ${sections}">
+        <h2>Section: [[${section.title}]]</h2>
+        <p>Description: [[${section.description}]]</p>
+
+        <ul>
+            <li th:each="question : ${section.questions}">
+                Question [[${question.sequence}]]: [[${question.text}]]
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

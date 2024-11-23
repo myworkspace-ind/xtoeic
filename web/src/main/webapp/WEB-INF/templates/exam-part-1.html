@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en-US" dir="ltr" class="Mrphs-html">
+<html lang="en-US" dir="ltr" class="Mrphs-html"
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -158,7 +159,7 @@
 							<div class="toeic-index">
 								<h4 id="question_number">Question 1</h4>
 							</div>
-							<div class="toiec-question">
+							<!-- <div class="toiec-question">
 								<div id="pic_question">
 									<img style="cursor: pointer;"
 										src="resources/app-assets/images/photo/img-exam-part-1.png"
@@ -192,7 +193,33 @@
 									</label>
 
 								</form>
-							</div>
+							</div> -->
+							<!-- <div>
+								<h1>
+									Exam: <span th:text="${exam.title}"></span>
+								</h1>
+								<p>
+									Description: <span th:text="${exam.description}"></span>
+								</p>
+								<p>
+									Time Limit: <span th:text="${exam.timeLimit}"></span> minutes
+								</p>
+								<p>
+									Due Date: <span th:text="${exam.dueDateTime}"></span>
+								</p>
+
+								<h2>Questions</h2>
+								<div th:each="question : ${exam.questions}">
+									<p>
+										<b>Question <span th:text="${question.id}"></span>:
+										</b> <span th:text="${question.content}"></span>
+									</p>
+									<ul>
+										<li th:each="answer : ${question.answers}"><span
+											th:text="${answer.content}"></span></li>
+									</ul>
+								</div>
+							</div> -->
 						</div>
 					</div>
 				</div>

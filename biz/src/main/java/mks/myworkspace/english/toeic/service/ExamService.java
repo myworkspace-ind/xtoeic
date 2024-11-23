@@ -5,7 +5,10 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import mks.myworkspace.english.toeic.entity.Answer;
 import mks.myworkspace.english.toeic.entity.Exam;
+import mks.myworkspace.english.toeic.entity.Question;
+import mks.myworkspace.english.toeic.entity.Section;
 import mks.myworkspace.english.toeic.repository.ExamRepository;
 
 @Service
@@ -22,4 +25,6 @@ public interface ExamService {
     List<Exam> getExamsWithETSTitleAndExamType();
     
     Optional<Exam> findById(Long id);
+    
+    List<Question> getAllQuestions();
 }
