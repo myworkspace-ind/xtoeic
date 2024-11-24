@@ -170,9 +170,9 @@
 										th:src="${questionDetail.imageUrl}" onclick="showImage(this)"
 										alt="Đường dẫn trên không thể load trực tiếp lên html do yêu cầu đăng nhập vào myworkspace">
 								</div>
-								<p class="text-question" id="text_question"
+								<!-- <p class="text-question" id="text_question"
 									th:text="${questionDetail.itemText.text}"></p>
-								<br>
+								<br> -->
 							</div>
 
 							<p>
@@ -193,18 +193,32 @@
 
 							<div class="toeic-select">
 								<form class="toeic-form">
+								    <label class="radio-inline answerTextOption"
+									    th:onclick="'selectAnswer(' + ${questionDetail.answers[0].answerId} + ')'">
+									    (ANSWERID: <span th:text="${questionDetail.answers[0].answerId}"></span>) - 
+									    <strong>A. </strong> 
+									    <span th:text="${questionDetail.answers[0].text}"></span> 
+									</label>
+									
 									<label class="radio-inline answerTextOption"
-										th:onclick="'selectAnswer(' + ${answers[0].answerId} + ')'">
-										<strong>A. </strong> <span th:text="${answers[0].text}"></span>
-									</label> <label class="radio-inline answerTextOption"
-										th:onclick="'selectAnswer(' + ${answers[1].answerId} + ')'">
-										<strong>B. </strong> <span th:text="${answers[1].text}"></span>
-									</label> <label class="radio-inline answerTextOption"
-										th:onclick="'selectAnswer(' + ${answers[2].answerId} + ')'">
-										<strong>C. </strong> <span th:text="${answers[2].text}"></span>
-									</label> <label class="radio-inline answerTextOption"
-										th:onclick="'selectAnswer(' + ${answers[3].answerId} + ')'">
-										<strong>D. </strong> <span th:text="${answers[3].text}"></span>
+									    th:onclick="'selectAnswer(' + ${questionDetail.answers[1].answerId} + ')'">
+									    (ANSWERID: <span th:text="${questionDetail.answers[1].answerId}"></span>) -  
+									    <strong>B. </strong> 
+									    <span th:text="${questionDetail.answers[1].text}"></span> 
+									</label>
+									
+									<label class="radio-inline answerTextOption"
+									    th:onclick="'selectAnswer(' + ${questionDetail.answers[2].answerId} + ')'">
+									    (ANSWERID: <span th:text="${questionDetail.answers[2].answerId}"></span>) - 
+									    <strong>C. </strong> 
+									    <span th:text="${questionDetail.answers[2].text}"></span> 
+									</label>
+									
+									<label class="radio-inline answerTextOption"
+									    th:onclick="'selectAnswer(' + ${questionDetail.answers[3].answerId} + ')'">
+									    (ANSWERID: <span th:text="${questionDetail.answers[3].answerId}"></span>) - 
+									    <strong>D. </strong> 
+									    <span th:text="${questionDetail.answers[3].text}"></span> 
 									</label>
 								</form>
 							</div>
@@ -3687,71 +3701,71 @@
 
 	let currentIndex = 0;
 	<!-- chuyên cau khi ấn nút Next-->
-	<script>
+	<script> 
+			function nextQuestion() {
+			    const allQuestions = document.querySelectorAll('.test-box');  // Lấy tất cả câu hỏi
+			    const allAudioElements = document.querySelectorAll('audio');  // Lấy tất cả audio elements
+			
+			    // Dừng tất cả audio đang phát
+			    allAudioElements.forEach(audio => {
+			        audio.pause();
+			        audio.currentTime = 0;  // Reset audio về đầu
+			    });
+			
+			    // Kiểm tra nếu chưa đến câu hỏi cuối cùng
+			    if (currentIndex < allQuestions.length - 1) {
+			        // Ẩn câu hỏi hiện tại và hiển thị câu hỏi tiếp theo
+			        allQuestions[currentIndex].classList.remove('active');
+			        allQuestions[currentIndex].classList.add('hidden');
+			        currentIndex++;
+			        allQuestions[currentIndex].classList.remove('hidden');
+			        allQuestions[currentIndex].classList.add('active');
+			
+			        // Lấy phần tử audio của câu hỏi tiếp theo và phát
+			        const audioElement = document.getElementById('audio-' + currentIndex);
+			        if (audioElement) {
+			            audioElement.play();  // Phát audio của câu hỏi tiếp theo
+			        }
+			    }
+			}
+		</script>
 
-function nextQuestion() {
-    const allQuestions = document.querySelectorAll('.test-box');  // Lấy tất cả câu hỏi
-    const allAudioElements = document.querySelectorAll('audio');  // Lấy tất cả audio elements
+       <!-- chuyen cau khi phat xong audio (chưa hoat dong) -->
+        <script>
+		// Giới hạn chỉ hiển thị câu hỏi hiện tại
+		let currentIndex = 0;
 
-    // Dừng tất cả audio đang phát
-    allAudioElements.forEach(audio => {
-        audio.pause();
-        audio.currentTime = 0;  // Reset audio về đầu
-    });
+		function showNextQuestion() {
+			const allQuestions = document
+					.querySelectorAll('.test-box');
+			if (currentIndex < allQuestions.length - 1) {
+				allQuestions[currentIndex].classList
+						.remove('active');
+				allQuestions[currentIndex].classList.add('hidden');
+				currentIndex++;
+				allQuestions[currentIndex].classList
+						.remove('hidden');
+				allQuestions[currentIndex].classList.add('active');
 
-    // Kiểm tra nếu chưa đến câu hỏi cuối cùng
-    if (currentIndex < allQuestions.length - 1) {
-        // Ẩn câu hỏi hiện tại và hiển thị câu hỏi tiếp theo
-        allQuestions[currentIndex].classList.remove('active');
-        allQuestions[currentIndex].classList.add('hidden');
-        currentIndex++;
-        allQuestions[currentIndex].classList.remove('hidden');
-        allQuestions[currentIndex].classList.add('active');
+				// Tự động phát audio
+				const audioElement = document
+						.getElementById('audio-' + currentIndex);
+				if (audioElement) {
+					audioElement.play();
+				}
+			}
+		}
 
-        // Lấy phần tử audio của câu hỏi tiếp theo và phát
-        const audioElement = document.getElementById('audio-' + currentIndex);
-        if (audioElement) {
-            audioElement.play();  // Phát audio của câu hỏi tiếp theo
-        }
-    }
-}
-</script>
-          <!-- chuyen cau khi phat xong audio (chưa hoat dong) -->
-	          <script>
-					// Giới hạn chỉ hiển thị câu hỏi hiện tại
-					let currentIndex = 0;
-
-					function showNextQuestion() {
-						const allQuestions = document
-								.querySelectorAll('.test-box');
-						if (currentIndex < allQuestions.length - 1) {
-							allQuestions[currentIndex].classList
-									.remove('active');
-							allQuestions[currentIndex].classList.add('hidden');
-							currentIndex++;
-							allQuestions[currentIndex].classList
-									.remove('hidden');
-							allQuestions[currentIndex].classList.add('active');
-
-							// Tự động phát audio
-							const audioElement = document
-									.getElementById('audio-' + currentIndex);
-							if (audioElement) {
-								audioElement.play();
-							}
-						}
-					}
-
-					// Hàm này sẽ được gọi khi audio kết thúc
-					function onAudioEnded(index) {
-						// Sau khi audio kết thúc, tự động chuyển sang câu tiếp theo
-						showNextQuestion();
-					}
-				</script>
-
-
+		// Hàm này sẽ được gọi khi audio kết thúc
+		function onAudioEnded(index) {
+			// Sau khi audio kết thúc, tự động chuyển sang câu tiếp theo
+			showNextQuestion();
+		}
+	</script>
 
 
+
+	<!-- Đồng hồ đếm ngược -->
 	<script>
 		// Khởi tạo thời gian đếm ngược (phút:giây)
 		let totalTimeInSeconds = 120 * 60; // 120 phút
