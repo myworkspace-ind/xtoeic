@@ -41,6 +41,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import lombok.extern.slf4j.Slf4j;
 import mks.myworkspace.english.toeic.entity.Answer;
+import mks.myworkspace.english.toeic.entity.AssessmentGrading;
 import mks.myworkspace.english.toeic.entity.Exam;
 import mks.myworkspace.english.toeic.entity.Item;
 import mks.myworkspace.english.toeic.entity.ItemText;
@@ -94,21 +95,46 @@ public class ToeicController extends BaseController {
 	private ExamService examService;
 	@RequestMapping(value = "/exam-part-1-vovantri", method = RequestMethod.GET)
 	public ModelAndView displayExamPart1_vovantri(@RequestParam("id") Long examId, HttpServletRequest request, HttpSession httpSession) {
+	    
+	    // Tìm Exam theo ID từ cơ sở dữ liệu (sử dụng Optional để tránh NullPointerException)
+	    Optional<Exam> examOpt = examService.findById(examId);
+	    
+	    if (examOpt.isEmpty()) {
+	        // Nếu không tìm thấy Exam, trả về trang lỗi
+	        return new ModelAndView("error").addObject("message", "Exam không tồn tại.");
+	    }
+
+	    Exam exam = examOpt.get(); // Lấy đối tượng Exam nếu tồn tại
+
+	    // Tạo mới một bản ghi AssessmentGrading
+	    AssessmentGrading grading = new AssessmentGrading();
+	    grading.setAgentId(getCurrentUserDisplayName()); // Agent hiện tại
+	    grading.setIslate(0); // Không bị trễ
+	    grading.setForGrade(0); // Grade mặc định là 0
+	    grading.setFinalScore(0); // Điểm ban đầu là 0
+	    grading.setStatus(0); // Trạng thái mặc định
+	    grading.setHasauToSubmissIOnRun(0); // Không có auto submission
+	    grading.setExam(exam); // Gán exam vào grading
+	    
+	    // Lưu vào cơ sở dữ liệu
+	    assessmentGradingService.save(grading);
+
 	    ModelAndView mav = new ModelAndView("exam-part-1-vovantri");
 	    initSession(request, httpSession);
 
 	    mav.addObject("currentSiteId", getCurrentSiteId());
 	    mav.addObject("userDisplayName", getCurrentUserDisplayName());
 
-	    List<Object[]> examPart1Details = examService.findAllExamPart1Details(examId); 
+	    // Lấy thông tin các câu hỏi của phần 1 của kỳ thi
+	    List<Object[]> examPart1Details = itemTextService.getItemAndItemTextByExamIDAndPartTitle(examId, "Part1");
 
-	    // Khởi tạo một danh sách chứa thông tin các câu hỏi
+	    // Khởi tạo danh sách chứa thông tin các câu hỏi
 	    List<Map<String, Object>> questionDetailsList = new ArrayList<>();
 
 	    // Lặp qua tất cả các dòng trong examPart1Details
 	    for (Object[] row : examPart1Details) {
-	        Item item = (Item) row[0];  // Cột 0 là Item
-	        ItemText itemText = (ItemText) row[1];  // Cột 1 là ItemText
+	        Item item = (Item) row[0]; // Cột 0 là Item
+	        ItemText itemText = (ItemText) row[1]; // Cột 1 là ItemText
 
 	        // Lấy text từ itemText
 	        String text = itemText.getText();
@@ -118,12 +144,16 @@ public class ToeicController extends BaseController {
 	        String imageUrl = extractUrl(text, "image");
 	        String audioUrl = extractUrl(text, "audio");
 
-	        // Tạo một map chứa thông tin câu hỏi (image URL, audio URL)
+	        // Tạo một map chứa thông tin câu hỏi
 	        Map<String, Object> questionDetail = new HashMap<>();
-	        questionDetail.put("item", item);  // Item (câu hỏi)
-	        questionDetail.put("itemText", itemText);  // ItemText (text)
-	        questionDetail.put("imageUrl", imageUrl);  // Image URL
-	        questionDetail.put("audioUrl", audioUrl);  // Audio URL
+	        questionDetail.put("item", item); // Item (câu hỏi)
+	        questionDetail.put("itemText", itemText); // ItemText (text)
+	        questionDetail.put("imageUrl", imageUrl); // Image URL
+	        questionDetail.put("audioUrl", audioUrl); // Audio URL
+
+	        // Lấy danh sách câu trả lời cho câu hỏi này
+	        List<Answer> answers = answerService.getAnswersByItemTextId(itemText.getItemTextId());
+	        questionDetail.put("answers", answers);
 
 	        // Thêm vào danh sách
 	        questionDetailsList.add(questionDetail);
@@ -131,31 +161,11 @@ public class ToeicController extends BaseController {
 
 	    // Thêm toàn bộ thông tin câu hỏi vào model
 	    mav.addObject("questionDetailsList", questionDetailsList);
-
-	    // Ghi các câu a,b,c,d
-	    List<Answer> answers = new ArrayList<>();
-	    for (Object[] row : examPart1Details) {
-	        Answer answer = (Answer) row[2];
-	        answers.add(answer);   
-
-	        System.out.println("-------------------------");
-	        System.out.println("Answer Sequence: " + answer.getSequence());
-	        System.out.println("Answer Label: " + answer.getLabel());
-	        System.out.println("Answer Text: " + answer.getText());
-	        System.out.println("Is Correct: " + answer.getIsCorrect());
-	        System.out.println("Score: " + answer.getScore());
-	        System.out.println("-------------------------");
-	    }
-	    
-	    mav.addObject("answers", answers);  
-	    Optional<Exam> examOpt = examService.findById(examId);
-	    examOpt.ifPresentOrElse(
-	        exam -> mav.addObject("exam", exam),
-	        () -> mav.addObject("errorMessage", "Exam not found.")
-	    );
+	    mav.addObject("exam", exam); // Đưa thông tin exam vào model
 
 	    return mav;
 	}
+
 
 //	@RequestMapping(value = "/exam-part-1-vovantri", method = RequestMethod.GET)
 //	public ModelAndView displayExamPart1_vovantri(@RequestParam("id") Long examId, HttpServletRequest request, HttpSession httpSession) {

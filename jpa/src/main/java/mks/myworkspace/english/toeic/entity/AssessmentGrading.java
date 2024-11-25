@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -27,18 +29,28 @@ public class AssessmentGrading implements Serializable {
     @Column(name = "ASSESSMENTGRADINGID")
     private Long assessmentGradingId; // system field
 
-    @Column(name = "ASSESSMENTID")
-    private Long assessmentId; // Foreign key referencing Exam entity
+    
 
-    @Column(name = "SCORE")
-    private Double score;
+    @Column(name = "AGENTID")
+    private String agentId;
+    
+    @Column(name = "ISLATE")
+    private int islate;
 
-    @Column(name = "GRADE")
-    private String grade;
+    @Column(name = "FORGRADE")
+    private int forGrade;
+    
+    @Column(name = "FINALSCORE")
+    private int finalScore;
+    
+    @Column(name = "STATUS")
+    private int status;
+    
+    @Column(name = "HASAUTOSUBMISSIONRUN")
+    private int hasauToSubmissIOnRun;
+    
+    @ManyToOne
+    @JoinColumn(name = "PUBLISHEDASSESSMENTID", referencedColumnName = "ID")
+    private Exam exam; // Tham chiếu đến Exam
 
-    @Override
-    public String toString() {
-        return "AssessmentGrading [assessmentGradingId=" + assessmentGradingId + ", assessmentId=" + assessmentId
-                + ", score=" + score + ", grade=" + grade + "]";
-    }
-}
+} 
