@@ -9,6 +9,5 @@ import java.util.List;
 @Repository
 public interface QuestionTextRepository extends JpaRepository<QuestionText, Long> {
 
-    // Lấy danh sách `QuestionText` theo `ITEMID`
-    List<QuestionText> findByItemId(Long itemId);
+	QuestionText findByItemId(Long itemId);
 }

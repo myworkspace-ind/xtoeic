@@ -22,8 +22,15 @@ public class Answer {
     @Column(name = "ITEMTEXTID")
     private Long itemTextId;
 
-    @Column(name = "ITEMID")
-    private Long itemId;
+//    @Column(name = "ITEMID")
+//    private Long itemId;
+    
+    @ManyToOne
+    @JoinColumn(name = "ITEMID", referencedColumnName = "ITEMID")
+    private Question question; // Khóa ngoại liên kết với Question
+    
+    @Column(name = "SEQUENCE")
+    private Integer sequence;
 
     @Column(name = "TEXT")
     private String text; // Nội dung đáp án

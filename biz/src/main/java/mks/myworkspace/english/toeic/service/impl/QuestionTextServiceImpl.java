@@ -15,7 +15,7 @@ public class QuestionTextServiceImpl implements QuestionTextService {
     private QuestionTextRepository questionTextRepository;
 
     @Override
-    public List<QuestionText> getQuestionTextsByItemId(Long itemId) {
+    public QuestionText getQuestionTextByItemId(Long itemId) {
         return questionTextRepository.findByItemId(itemId);
     }
 

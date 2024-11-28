@@ -10,7 +10,10 @@ import mks.myworkspace.english.toeic.entity.Question;
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
-    @Query("SELECT q FROM Question q WHERE q.sectionId = :sectionId")
+	@Query("SELECT q FROM Question q WHERE q.section.id = :sectionId ORDER BY q.sequence")
     List<Question> findQuestionsBySectionId(@Param("sectionId") Long sectionId);
+
+	// Thêm phương thức truy vấn theo sectionId (tương đương SELECT * FROM sam_publisheditem_t WHERE SECTIONID = :sectionId)
+	List<Question> findBySectionId(Long sectionId);
 }
 

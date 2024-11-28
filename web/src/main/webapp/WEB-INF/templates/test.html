@@ -11,7 +11,17 @@
 
         <ul>
             <li th:each="question : ${section.questions}">
-                Question [[${question.sequence}]]: [[${question.text}]]
+                <p>
+                    Question [[${question.sequence}]]: 
+                    <span th:utext="${question.text}"></span>
+                </p>
+                
+                <!-- Hiển thị danh sách đáp án -->
+                <ul>
+                    <li th:each="answer : ${question.answers}">
+                        Answer [[${answer.sequence}]]: [[${answer.text}]]
+                    </li>
+                </ul>
             </li>
         </ul>
     </div>

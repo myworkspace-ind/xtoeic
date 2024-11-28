@@ -10,8 +10,10 @@ import mks.myworkspace.english.toeic.entity.Section;
 @Repository
 public interface SectionRepository extends JpaRepository<Section, Long> {
 	
-	@Query("SELECT s FROM Section s WHERE s.assessmentId = :assessmentId")
-    List<Section> findSectionsByAssessmentId(@Param("assessmentId") Long assessmentId);
+//	@Query("SELECT s FROM Section s WHERE s.assessmentId = :assessmentId")
+//    List<Section> findSectionsByAssessmentId(@Param("assessmentId") Long assessmentId);
 	
+	@Query("SELECT s FROM Section s WHERE s.exam.id = :examId ORDER BY s.sequence")
+    List<Section> findSectionsByExamId(@Param("examId") Long examId);
 }
 

@@ -15,8 +15,13 @@ public class SectionServiceImpl implements SectionService {
     @Autowired
     private SectionRepository sectionRepository;
 
+//    @Override
+//    public List<Section> getSectionsByAssessmentId(Long assessmentId) {
+//        return sectionRepository.findSectionsByAssessmentId(assessmentId);
+//    }
+    
     @Override
-    public List<Section> getSectionsByAssessmentId(Long assessmentId) {
-        return sectionRepository.findSectionsByAssessmentId(assessmentId);
+    public List<Section> getSectionsByExamId(Long examId) { // Đổi tên phương thức và tham số
+        return sectionRepository.findSectionsByExamId(examId); // Đồng bộ với repository
     }
 }

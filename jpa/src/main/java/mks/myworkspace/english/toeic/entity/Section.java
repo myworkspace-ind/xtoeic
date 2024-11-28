@@ -21,8 +21,12 @@ public class Section {
     @Column(name = "SECTIONID")
     private Long id;
 
-    @Column(name = "ASSESSMENTID")
-    private Long assessmentId;
+//    @Column(name = "ASSESSMENTID")
+//    private Long assessmentId;
+    
+    @ManyToOne
+    @JoinColumn(name = "ASSESSMENTID", referencedColumnName = "ID") // Liên kết khóa ngoại
+    private Exam exam;
 
     @Column(name = "TITLE")
     private String title;

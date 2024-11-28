@@ -32,6 +32,7 @@ import mks.myworkspace.english.toeic.entity.Exam;
 import mks.myworkspace.english.toeic.entity.Question;
 import mks.myworkspace.english.toeic.entity.QuestionText;
 import mks.myworkspace.english.toeic.entity.Section;
+import mks.myworkspace.english.toeic.service.AnswerService;
 import mks.myworkspace.english.toeic.service.ExamService;
 import mks.myworkspace.english.toeic.service.QuestionService;
 import mks.myworkspace.english.toeic.service.QuestionTextService;
@@ -200,37 +201,34 @@ public class ToeicController extends BaseController {
 
     @Autowired
     private QuestionTextService questionTextService;
+    
+    @Autowired
+    private AnswerService answerService;
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public ModelAndView displayTest(HttpServletRequest request, HttpSession httpSession) {
         ModelAndView mav = new ModelAndView("test");
 
-        initSession(request, httpSession);
-        mav.addObject("currentSiteId", getCurrentSiteId());
-        mav.addObject("userDisplayName", getCurrentUserDisplayName());
-
-        Long examId = 126L; // Lấy ID đề thi (ví dụ là 126)
-
-        // Lấy danh sách các Section của đề thi
-        List<Section> sections = sectionService.getSectionsByAssessmentId(examId);
-        mav.addObject("sections", sections);
-
-        // Lấy câu hỏi cho mỗi Section
+        Long examId = 126L; // ID của đề thi
+        List<Section> sections = sectionService.getSectionsByExamId(examId);
+        
+        // Duyệt qua từng Section để gán câu hỏi và đáp án
         for (Section section : sections) {
             List<Question> questions = questionService.getQuestionsBySectionId(section.getId());
             
-            // Lấy thông tin TEXT cho mỗi câu hỏi
             for (Question question : questions) {
-                List<QuestionText> questionTexts = questionTextService.getQuestionTextsByItemId(question.getId());
-                
-                if (!questionTexts.isEmpty()) {
-                    question.setText(questionTexts.get(0).getText()); // Gán dữ liệu TEXT vào câu hỏi
+                // Gán TEXT từ QuestionText vào câu hỏi
+                QuestionText questionText = questionTextService.getQuestionTextByItemId(question.getId());
+                if (questionText != null) {
+                    question.setText(questionText.getText());
                 }
             }
-
-            section.setQuestions(questions); // Gán danh sách câu hỏi vào Section
+            
+            // Gán danh sách câu hỏi vào Section
+            section.setQuestions(questions);
         }
-
+        
+        mav.addObject("sections", sections);
         return mav;
     }
 
