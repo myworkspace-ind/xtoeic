@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import mks.myworkspace.english.toeic.entity.ItemText;
 import mks.myworkspace.english.toeic.repository.ItemTextRepository;
 import mks.myworkspace.english.toeic.service.ItemTextService;
 
@@ -20,7 +21,7 @@ public class ItemTextServiceImpl implements ItemTextService{
 	} 
  
 	@Override
-	public List<Object[]> getItemAndItemTextByExamIDAndPartTitle(Long assessmentId, String title) {
-	    return repo.getItemAndItemTextByExamIDAndPartTitle(assessmentId, title);
+	public List<ItemText> getItemTextByExamIDAndPartTitle(Long assessmentId, String title) {
+	    return repo.getItemTextByExamIDAndPartTitle(assessmentId, title);
 	}
 }

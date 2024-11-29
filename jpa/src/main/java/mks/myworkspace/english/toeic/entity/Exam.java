@@ -44,20 +44,33 @@ public class Exam implements Serializable {
 	
 	@OneToMany(mappedBy = "exam")
 	private List<Part> parts;
+	
+	@OneToMany(mappedBy = "exam")
+	private List<AssessmentGrading> assessmentGradings;
+	
 
-	public Exam(Long id, String title, String description, String timeLimit, String dueDateTime) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.description = description;
-		this.timeLimit = timeLimit;
-		this.dueDateTime = dueDateTime;
+	public Exam(Long id, String title, String description, String timeLimit, String dueDateTime,
+            List<Part> parts, List<AssessmentGrading> assessmentGradings) {
+	    this.id = id; // system field
+	    this.title = title;
+	    this.description = description;
+	    this.timeLimit = timeLimit;
+	    this.dueDateTime = dueDateTime;
+	    this.parts = parts; // Danh sách các phần liên quan
+	    this.assessmentGradings = assessmentGradings; // Danh sách các bài chấm điểm
 	}
-
+	
 	@Override
 	public String toString() {
-		return "Exam [id=" + id + ", title=" + title + ", description=" + description + ", timeLimit=" + timeLimit
-				+ ", dueDateTime=" + dueDateTime + "]";
+	    return "Exam [\n" +
+	           "id=" + id + "\n" +
+	           ", title='" + title + '\'' + "\n" +
+	           ", description='" + description + '\'' + "\n" +
+	           ", timeLimit='" + timeLimit + '\'' + "\n" +
+	           ", dueDateTime='" + dueDateTime + '\'' + "\n" +
+	           ", partsCount=" + (parts != null ? parts.size() : 0) + "\n" + // Hiển thị số lượng Part
+	           ", assessmentGradingsCount=" + (assessmentGradings != null ? assessmentGradings.size() : 0) + "\n" + // Hiển thị số lượng AssessmentGrading
+	           ']';
 	}
 
 }

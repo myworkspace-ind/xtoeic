@@ -22,10 +22,12 @@ public class AssessmentGradingImpl implements AssessmentGradingService{
 		return repo;
 	}
 
-	@Override
-	public <S extends AssessmentGrading> S save(S entity) {
-		return repo.save(entity);
-	} 
- 
-	
+//	@Override // t đổi qua dùng hàm dưới rồi nha
+//	public <S extends AssessmentGrading> S save(S entity) {
+//		return repo.save(entity);
+//	} 
+	 
+	public void insertAssessmentGrading(AssessmentGrading grading) { 
+		repo.save(grading);
+	}
 }
