@@ -212,7 +212,8 @@ public class ToeicController extends BaseController {
         Long examId = 126L; // ID của đề thi
         List<Section> sections = sectionService.getSectionsByExamId(examId);
         
-        // Duyệt qua từng Section để gán câu hỏi và đáp án
+        int globalSequenceCounter = 1; // Bắt đầu từ 1
+        
         for (Section section : sections) {
             List<Question> questions = questionService.getQuestionsBySectionId(section.getId());
             
@@ -222,6 +223,9 @@ public class ToeicController extends BaseController {
                 if (questionText != null) {
                     question.setText(questionText.getText());
                 }
+                
+                // Gán giá trị globalSequence
+                question.setGlobalSequence(globalSequenceCounter++);
             }
             
             // Gán danh sách câu hỏi vào Section
@@ -231,6 +235,7 @@ public class ToeicController extends BaseController {
         mav.addObject("sections", sections);
         return mav;
     }
+
 
 
 

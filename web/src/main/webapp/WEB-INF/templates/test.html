@@ -12,7 +12,7 @@
         <ul>
             <li th:each="question : ${section.questions}">
                 <p>
-                    Question [[${question.sequence}]]: 
+                    Question [[${question.globalSequence}]]: 
                     <span th:utext="${question.text}"></span>
                 </p>
                 
