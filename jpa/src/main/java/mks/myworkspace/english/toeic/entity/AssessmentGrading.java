@@ -41,7 +41,7 @@ public class AssessmentGrading implements Serializable {
     private int forGrade;
     
     @Column(name = "FINALSCORE")
-    private int finalScore;
+    private int finalScore;	
     
     @Column(name = "STATUS")
     private int status;
@@ -53,4 +53,4 @@ public class AssessmentGrading implements Serializable {
     @JoinColumn(name = "PUBLISHEDASSESSMENTID", referencedColumnName = "ID")
     private Exam exam; // Tham chiếu đến Exam
 
-} 
+}
