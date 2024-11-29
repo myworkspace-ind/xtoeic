@@ -1,0 +1,26 @@
+package mks.myworkspace.english.toeic.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import mks.myworkspace.english.toeic.repository.ItemTextRepository;
+import mks.myworkspace.english.toeic.service.ItemTextService;
+
+@Service
+public class ItemTextServiceImpl implements ItemTextService{
+	
+	@Autowired
+	private ItemTextRepository repo;
+	
+	@Override
+	public ItemTextRepository getRepo() {
+		return repo;
+	} 
+ 
+	@Override
+	public List<Object[]> getItemAndItemTextByExamIDAndPartTitle(Long assessmentId, String title) {
+	    return repo.getItemAndItemTextByExamIDAndPartTitle(assessmentId, title);
+	}
+}
