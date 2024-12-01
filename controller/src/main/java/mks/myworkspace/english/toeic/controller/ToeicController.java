@@ -131,29 +131,39 @@ public class ToeicController extends BaseController {
 //    			LocalDateTime submittedDate, int forGrade, int status, int isLate, int hasAutoSubmissionRun)  
         
         AssessmentGrading grading = new AssessmentGrading(); 
-        grading.setAssessmentGradingId(0L); //Do Id tự tăng nên gán gì cũng được 
+        //grading.setAssessmentGradingId(0L); //Do Id tự tăng nên gán gì cũng được 
         grading.setExam(exam);  
         grading.setAgentId(getCurrentSiteId()); 
-        grading.setForGrade(0);  // Bấm start là 0, Bấm submit là 1   
+        grading.setForGrade(false);  // Bấm start là false, Bấm submit là true
         grading.setStatus(0);    // Bấm start là 0, Bấm submit là 1 
-        grading.setIsLate(0);   
-        grading.setHasAutoSubmissionRun(0); 
+        grading.setLate(false);   
+        grading.setHasAutoSubmissionRun(false); 
         
         LocalDateTime currentDateTime = LocalDateTime.now();  
         grading.setAttemptDate(currentDateTime);  
         grading.setSubmittedDate(currentDateTime); 
         
-        System.out.println("Thông tin AssessmentGrading trước khi lưu:");
-        System.out.println(grading.toString());
+//        System.out.println("Thông tin AssessmentGrading trước khi lưu:");
+//        System.out.println(grading.toString());
 
         // Lưu vào cơ sở dữ liệu
 //        assessmentGradingService.save(grading);
         
-        assessmentGradingService.insertAssessmentGrading(grading); 
+//        assessmentGradingService.insertAssessmentGrading(grading); 
+        assessmentGradingService.insertAssessmentGrading(
+        	    126L,                     // PUBLISHEDASSESSMENTID
+        	    "vovantri",       		  // AGENTID
+        	    LocalDateTime.now(),      // ATTEMPTDATE
+        	    LocalDateTime.now(),      // SUBMITTEDDATE
+        	    false,                    // FORGRADE (false khi bấm start)
+        	    0,                        // STATUS (0 khi bấm start)
+        	    false,                    // ISLATE (gán cố định là false)
+        	    false                     // HASAUTOSUBMISSIONRUN (gán cố định là false)
+        	);
         
         // Ghi thông tin grading ra console sau khi lưu (nếu grading được cập nhật)
-        System.out.println("Thông tin AssessmentGrading sau khi lưu:");
-        System.out.println(grading.toString());
+//        System.out.println("Thông tin AssessmentGrading sau khi lưu:");
+//        System.out.println(grading.toString());
  
         ModelAndView mav = new ModelAndView("exam-part-1-vovantri");
         initSession(request, httpSession);

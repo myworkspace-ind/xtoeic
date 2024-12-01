@@ -28,14 +28,14 @@ public class AssessmentGrading implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ASSESSMENTGRADINGID")
+    @Column(name = "ASSESSMENTGRADINGID", nullable = false)
     private Long assessmentGradingId; // system field
 
     @ManyToOne
-    @JoinColumn(name = "PUBLISHEDASSESSMENTID", referencedColumnName = "ID")
+    @JoinColumn(name = "PUBLISHEDASSESSMENTID", referencedColumnName = "ID", nullable = false)
     private Exam exam; // Tham chiếu đến Exam
 
-    @Column(name = "AGENTID")
+    @Column(name = "AGENTID", nullable = false)
     private String agentId;
 
     @Column(name = "ATTEMPTDATE")
@@ -44,23 +44,23 @@ public class AssessmentGrading implements Serializable {
     @Column(name = "SUBMITTEDDATE")
     private LocalDateTime submittedDate;
     
-    // Mấy cái dưới thêm vào là do ràng buộc not null
-    @Column(name = "FORGRADE") // Bấm start là 0, Bấm submit là 1 
-    private int forGrade;
+    // Mấy cái dưới thêm vào là do ràng buộc not null 
+    
+    @Column(name = "FORGRADE", nullable = false)  // Bấm start là false, Bấm submit là true
+    private boolean forGrade;
 
-    @Column(name = "STATUS") // Bấm start là 0, Bấm submit là 1 
+    @Column(name = "STATUS", nullable = false)  // Bấm start là 0, Bấm submit là 1
     private int status;
 
-    @Column(name = "ISLATE") // Gán cố định là 0
-    private int isLate;
+    @Column(name = "ISLATE", nullable = false) // Gán cố định là false
+    private boolean isLate;
 
-    @Column(name = "HASAUTOSUBMISSIONRUN") // Gán cố định là 0
-    private int hasAutoSubmissionRun;
+    @Column(name = "HASAUTOSUBMISSIONRUN", nullable = false) // Gán cố định là false
+    private boolean hasAutoSubmissionRun;
 
     // Constructor
     public AssessmentGrading(Long assessmentGradingId, Exam exam, String agentId, LocalDateTime attemptDate,
-			LocalDateTime submittedDate, int forGrade, int status, int isLate, int hasAutoSubmissionRun) {
-		super();
+			LocalDateTime submittedDate, boolean forGrade, int status, boolean isLate, boolean hasAutoSubmissionRun) {
 		this.assessmentGradingId = assessmentGradingId;
 		this.exam = exam;
 		this.agentId = agentId;
