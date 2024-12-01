@@ -72,10 +72,10 @@ window.onload = function() {
         allAnswerForms[0].classList.add('selected-border', 'mark-color');
     } 
     
-    const audioElement = document.getElementById('audio-' + currentIndex);
+/*    const audioElement = document.getElementById('audio-' + currentIndex);
     if (audioElement) {
         audioElement.play();  
-    }
+    }*/
 	
 	const allAudioElements = document.querySelectorAll('audio');
 

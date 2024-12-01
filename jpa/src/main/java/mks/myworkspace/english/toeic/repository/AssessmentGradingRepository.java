@@ -8,4 +8,5 @@ import mks.myworkspace.english.toeic.entity.AssessmentGrading;
 @Repository
 public interface AssessmentGradingRepository extends JpaRepository<AssessmentGrading, Long> {
     // Custom query methods nếu cần  	
+	 
 }

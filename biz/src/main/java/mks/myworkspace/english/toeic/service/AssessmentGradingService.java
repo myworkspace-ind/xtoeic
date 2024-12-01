@@ -1,6 +1,6 @@
 package mks.myworkspace.english.toeic.service;
 
-import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -11,12 +11,8 @@ import mks.myworkspace.english.toeic.repository.AssessmentGradingRepository;
 public interface AssessmentGradingService {
 
 	AssessmentGradingRepository getRepo();
-
-//	<S extends AssessmentGrading> S save(S entity);
-	  
-	void insertAssessmentGrading(AssessmentGrading grading);
 	
-	void insertAssessmentGrading(Long publishedAssessmentId, String agentId, LocalDateTime attemptDate, 
-            LocalDateTime submittedDate, boolean forGrade, int status, 
-            boolean isLate, boolean hasAutoSubmissionRun);
+	Optional<AssessmentGrading> findById(Long id);
+	
+	AssessmentGrading saveOrUpdate(AssessmentGrading grading);
 }

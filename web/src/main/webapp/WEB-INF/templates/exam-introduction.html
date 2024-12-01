@@ -455,8 +455,14 @@
 								<strong>Part by part:</strong> All questions of each part are
 								displayed on a page.
 							</p>
-							<a id="start_test" class="btn btn-primary btn-lg mt-1 disable"
-								style="margin-top: 20px;" th:href="@{exam-part-1-vovantri(id=${exam.id})}" >START</a>
+				 			<!-- <a id="start_test" class="btn btn-primary btn-lg mt-1 disable"
+								style="margin-top: 20px;" th:href="@{exam-part-1-vovantri(examId=${exam.id})}" >START</a> -->
+								
+							<form action="start-exam" method="POST">
+							    <input type="hidden" name="examId" th:value="${exam.id}">
+							    <button id="start_test" class="btn btn-primary btn-lg mt-1" style="margin-top: 20px;">START</button>
+							</form>
+							
 						</div>
 					</div>
 					<div id="test_page" class="hidden">

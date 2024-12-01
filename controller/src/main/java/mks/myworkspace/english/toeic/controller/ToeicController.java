@@ -28,8 +28,6 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -113,9 +111,99 @@ public class ToeicController extends BaseController {
     @Autowired
     private AssessmentGradingService assessmentGradingService; 
 	
-    @PersistenceContext
-    private EntityManager entityManager;
+    @RequestMapping(value = "/start-exam", method = RequestMethod.POST)
+    public String startExam(HttpServletRequest request, HttpSession httpSession) {
+    	// Tìm Exam theo ID từ cơ sở dữ liệu (sử dụng Optional để tránh NullPointerException)
+    	Long examId = Long.parseLong(request.getParameter("examId"));
+        Optional<Exam> examOpt = examService.findById(examId); 
+//        if (examOpt.isEmpty()) { 
+//        	return "redirect:/exam-part-1-vovantri?id=" + examId;;
+//        } 
+        Exam exam = examOpt.get(); 
+        
+        AssessmentGrading grading = new AssessmentGrading(); 
+        //Do ASSESSMENTGRADINGID tự tăng nên cứ để null  
+        grading.setExam(exam);  
+        grading.setAgentId(getCurrentUserEid()); 
+        grading.setForGrade(false);  // Bấm start là false, Bấm submit là true
+        grading.setStatus(0);    // Bấm start là 0, Bấm submit là 1 
+        grading.setLate(false);   
+        grading.setHasAutoSubmissionRun(false); 
+        
+        LocalDateTime currentDateTime = LocalDateTime.now();  
+        grading.setAttemptDate(currentDateTime);  
+        grading.setSubmittedDate(currentDateTime); 
+        
+        System.out.println("Trước khi lưu: " + grading.toString());
+        AssessmentGrading gradingSaved =  assessmentGradingService.saveOrUpdate(grading);
+        System.out.println("Sau khi lưu: " + gradingSaved.toString());
+    	 
+        // Lưu ID của grading vào session để sử dụng sau này khi load câu hỏi
+        httpSession.setAttribute("assessmentGradingId", grading.getAssessmentGradingId());
+
+        // Chuyển hướng đến trang câu hỏi
+        return "redirect:/exam-part-1-vovantri?examId=" + examId;
+    }
     
+    @RequestMapping(value = "/exam-part-1-vovantri", method = RequestMethod.GET)
+    public ModelAndView displayExamPart1_vovantri(@RequestParam("examId") Long examId, HttpServletRequest request, HttpSession httpSession) {
+        
+//    	Long assessmentGradingId = (Long) httpSession.getAttribute("assessmentGradingId");
+//        if (assessmentGradingId == null) {
+//            return new ModelAndView("error").addObject("message", "Bạn cần bắt đầu kỳ thi trước.");
+//        }
+    		
+        // Tìm Exam theo ID từ cơ sở dữ liệu (sử dụng Optional để tránh NullPointerException)
+        Optional<Exam> examOpt = examService.findById(examId); 
+        if (examOpt.isEmpty()) { 
+            return new ModelAndView("error").addObject("message", "Exam không tồn tại.");
+        } 
+        Exam exam = examOpt.get(); 
+          
+        ModelAndView mav = new ModelAndView("exam-part-1-vovantri");
+        
+        initSession(request, httpSession); 
+        mav.addObject("currentSiteId", getCurrentSiteId());
+        mav.addObject("userDisplayName", getCurrentUserDisplayName());
+
+        // Lấy thông tin các câu hỏi của Part 1 của kỳ thi
+        List<Item> itemList = itemService.getItemByExamIDAndPartTitle(examId, "Part1");
+        List<ItemText> itemTextList = itemTextService.getItemTextByExamIDAndPartTitle(examId, "Part1");
+        
+        // Khởi tạo danh sách thông tin các câu hỏi
+        List<Map<String, Object>> questionDetailsList = new ArrayList<>();
+        
+        int size = Math.min(itemList.size(), itemTextList.size()); // Chọn kích thước nhỏ nhất để tránh lỗi IndexOutOfBoundsException
+        for (int i = 0; i < size; i++) {
+            Item item = itemList.get(i);
+            ItemText itemText = itemTextList.get(i);
+            
+            String imageUrl = extractUrl(itemText.getText(), "image");
+            String audioUrl = extractUrl(itemText.getText(), "audio");
+             
+            // Tạo một map chứa thông tin câu hỏi
+            Map<String, Object> questionDetail = new HashMap<>();
+            questionDetail.put("item", item); // Item (câu hỏi)
+            questionDetail.put("itemText", itemText); // ItemText (text)
+            questionDetail.put("imageUrl", imageUrl); // Image URL
+            questionDetail.put("audioUrl", audioUrl); // Audio URL
+
+            // Lấy danh sách câu trả lời cho câu hỏi này
+            List<Answer> answers = answerService.getAnswersByItemTextId(itemText.getItemTextId());
+            questionDetail.put("answers", answers);
+
+            // Thêm vào danh sách thông tin câu hỏi 
+            questionDetailsList.add(questionDetail);
+        } 
+     
+        // Thêm toàn bộ thông tin câu hỏi vào model
+        mav.addObject("exam", exam);  
+        mav.addObject("questionDetailsList", questionDetailsList);
+
+        return mav;
+    }
+    
+    /*
     @RequestMapping(value = "/exam-part-1-vovantri", method = RequestMethod.GET)
     public ModelAndView displayExamPart1_vovantri(@RequestParam("id") Long examId, HttpServletRequest request, HttpSession httpSession) {
         
@@ -133,7 +221,7 @@ public class ToeicController extends BaseController {
         AssessmentGrading grading = new AssessmentGrading(); 
         //grading.setAssessmentGradingId(0L); //Do Id tự tăng nên gán gì cũng được 
         grading.setExam(exam);  
-        grading.setAgentId(getCurrentSiteId()); 
+        grading.setAgentId(getCurrentUserEid()); 
         grading.setForGrade(false);  // Bấm start là false, Bấm submit là true
         grading.setStatus(0);    // Bấm start là 0, Bấm submit là 1 
         grading.setLate(false);   
@@ -143,28 +231,11 @@ public class ToeicController extends BaseController {
         grading.setAttemptDate(currentDateTime);  
         grading.setSubmittedDate(currentDateTime); 
         
-//        System.out.println("Thông tin AssessmentGrading trước khi lưu:");
-//        System.out.println(grading.toString());
-
-        // Lưu vào cơ sở dữ liệu
-//        assessmentGradingService.save(grading);
+        System.out.println("Trước khi lưu: " + grading.toString());
+        AssessmentGrading gradingSaved =  assessmentGradingService.saveOrUpdate(grading);
+        System.out.println("Sau khi lưu: " + gradingSaved.toString());
         
-//        assessmentGradingService.insertAssessmentGrading(grading); 
-        assessmentGradingService.insertAssessmentGrading(
-        	    126L,                     // PUBLISHEDASSESSMENTID
-        	    "vovantri",       		  // AGENTID
-        	    LocalDateTime.now(),      // ATTEMPTDATE
-        	    LocalDateTime.now(),      // SUBMITTEDDATE
-        	    false,                    // FORGRADE (false khi bấm start)
-        	    0,                        // STATUS (0 khi bấm start)
-        	    false,                    // ISLATE (gán cố định là false)
-        	    false                     // HASAUTOSUBMISSIONRUN (gán cố định là false)
-        	);
-        
-        // Ghi thông tin grading ra console sau khi lưu (nếu grading được cập nhật)
-//        System.out.println("Thông tin AssessmentGrading sau khi lưu:");
-//        System.out.println(grading.toString());
- 
+         
         ModelAndView mav = new ModelAndView("exam-part-1-vovantri");
         initSession(request, httpSession);
 
@@ -207,6 +278,7 @@ public class ToeicController extends BaseController {
 
         return mav;
     }
+    */
 
  
 	private String extractUrl(String text, String key) {
