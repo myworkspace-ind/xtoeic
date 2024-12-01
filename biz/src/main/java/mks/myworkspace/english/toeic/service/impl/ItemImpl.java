@@ -1,6 +1,7 @@
 package mks.myworkspace.english.toeic.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,4 +24,9 @@ public class ItemImpl implements ItemService{
 	public List<Item> getItemByExamIDAndPartTitle(Long assessmentId, String title) {
 	    return repo.getItemByExamIDAndPartTitle(assessmentId, title);
 	}
+	
+	@Override
+	public Optional<Item> findById(Long id) {
+        return repo.findById(id);
+    }  
 }

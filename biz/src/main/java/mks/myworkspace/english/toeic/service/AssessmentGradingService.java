@@ -12,7 +12,7 @@ public interface AssessmentGradingService {
 
 	AssessmentGradingRepository getRepo();
 	
-	Optional<AssessmentGrading> findById(Long id);
+	AssessmentGrading saveOrUpdate(AssessmentGrading assessmentGrading);
 	
-	AssessmentGrading saveOrUpdate(AssessmentGrading grading);
+	Optional<AssessmentGrading> findById(Long id);
 }

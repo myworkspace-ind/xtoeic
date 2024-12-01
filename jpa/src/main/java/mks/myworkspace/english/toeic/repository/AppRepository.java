@@ -22,23 +22,23 @@ public class AppRepository {
 	@Autowired
 	AssessmentGradingRepository assessmentGradingRepository;
 	
-	public Long saveOrUpdate(AssessmentGrading grading) {
+	public Long saveOrUpdate(AssessmentGrading assessmentGrading) {
 		Long id;
 		
-		if (grading.getAssessmentGradingId() == null) {
+		if (assessmentGrading.getAssessmentGradingId() == null) {
 			log.debug("Inserting new grading");
-			id = createAssessmentGrading(grading);
+			id = createAssessmentGrading(assessmentGrading);
 		} else {
-			log.debug("Updating existing grading with ID: {}", grading.getAssessmentGradingId());
+			log.debug("Updating existing grading with ID: {}", assessmentGrading.getAssessmentGradingId());
 //			updateAssessmentGrading(grading);
-			id = grading.getAssessmentGradingId();
+			id = assessmentGrading.getAssessmentGradingId();
 		}
 
 		log.debug("Resulting ID after saveOrUpdate: {}", id);
 		return id; 
 	}
 
-	private Long createAssessmentGrading(AssessmentGrading grading) {
+	private Long createAssessmentGrading(AssessmentGrading assessmentGrading) {
         Long id;
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate0)
             .withTableName("sam_assessmentgrading_t")
@@ -47,14 +47,14 @@ public class AppRepository {
         Map<String, Object> parameters = new HashMap<>();
         
         // Thêm các trường tương ứng từ AssessmentGrading entity vào map
-        parameters.put("PUBLISHEDASSESSMENTID", grading.getExam() != null ? grading.getExam().getId() : null);
-        parameters.put("AGENTID", grading.getAgentId());
-        parameters.put("ATTEMPTDATE", grading.getAttemptDate());
-        parameters.put("SUBMITTEDDATE", grading.getSubmittedDate());
-        parameters.put("FORGRADE", grading.isForGrade());
-        parameters.put("STATUS", grading.getStatus());
-        parameters.put("ISLATE", grading.isLate());
-        parameters.put("HASAUTOSUBMISSIONRUN", grading.isHasAutoSubmissionRun());
+        parameters.put("PUBLISHEDASSESSMENTID", assessmentGrading.getExam() != null ? assessmentGrading.getExam().getId() : null);
+        parameters.put("AGENTID", assessmentGrading.getAgentId());
+        parameters.put("ATTEMPTDATE", assessmentGrading.getAttemptDate());
+        parameters.put("SUBMITTEDDATE", assessmentGrading.getSubmittedDate());
+        parameters.put("FORGRADE", assessmentGrading.isForGrade());
+        parameters.put("STATUS", assessmentGrading.getStatus());
+        parameters.put("ISLATE", assessmentGrading.isLate());
+        parameters.put("HASAUTOSUBMISSIONRUN", assessmentGrading.isHasAutoSubmissionRun());
 
         // Insert và lấy ID của bản ghi mới
         id = simpleJdbcInsert.executeAndReturnKey(parameters).longValue();

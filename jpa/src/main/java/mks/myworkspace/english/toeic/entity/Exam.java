@@ -59,7 +59,6 @@ public class Exam implements Serializable {
 	    this.parts = parts; // Danh sách các phần liên quan
 	    this.assessmentGradings = assessmentGradings; // Danh sách các bài chấm điểm
 	}
-	
 	@Override
 	public String toString() {
 	    return "Exam [\n" +
@@ -68,9 +67,21 @@ public class Exam implements Serializable {
 	           ", description='" + description + '\'' + "\n" +
 	           ", timeLimit='" + timeLimit + '\'' + "\n" +
 	           ", dueDateTime='" + dueDateTime + '\'' + "\n" +
-	           ", partsCount=" + (parts != null ? parts.size() : 0) + "\n" + // Hiển thị số lượng Part
-	           ", assessmentGradingsCount=" + (assessmentGradings != null ? assessmentGradings.size() : 0) + "\n" + // Hiển thị số lượng AssessmentGrading
+	           
 	           ']';
 	}
+	
+//	@Override
+//	public String toString() {
+//	    return "Exam [\n" +
+//	           "id=" + id + "\n" +
+//	           ", title='" + title + '\'' + "\n" +
+//	           ", description='" + description + '\'' + "\n" +
+//	           ", timeLimit='" + timeLimit + '\'' + "\n" +
+//	           ", dueDateTime='" + dueDateTime + '\'' + "\n" +
+//	           ", partsCount=" + (parts != null ? parts.size() : 0) + "\n" + // Hiển thị số lượng Part
+//	           ", assessmentGradingsCount=" + (assessmentGradings != null ? assessmentGradings.size() : 0) + "\n" + // Hiển thị số lượng AssessmentGrading
+//	           ']';
+//	}
 
 }

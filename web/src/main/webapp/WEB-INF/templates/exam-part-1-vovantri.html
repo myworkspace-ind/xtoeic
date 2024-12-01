@@ -153,13 +153,14 @@
 						<!-- Lặp qua danh sách câu hỏi, chỉ hiển thị một câu tại một thời điểm -->
 						<div th:each="questionDetail, iterStat : ${questionDetailsList}"
 							class="test-box"
-							th:classappend="${iterStat.index == 0 ? 'active' : 'hidden'}">
-
+							th:classappend="${iterStat.index == 0 ? 'active' : 'hidden'}"
+							> 
+							
 							<!-- Câu hỏi hiện tại -->
 							<div class="toeic-index">
 								<h4 id="question_number">
 									Question <span th:text="${iterStat.index + 1}"></span>
-								</h4>
+								</h4> 
 							</div>
 
 							<!-- Hình ảnh câu hỏi -->
@@ -167,17 +168,15 @@
 								Link ảnh gốc: <a th:href="${questionDetail.imageUrl}"
 									th:text="${questionDetail.imageUrl}"></a>
 							</p>
-							<div class="toiec-question">
-								<div id="pic_question">
-									<img
-										style="cursor: pointer; max-width: 100%; max-height: 190px;"
-										th:src="${questionDetail.imageUrl}" onclick="showImage(this)"
-										alt="Đường dẫn trên không thể load trực tiếp lên html do yêu cầu đăng nhập vào myworkspace">
-								</div>
+							<div class="toiec-question pic_question"> 
+								<img
+									style="cursor: pointer; max-width: 100%; max-height: 190px;"
+									th:src="${questionDetail.imageUrl}" onclick="showImage(this)"
+									alt="Đường dẫn trên không thể load trực tiếp lên html do yêu cầu đăng nhập vào myworkspace">
 							</div>
 
 							<!-- Audio câu hỏi -->
-							<div class="for-listening text-center" id="audio_question">
+							<div class="for-listening text-center audio_question">
 								<div class="black"></div>
 								<audio class="mt-md-3s" preload="auto"
 									th:src="${questionDetail.audioUrl}"
@@ -195,21 +194,60 @@
 							<!-- Các câu trả lời -->
 							
 							<div class="toeic-select">
-								<form class="toeic-form">
+							 
+								<form class="toeic-form"  action="saveQuestionOfPart1" method="POST" th:name="'form-' + ${iterStat.index}" id="form-${iterStat.index}">
+								 
+ 									<button type=submit class="btn btn-success" style="margin-top: 10px;">Save</button>
+									
+									<div>
+									    <label th:for="'answerId-' + ${iterStat.index+1}">answerId</label>
+									    <input type="text" name="answerId" th:id="'answerId-' + ${iterStat.index+1}" readonly style="margin-left: 10px;">
+									</div>
+									<div>
+									    <label th:for="'answerText-' + ${iterStat.index+1}">answerText</label>
+									    <input type="text" name="answerText" th:id="'answerText-' + ${iterStat.index+1}" readonly style="margin-left: 10px;">
+									</div> 
+ 
+ 
+									<!-- <input type="text" name="answerText" th:value="${iterStat.index + 1} + '-'"> -->
+									<div>
+									    <label for="assessmentGradingId">ASSESSMENTGRADINGID:</label>
+									    <input type="text" id="assessmentGradingId" name="assessmentGradingId" 
+									           th:value="${assessmentGrading.assessmentGradingId}" readonly>
+									</div>
+									
+									<div>
+									    <label for="itemId">ITEMID:</label>
+									    <input type="text" id="itemId" name="itemId" 
+									           th:value="${questionDetail.item.itemId}" readonly>
+									</div>
+									
+									<div>
+									    <label for="itemTextId">ITEMTEXTID:</label>
+									    <input type="text" id="itemTextId" name="itemTextId" 
+									           th:value="${questionDetail.itemText.itemTextId}" readonly>
+									</div>
+
 									<!-- Lặp qua các câu trả lời -->
 									<div th:each="answer, iterStat : ${questionDetail.answers}">
 										<div th:if="${#strings.trim(answer.text) != ''}">
 											<label class="radio-inline answerTextOption"
 												th:onclick="'selectAnswer(' + ${answer.answerId} + ')'">
-												(ANSWERID: <span th:text="${answer.answerId}"></span>) - <strong
+												ANSWERID: <span th:text="${answer.answerId}"></span> - <strong
 												th:text="${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.substring(iterStat.index, iterStat.index + 1) + '. '}"></strong>
 												<span th:text="${answer.text}"></span>
 											</label>
 										</div>
-									</div>
+									</div> 
+									
+									
+									
+									
 								</form>
+								
 							</div>
 						</div>
+						
 					</div>
 				</div>
 				<!-- end col 7 -->
@@ -228,36 +266,38 @@
 					</div>
 
 					<div id="answer_sheet" class="answer-area">
-
 						<div th:each="questionDetail, iterStat : ${questionDetailsList}">
 							<div class="toeic-form answer-form"
 								th:id="'answer_form_' + ${iterStat.index + 1}"
 								style="margin-left: 9px; display: flex; align-items: center;">
-
+					
 								<label class="ques-no" th:text="${iterStat.index + 1} + '. '"
 									style="margin-right: 25px"></label>
-
+					
 								<div th:each="answer, iStat : ${questionDetail.answers}">
 									<label class="radio-inline"
 										th:if="${#strings.trim(answer.text) != ''}"
 										style="display: inline-block; margin-right: 42px;"> <input
 										type="radio" tabindex="-1"
 										th:attr="attrid=${questionDetail.item.itemId}, poolname='Part1', 
-						                                answerid=${answer.answerId}, num=${iterStat.index + 1}, 
-						                                name=${'optradio[' + questionDetail.item.itemId + ']'}"
-										th:value="${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.substring(iStat.index, iStat.index + 1)}">
-										<strong
-										th:text="${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.substring(iStat.index, iStat.index + 1)}"></strong>
+														answerid=${answer.answerId}, num=${iterStat.index + 1}, 
+														name=${'optradio[' + questionDetail.item.itemId + ']'}"
+										th:value="${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.substring(iStat.index, iStat.index + 1)}"
+										th:onclick="'selectAnswer(' + ${answer.answerId} + ')'">
+										<strong th:text="${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.substring(iStat.index, iStat.index + 1)}"></strong>
 									</label>
 								</div>
+								
+					             
 							</div>
 						</div> 
 					</div>
+					
 
 					<!-- Các nút chức năng -->
 					<div class="btnGroup">
 						<div class="col-md-12">
-							<button type="button" class="btn btn-success" id="saveBtn">SAVE</button>
+						<!-- 	<button type="button" class="btn btn-success" id="saveBtn">SAVE</button> -->
 							<button type="button" class="btn btn-success" id="submitBtn">SUBMIT</button>
 							<div id="result" class="hidden-xs" role="alert"
 								style="display: none" align="center">
@@ -289,6 +329,32 @@
 
 		</div>
 	</div>
-
+	 
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+	$(document).ready(function() {
+	    // Gửi form qua AJAX khi bấm Save
+	    $('#toeicForm').submit(function(event) {
+	        event.preventDefault(); // Ngăn không cho form tự gửi đi
+	
+	        var formData = $(this).serialize(); // Lấy dữ liệu từ form
+	
+	        $.ajax({
+	            url: 'saveQuestionOfPart1',  // Địa chỉ API hoặc controller mà bạn muốn gửi đến
+	            type: 'POST',
+	            data: formData,  // Dữ liệu sẽ được gửi tới server
+	            success: function(response) {
+	                // Xử lý khi server trả về thành công
+	                alert('Lưu câu hỏi thành công!');
+	                // Có thể cập nhật giao diện tại đây nếu cần
+	            },
+	            error: function(xhr, status, error) {
+	                // Xử lý lỗi nếu có
+	                alert('Có lỗi xảy ra, vui lòng thử lại.');
+	            }
+	        });
+	    });
+	});
+	</script>
 	
 </body>

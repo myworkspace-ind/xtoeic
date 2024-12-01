@@ -1,20 +1,38 @@
 // Biến toàn cục
 let currentIndex = 0;
 
-// Hàm chọn câu trả lời thì nó chọn cái bên phải luôn
-function selectAnswer(answerId) { 
+
+function selectAnswer(answerId) {
     const answerForms = document.querySelectorAll('.answer-form');
-     
-    answerForms.forEach((form, index) => { 
+    
+    answerForms.forEach((form, index) => {
         const radios = form.querySelectorAll('input[type="radio"]');
         
-        radios.forEach(radio => { 
+        radios.forEach(radio => {
             if (radio.getAttribute('answerid') == answerId) {
-                radio.checked = true; 
+                radio.checked = true;
+                
+                // Cập nhật các giá trị cho text box answerId và answerText
+                const questionNumber = index + 1; // Xác định câu hỏi hiện tại (1, 2, 3, ...)
+                const answerText = String.fromCharCode(65 + Array.from(radios).indexOf(radio)); // Tính A, B, C, ...
+
+                // Cập nhật giá trị cho text box answerId và answerText
+                const answerIdElement = document.getElementById('answerId-' + questionNumber);  // Sử dụng id 'answerId-X'
+                const answerTextElement = document.getElementById('answerText-' + questionNumber);  // Sử dụng id 'answerText-X'
+
+                // Kiểm tra nếu các phần tử tồn tại và cập nhật giá trị
+                if (answerIdElement) {
+                    answerIdElement.value = answerId;
+                }
+                if (answerTextElement) {
+                    answerTextElement.value = questionNumber + '-' + answerText;
+                }
             }
         });
     });
 }
+
+ 
  
 
 // Hàm chuyển đến câu hỏi tiếp theo, và tự phát audio câu kế
@@ -87,7 +105,7 @@ window.onload = function() {
 };
 
 // Đồng hồ đếm ngược
-let totalTimeInSeconds = 10 * 60; // 10 phút
+let totalTimeInSeconds = 120 * 60; // 120 phút
 
 // Hàm cập nhật đồng hồ
 function updateClock() {

@@ -37,11 +37,11 @@ public class AssessmentGradingImpl implements AssessmentGradingService {
 	}
 
 	@Override
-	public AssessmentGrading saveOrUpdate(AssessmentGrading grading) {  
-		Long id = appRepo.saveOrUpdate(grading);
+	public AssessmentGrading saveOrUpdate(AssessmentGrading assessmentGrading) {  
+		Long id = appRepo.saveOrUpdate(assessmentGrading);
 		if (id != null) {
-			grading.setAssessmentGradingId(id);
+			assessmentGrading.setAssessmentGradingId(id);
 		}
-		return grading;
+		return assessmentGrading;
 	}
 }

@@ -1,6 +1,7 @@
 package mks.myworkspace.english.toeic.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -12,4 +13,6 @@ public interface ItemService {
 	ItemRepository getRepo(); 
 	
 	List<Item> getItemByExamIDAndPartTitle(Long assessmentId, String title);
+	
+	Optional<Item> findById(Long id); 
 }
