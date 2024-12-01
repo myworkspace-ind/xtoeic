@@ -1,6 +1,7 @@
 package mks.myworkspace.english.toeic.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
@@ -28,5 +29,8 @@ public interface ExamService {
     List<Object[]> getExamPart1Details(Long examId);
 	
     List<Object[]> findAllExamPart1Details(Long examId);
+
+	List<Object[]> findPart2FirstQuestionDetails();
+
 
 }

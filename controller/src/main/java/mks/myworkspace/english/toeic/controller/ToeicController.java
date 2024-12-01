@@ -19,6 +19,7 @@
 
 package mks.myworkspace.english.toeic.controller;
 
+import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +45,7 @@ import mks.myworkspace.english.toeic.entity.Answer;
 import mks.myworkspace.english.toeic.entity.Exam;
 import mks.myworkspace.english.toeic.entity.Item;
 import mks.myworkspace.english.toeic.entity.ItemText;
+import mks.myworkspace.english.toeic.entity.Part;
 import mks.myworkspace.english.toeic.service.ExamService;
 
 /**
@@ -92,68 +94,110 @@ public class ToeicController extends BaseController {
 	 */
 	@Autowired
 	private ExamService examService;
-	@RequestMapping(value = "/exam-part-1-vovantri", method = RequestMethod.GET)
-	public ModelAndView displayExamPart1_vovantri(@RequestParam("id") Long examId, HttpServletRequest request, HttpSession httpSession) {
-	    ModelAndView mav = new ModelAndView("exam-part-1-vovantri");
+//	@RequestMapping(value = "/exam-part-1-vovantri", method = RequestMethod.GET)
+//	public ModelAndView displayExamPart1_vovantri(@RequestParam("id") Long examId, HttpServletRequest request, HttpSession httpSession) {
+//	    ModelAndView mav = new ModelAndView("exam-part-1-vovantri");
+//	    initSession(request, httpSession);
+//
+//	    mav.addObject("currentSiteId", getCurrentSiteId());
+//	    mav.addObject("userDisplayName", getCurrentUserDisplayName());
+//
+//	    List<Object[]> examPart1Details = examService.findAllExamPart1Details(examId); 
+//
+//	    // Khởi tạo một danh sách chứa thông tin các câu hỏi
+//	    List<Map<String, Object>> questionDetailsList = new ArrayList<>();
+//
+//	    // Lặp qua tất cả các dòng trong examPart1Details
+//	    for (Object[] row : examPart1Details) {
+//	        Item item = (Item) row[0];  // Cột 0 là Item
+//	        ItemText itemText = (ItemText) row[1];  // Cột 1 là ItemText
+//
+//	        // Lấy text từ itemText
+//	        String text = itemText.getText();
+//	        System.out.println("Item Text: " + text);
+//
+//	        // Tách thủ công image URL và audio URL từ chuỗi
+//	        String imageUrl = extractUrl(text, "image");
+//	        String audioUrl = extractUrl(text, "audio");
+//
+//	        // Tạo một map chứa thông tin câu hỏi (image URL, audio URL)
+//	        Map<String, Object> questionDetail = new HashMap<>();
+//	        questionDetail.put("item", item);  // Item (câu hỏi)
+//	        questionDetail.put("itemText", itemText);  // ItemText (text)
+//	        questionDetail.put("imageUrl", imageUrl);  // Image URL
+//	        questionDetail.put("audioUrl", audioUrl);  // Audio URL
+//
+//	        // Thêm vào danh sách
+//	        questionDetailsList.add(questionDetail);
+//	    }
+//
+//	    // Thêm toàn bộ thông tin câu hỏi vào model
+//	    mav.addObject("questionDetailsList", questionDetailsList);
+//
+//	    // Ghi các câu a,b,c,d
+//	    List<Answer> answers = new ArrayList<>();
+//	    for (Object[] row : examPart1Details) {
+//	        Answer answer = (Answer) row[2];
+//	        answers.add(answer);   
+//
+//	        System.out.println("-------------------------");
+//	        System.out.println("Answer Sequence: " + answer.getSequence());
+//	        System.out.println("Answer Label: " + answer.getLabel());
+//	        System.out.println("Answer Text: " + answer.getText());
+//	        System.out.println("Is Correct: " + answer.getIsCorrect());
+//	        System.out.println("Score: " + answer.getScore());
+//	        System.out.println("-------------------------");
+//	    }
+//	    
+//	    mav.addObject("answers", answers);  
+//	    Optional<Exam> examOpt = examService.findById(examId);
+//	    examOpt.ifPresentOrElse(
+//	        exam -> mav.addObject("exam", exam),
+//	        () -> mav.addObject("errorMessage", "Exam not found.")
+//	    );
+//
+//	    return mav;
+//	}
+	
+	
+	@RequestMapping(value = "/exam-part2-nguyentuanthanh", method = RequestMethod.GET)
+	public ModelAndView displayFirstQuestionPart2(HttpServletRequest request, HttpSession httpSession) {
+	    ModelAndView mav = new ModelAndView("exam-part2-ntt");
+
 	    initSession(request, httpSession);
 
 	    mav.addObject("currentSiteId", getCurrentSiteId());
 	    mav.addObject("userDisplayName", getCurrentUserDisplayName());
 
-	    List<Object[]> examPart1Details = examService.findAllExamPart1Details(examId); 
+	    List<Object[]> listExam = examService.findPart2FirstQuestionDetails();
 
-	    // Khởi tạo một danh sách chứa thông tin các câu hỏi
-	    List<Map<String, Object>> questionDetailsList = new ArrayList<>();
-
-	    // Lặp qua tất cả các dòng trong examPart1Details
-	    for (Object[] row : examPart1Details) {
-	        Item item = (Item) row[0];  // Cột 0 là Item
-	        ItemText itemText = (ItemText) row[1];  // Cột 1 là ItemText
-
-	        // Lấy text từ itemText
-	        String text = itemText.getText();
-	        System.out.println("Item Text: " + text);
-
-	        // Tách thủ công image URL và audio URL từ chuỗi
-	        String imageUrl = extractUrl(text, "image");
-	        String audioUrl = extractUrl(text, "audio");
-
-	        // Tạo một map chứa thông tin câu hỏi (image URL, audio URL)
-	        Map<String, Object> questionDetail = new HashMap<>();
-	        questionDetail.put("item", item);  // Item (câu hỏi)
-	        questionDetail.put("itemText", itemText);  // ItemText (text)
-	        questionDetail.put("imageUrl", imageUrl);  // Image URL
-	        questionDetail.put("audioUrl", audioUrl);  // Audio URL
-
-	        // Thêm vào danh sách
-	        questionDetailsList.add(questionDetail);
+	    // Kiểm tra danh sách có trả về dữ liệu không
+	    if (listExam == null || listExam.isEmpty()) {
+	        System.out.println("No data found for the query.");
+	        mav.addObject("audioUrl", "");
+	        mav.addObject("answers", new ArrayList<>());
+	        return mav;
 	    }
 
-	    // Thêm toàn bộ thông tin câu hỏi vào model
-	    mav.addObject("questionDetailsList", questionDetailsList);
+	    // Lấy dòng đầu tiên
+	    Object[] firstRow = listExam.get(0);
+	    Item item = (Item) firstRow[0];
+	    ItemText itemText = (ItemText) firstRow[1];
+	    String text = itemText.getText();
 
-	    // Ghi các câu a,b,c,d
+	    // Tách URL audio từ text (giả sử bạn có cách để tách URL từ text)
+	    String audioUrl = extractUrl(text, "audio");
+
+	    mav.addObject("audioUrl", audioUrl);
+
+	    // Lấy danh sách các câu trả lời
 	    List<Answer> answers = new ArrayList<>();
-	    for (Object[] row : examPart1Details) {
+	    for (Object[] row : listExam) {
 	        Answer answer = (Answer) row[2];
-	        answers.add(answer);   
-
-	        System.out.println("-------------------------");
-	        System.out.println("Answer Sequence: " + answer.getSequence());
-	        System.out.println("Answer Label: " + answer.getLabel());
-	        System.out.println("Answer Text: " + answer.getText());
-	        System.out.println("Is Correct: " + answer.getIsCorrect());
-	        System.out.println("Score: " + answer.getScore());
-	        System.out.println("-------------------------");
+	        answers.add(answer);
 	    }
-	    
-	    mav.addObject("answers", answers);  
-	    Optional<Exam> examOpt = examService.findById(examId);
-	    examOpt.ifPresentOrElse(
-	        exam -> mav.addObject("exam", exam),
-	        () -> mav.addObject("errorMessage", "Exam not found.")
-	    );
 
+	    mav.addObject("answers", answers);
 	    return mav;
 	}
 
@@ -167,7 +211,7 @@ public class ToeicController extends BaseController {
 //
 //	    List<Object[]> examPart1Details = examService.findAllExamPart1Details(examId);
 //	    //List<Object[]> examPart1Details = examService.getExamPart1Details(examId);
-//
+
 //	    // Lấy dòng đầu tiên
 //	    Object[] firstRow = examPart1Details.get(0);
 //
