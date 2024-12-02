@@ -195,9 +195,9 @@
 							
 							<div class="toeic-select">
 							 
-								<form class="toeic-form"  action="saveQuestionOfPart1" method="POST" th:name="'form-' + ${iterStat.index}" id="form-${iterStat.index}">
-								 
- 									<button type=submit class="btn btn-success" style="margin-top: 10px;">Save</button>
+								<form class="toeic-form" action="#" method="POST" th:name="'form-' + ${iterStat.index+1}" th:id="'form-' + ${iterStat.index+1}">
+								    <button type="button" class="btn btn-success" style="margin-top: 10px;" 
+								        th:onclick="'submitForm(' + ${iterStat.index+1} + ')'">Save</button>
 									
 									<div>
 									    <label th:for="'answerId-' + ${iterStat.index+1}">answerId</label>
@@ -330,31 +330,8 @@
 		</div>
 	</div>
 	 
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script>
-	$(document).ready(function() {
-	    // Gửi form qua AJAX khi bấm Save
-	    $('#toeicForm').submit(function(event) {
-	        event.preventDefault(); // Ngăn không cho form tự gửi đi
-	
-	        var formData = $(this).serialize(); // Lấy dữ liệu từ form
-	
-	        $.ajax({
-	            url: 'saveQuestionOfPart1',  // Địa chỉ API hoặc controller mà bạn muốn gửi đến
-	            type: 'POST',
-	            data: formData,  // Dữ liệu sẽ được gửi tới server
-	            success: function(response) {
-	                // Xử lý khi server trả về thành công
-	                alert('Lưu câu hỏi thành công!');
-	                // Có thể cập nhật giao diện tại đây nếu cần
-	            },
-	            error: function(xhr, status, error) {
-	                // Xử lý lỗi nếu có
-	                alert('Có lỗi xảy ra, vui lòng thử lại.');
-	            }
-	        });
-	    });
-	});
+ 	<script>
+	    
 	</script>
 	
 </body>

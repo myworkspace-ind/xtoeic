@@ -90,10 +90,10 @@ window.onload = function() {
         allAnswerForms[0].classList.add('selected-border', 'mark-color');
     } 
     
-/*    const audioElement = document.getElementById('audio-' + currentIndex);
+    const audioElement = document.getElementById('audio-' + currentIndex);
     if (audioElement) {
         audioElement.play();  
-    }*/
+    }
 	
 	const allAudioElements = document.querySelectorAll('audio');
 
@@ -133,3 +133,26 @@ const timerInterval = setInterval(updateClock, 1000);
 
 // Gọi ngay lần đầu để tránh trễ 1 giây
 updateClock();
+
+
+function submitForm(index) {
+	        const form = document.getElementById(`form-${index}`);
+	        const formData = new FormData(form);
+	
+	        fetch('/toeic-web/saveQuestionOfPart1', {
+	            method: 'POST',
+	            body: formData
+	        })
+	        .then(response => response.text())
+	        .then(data => {
+	            if (data === 'success') {
+	                alert('Câu trả lời đã được lưu thành công!');
+	            } else {
+	                alert('Đã xảy ra lỗi khi lưu câu trả lời.');
+	            }
+	        })
+	        .catch(error => {
+	            console.error('Error:', error);
+	            alert('Đã xảy ra lỗi khi gửi yêu cầu.');
+	        });
+	    }

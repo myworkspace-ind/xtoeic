@@ -51,6 +51,7 @@ import mks.myworkspace.english.toeic.entity.ItemText;
 import mks.myworkspace.english.toeic.service.AnswerService;
 import mks.myworkspace.english.toeic.service.AssessmentGradingService;
 import mks.myworkspace.english.toeic.service.ExamService;
+import mks.myworkspace.english.toeic.service.ItemGradingService;
 import mks.myworkspace.english.toeic.service.ItemService;
 import mks.myworkspace.english.toeic.service.ItemTextService;
 
@@ -112,6 +113,9 @@ public class ToeicController extends BaseController {
 	
     @Autowired
     private AssessmentGradingService assessmentGradingService; 
+    
+    @Autowired
+    private ItemGradingService itemGradingService; 
 	
     @RequestMapping(value = "/start-exam", method = RequestMethod.POST)
     public String startExam(HttpServletRequest request, HttpSession httpSession) {
@@ -124,7 +128,7 @@ public class ToeicController extends BaseController {
         Exam exam = examOpt.get(); 
         
         AssessmentGrading assessmentGrading = new AssessmentGrading(); 
-        assessmentGrading.setAssessmentGradingId(714L); 
+//        assessmentGrading.setAssessmentGradingId(714L); 
         //Do ASSESSMENTGRADINGID tự tăng nên cứ để null  
         assessmentGrading.setExam(exam);  
         assessmentGrading.setAgentId(getCurrentUserEid()); 
@@ -137,9 +141,9 @@ public class ToeicController extends BaseController {
         assessmentGrading.setAttemptDate(currentDateTime);  
         assessmentGrading.setSubmittedDate(currentDateTime); 
         
-//        System.out.println("Trước khi lưu: " + assessmentGrading.toString());
-//        AssessmentGrading assessmentGradingSaved =  assessmentGradingService.saveOrUpdate(assessmentGrading);
-//        System.out.println("Sau khi lưu: " + assessmentGradingSaved.toString());
+        System.out.println("Trước khi lưu: " + assessmentGrading.toString());
+        AssessmentGrading assessmentGradingSaved =  assessmentGradingService.saveOrUpdate(assessmentGrading);
+        System.out.println("Sau khi lưu: " + assessmentGradingSaved.toString());
 //    	 
 //        // Lưu ID của grading vào session để sử dụng sau này khi load câu hỏi
 //        httpSession.setAttribute("assessmentGradingId", assessmentGradingSaved.getAssessmentGradingId());
@@ -159,33 +163,48 @@ public class ToeicController extends BaseController {
     @RequestMapping(value = "/saveQuestionOfPart1", method = RequestMethod.POST)
     @ResponseBody
     public String saveQuestionOfPart1(HttpServletRequest request) {
-        Optional<AssessmentGrading> assessmentGradingOpt = assessmentGradingService.findById(Long.parseLong(request.getParameter("assessmentGradingId")));
-        AssessmentGrading assessmentGrading = assessmentGradingOpt.get();
+        try {
+            // Lấy thông tin từ request
+            Long assessmentGradingId = Long.parseLong(request.getParameter("assessmentGradingId"));
+            Long itemId = Long.parseLong(request.getParameter("itemId"));
+            Long itemTextId = Long.parseLong(request.getParameter("itemTextId"));
+            Long answerId = Long.parseLong(request.getParameter("answerId"));
+            String answerText = request.getParameter("answerText");
+            Long id = 0L;
 
-        Optional<Item> itemOpt = itemService.findById(Long.parseLong(request.getParameter("itemId")));
-        Item item = itemOpt.get();
+            // Tìm các thực thể liên quan
+            Optional<AssessmentGrading> assessmentGradingOpt = assessmentGradingService.findById(assessmentGradingId);
+            Optional<Item> itemOpt = itemService.findById(itemId);
+            Optional<ItemText> itemTextOpt = itemTextService.findById(itemTextId);
+            Optional<Answer> answerOpt = answerService.findById(answerId);
 
-        Optional<ItemText> itemTextOpt = itemTextService.findById(Long.parseLong(request.getParameter("itemTextId")));
-        ItemText itemText = itemTextOpt.get();
+            if (assessmentGradingOpt.isPresent() && itemOpt.isPresent() && itemTextOpt.isPresent() && answerOpt.isPresent()) {
+                AssessmentGrading assessmentGrading = assessmentGradingOpt.get();
+                Item item = itemOpt.get();
+                ItemText itemText = itemTextOpt.get();
+                Answer answer = answerOpt.get();
 
-        Optional<Answer> answerOpt = answerService.findById(Long.parseLong(request.getParameter("answerId")));
-        Answer answer = answerOpt.get();
+                Boolean isCorrect = answer.getIsCorrect();
+                String agentId = getCurrentUserEid();
 
-        String answerText = request.getParameter("answerText");
-        Boolean isCorrect = answer.getIsCorrect();
-
-        String agentId = getCurrentUserEid();
-
-        ItemGrading itemGrading = new ItemGrading(null, assessmentGrading, item,
-                itemText, answer, agentId, answerText, isCorrect);
-
-        System.out.println(itemGrading);
-
-        // Lưu itemGrading vào cơ sở dữ liệu nếu cần
-        // Trả về phản hồi cho AJAX
-        return "success"; // Hoặc bạn có thể trả về một phản hồi JSON
+                // Tạo và lưu thực thể ItemGrading
+                ItemGrading itemGrading = new ItemGrading(null, assessmentGrading, item, itemText, answer, agentId, answerText, isCorrect, id);
+    
+                // Lưu itemGrading vào database 
+                
+                System.out.println("Trước khi lưu: " + itemGrading.toString());
+                ItemGrading itemGradingSaved =  itemGradingService.saveOrUpdate(itemGrading);
+                System.out.println("Sau khi lưu: " + itemGradingSaved.toString());
+                
+                return "success";
+            } else {
+                return "fail"; // Không tìm thấy một trong các thực thể
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error"; // Lỗi trong quá trình xử lý
+        }
     }
-
     
     @RequestMapping(value = "/exam-part-1-vovantri", method = RequestMethod.GET)
     public ModelAndView displayExamPart1_vovantri(@RequestParam("examId") Long examId, HttpServletRequest request, HttpSession httpSession) {
