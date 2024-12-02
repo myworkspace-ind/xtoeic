@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import mks.myworkspace.english.toeic.entity.AssessmentGrading;
 import mks.myworkspace.english.toeic.repository.AssessmentGradingRepository;
@@ -25,6 +26,17 @@ public class AssessmentGradingImpl implements AssessmentGradingService{
 	@Override
 	public <S extends AssessmentGrading> S save(S entity) {
 		return repo.save(entity);
+	}
+
+	 @Override
+	public void insertAssessmentGrading() {
+		repo.insertAssessmentGrading();
+		
+	}
+
+	@Override
+	public void deleteByAssessmentGradingId(Long id) {
+		repo.deleteById(id);
 	} 
  
 	

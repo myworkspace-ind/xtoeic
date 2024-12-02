@@ -2,6 +2,7 @@ package mks.myworkspace.english.toeic.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -49,7 +50,7 @@ public class AssessmentGrading implements Serializable {
     @Column(name = "HASAUTOSUBMISSIONRUN")
     private int hasauToSubmissIOnRun;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "PUBLISHEDASSESSMENTID", referencedColumnName = "ID")
     private Exam exam; // Tham chiếu đến Exam
 

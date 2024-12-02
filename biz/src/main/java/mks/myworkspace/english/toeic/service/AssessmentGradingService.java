@@ -17,6 +17,8 @@ public interface AssessmentGradingService {
 
 	<S extends AssessmentGrading> S save(S entity);
 
-   
+	 void insertAssessmentGrading( );
+
+	void deleteByAssessmentGradingId(Long id);
 
 }

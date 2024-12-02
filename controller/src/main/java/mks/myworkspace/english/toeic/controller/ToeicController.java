@@ -36,6 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -114,6 +115,7 @@ public class ToeicController extends BaseController {
     @PersistenceContext
     private EntityManager entityManager;
     
+    @Transactional
     @RequestMapping(value = "/exam-part-1-vovantri", method = RequestMethod.GET)
     public ModelAndView displayExamPart1_vovantri(@RequestParam("id") Long examId, HttpServletRequest request, HttpSession httpSession) {
         
@@ -124,12 +126,14 @@ public class ToeicController extends BaseController {
             // Nếu không tìm thấy Exam, trả về trang lỗi
             return new ModelAndView("error").addObject("message", "Exam không tồn tại.");
         }
+//        assessmentGradingService.deleteByAssessmentGradingId((long)700);
 
+        assessmentGradingService.insertAssessmentGrading();
         Exam exam = examOpt.get(); // Lấy đối tượng Exam nếu tồn tại
 
         // Tạo mới một bản ghi AssessmentGrading
         AssessmentGrading grading = new AssessmentGrading();
-        grading.setAssessmentGradingId((long)700);
+      //  grading.setAssessmentGradingId((long)700);
         grading.setAgentId(getCurrentUserDisplayName()); // Agent hiện tại
         grading.setIslate(0); // Không bị trễ
         grading.setForGrade(0); // Grade mặc định là 0
