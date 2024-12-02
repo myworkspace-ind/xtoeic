@@ -28,11 +28,11 @@ public class AssessmentGradingImpl implements AssessmentGradingService{
 		return repo.save(entity);
 	}
 
-	 @Override
-	public void insertAssessmentGrading() {
-		repo.insertAssessmentGrading();
-		
-	}
+//	 @Override
+//	public void insertAssessmentGrading() {
+//		repo.insertAssessmentGrading();
+//		
+//	}
 
 	@Override
 	public void deleteByAssessmentGradingId(Long id) {

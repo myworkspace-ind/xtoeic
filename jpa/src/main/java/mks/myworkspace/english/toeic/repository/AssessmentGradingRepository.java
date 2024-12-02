@@ -23,11 +23,11 @@ public interface AssessmentGradingRepository extends JpaRepository<AssessmentGra
 //        @Param("agentId") String agentId, 
 //        @Param("publishedAssessmentId") Long publishedAssessmentId);
     
-    @Query(value = "INSERT INTO sam_assessmentgrading_t " +
-            "(AGENTID, ISLATE, FORGRADE, FINALSCORE, STATUS, HASAUTOSUBMISSIONRUN, PUBLISHEDASSESSMENTID) " +
-            "VALUES ('LyHung', 0, 0, 0, 0, 0, 126)", 
-    nativeQuery = true)
-void insertAssessmentGrading();
+//    @Query(value = "INSERT INTO sam_assessmentgrading_t " +
+//            "(AGENTID, ISLATE, FORGRADE, FINALSCORE, STATUS, HASAUTOSUBMISSIONRUN, PUBLISHEDASSESSMENTID) " +
+//            "VALUES ('LyHung', 0, 0, 0, 0, 0, 126)", 
+//    nativeQuery = true)
+//void insertAssessmentGrading();
 
 
  

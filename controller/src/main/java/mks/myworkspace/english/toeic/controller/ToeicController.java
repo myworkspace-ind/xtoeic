@@ -128,7 +128,6 @@ public class ToeicController extends BaseController {
         }
 //        assessmentGradingService.deleteByAssessmentGradingId((long)700);
 
-        assessmentGradingService.insertAssessmentGrading();
         Exam exam = examOpt.get(); // Lấy đối tượng Exam nếu tồn tại
 
         // Tạo mới một bản ghi AssessmentGrading
