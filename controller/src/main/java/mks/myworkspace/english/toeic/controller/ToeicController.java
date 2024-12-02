@@ -159,9 +159,10 @@ public class ToeicController extends BaseController {
 	}
 	
 	// show part 2 - created by Huu Huy 
+	
 	@RequestMapping(value = "/exam-part-2-huuhuy", method = RequestMethod.GET)
 	public ModelAndView displayExamPart2_huuhuy(@RequestParam("id") Long examId, HttpServletRequest request, HttpSession httpSession) {
-	    ModelAndView mav = new ModelAndView("exam-part-2");
+	    ModelAndView mav = new ModelAndView("exam-part-2-huuhuy");
 	    initSession(request, httpSession);
 
 	    mav.addObject("currentSiteId", getCurrentSiteId());
