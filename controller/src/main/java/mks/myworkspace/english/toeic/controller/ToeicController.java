@@ -205,7 +205,7 @@ public class ToeicController extends BaseController {
             return "error"; // Lỗi trong quá trình xử lý
         }
     }
-    
+     
     @RequestMapping(value = "/exam-part-1-vovantri", method = RequestMethod.GET)
     public ModelAndView displayExamPart1_vovantri(@RequestParam("examId") Long examId, HttpServletRequest request, HttpSession httpSession) {
         

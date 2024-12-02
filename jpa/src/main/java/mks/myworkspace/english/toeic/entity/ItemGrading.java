@@ -85,7 +85,7 @@ public class ItemGrading implements Serializable {
                ", agentId='" + agentId + '\'' + "\n" +
                ", answerText='" + answerText + '\'' + "\n" +
                ", isCorrect=" + isCorrect + "\n" +
-               ", id=" + isCorrect + "\n" +
+               ", id=" + id + "\n" +
                ']';
     }
 
