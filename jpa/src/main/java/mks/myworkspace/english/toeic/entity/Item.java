@@ -30,10 +30,7 @@ public class Item implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ITEMID")
-    private Long itemId; // system field
-
-//    @Column(name = "SECTIONID")
-//    private Long sectionId; // Foreign key referencing Part entity
+    private Long itemId; // system field 
     
     @Column(name = "SEQUENCE")
 	private Integer sequence;
@@ -44,16 +41,24 @@ public class Item implements Serializable {
     
     @OneToMany(mappedBy = "item")
 	private List<ItemText> itemTexts;
-     
-     
-    public Item(Long itemId, Integer sequence) {
-        this.itemId = itemId; 
-        this.sequence = sequence; 
+         
+    public Item(Long itemId, Integer sequence, Part part, List<ItemText> itemTexts) {
+        this.itemId = itemId;
+        this.sequence = sequence;
+        this.part = part;
+        this.itemTexts = itemTexts;
     }
-
+    
     @Override
     public String toString() {
-        return "Item [itemId=" + itemId  
-            + ", sequence=" + sequence + "]";
+        return "Item [" +
+               "itemId=" + itemId + "\n" +
+               ", sequence=" + sequence + "\n" +
+               ", part=" + (part != null ? part.getSectionId() : "null") + "\n" + // Hiển thị id của Part
+               ", partTitle=" + (part != null ? part.getTitle() : "null") + "\n" + // Hiển thị title của Part
+               ", itemTextsCount=" + (itemTexts != null ? itemTexts.size() : 0) + "\n" + // Hiển thị số lượng ItemText (thường là 1)
+               ']';
     }
+
+
 }

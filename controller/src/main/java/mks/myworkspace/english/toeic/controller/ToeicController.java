@@ -19,6 +19,7 @@
 
 package mks.myworkspace.english.toeic.controller;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,21 +28,17 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.TransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import lombok.extern.slf4j.Slf4j;
@@ -49,10 +46,13 @@ import mks.myworkspace.english.toeic.entity.Answer;
 import mks.myworkspace.english.toeic.entity.AssessmentGrading;
 import mks.myworkspace.english.toeic.entity.Exam;
 import mks.myworkspace.english.toeic.entity.Item;
+import mks.myworkspace.english.toeic.entity.ItemGrading;
 import mks.myworkspace.english.toeic.entity.ItemText;
 import mks.myworkspace.english.toeic.service.AnswerService;
 import mks.myworkspace.english.toeic.service.AssessmentGradingService;
 import mks.myworkspace.english.toeic.service.ExamService;
+import mks.myworkspace.english.toeic.service.ItemGradingService;
+import mks.myworkspace.english.toeic.service.ItemService;
 import mks.myworkspace.english.toeic.service.ItemTextService;
 
 /**
@@ -103,106 +103,149 @@ public class ToeicController extends BaseController {
 	private ExamService examService;
 	
 	@Autowired
-    private AnswerService answerService;   
+    private ItemService itemService;  
 	
-
-    @Autowired
+	@Autowired
     private ItemTextService itemTextService;  
+	
+	@Autowired
+    private AnswerService answerService;   
 	
     @Autowired
     private AssessmentGradingService assessmentGradingService; 
-	
-    @PersistenceContext
-    private EntityManager entityManager;
     
-    @Transactional
+
+    @Autowired
+    private ItemGradingService itemGradingService; 
+	
+    @RequestMapping(value = "/start-exam", method = RequestMethod.POST)
+    public String startExam(HttpServletRequest request, HttpSession httpSession) {
+    	// Tìm Exam theo ID từ cơ sở dữ liệu (sử dụng Optional để tránh NullPointerException)
+    	Long examId = Long.parseLong(request.getParameter("examId"));
+        Optional<Exam> examOpt = examService.findById(examId); 
+//        if (examOpt.isEmpty()) { 
+//        	return "redirect:/exam-part-1-vovantri?id=" + examId;;
+//        } 
+        Exam exam = examOpt.get(); 
+        
+        AssessmentGrading assessmentGrading = new AssessmentGrading(); 
+//        assessmentGrading.setAssessmentGradingId(714L); 
+        //Do ASSESSMENTGRADINGID tự tăng nên cứ để null  
+        assessmentGrading.setExam(exam);  
+        assessmentGrading.setAgentId(getCurrentUserEid()); 
+        assessmentGrading.setForGrade(false);  // Bấm start là false, Bấm submit là true
+        assessmentGrading.setStatus(0);    // Bấm start là 0, Bấm submit là 1 
+        assessmentGrading.setLate(false);   
+        assessmentGrading.setHasAutoSubmissionRun(false); 
+        
+        LocalDateTime currentDateTime = LocalDateTime.now();  
+        assessmentGrading.setAttemptDate(currentDateTime);  
+        assessmentGrading.setSubmittedDate(currentDateTime); 
+        
+        System.out.println("Trước khi lưu: " + assessmentGrading.toString());
+        AssessmentGrading assessmentGradingSaved =  assessmentGradingService.saveOrUpdate(assessmentGrading);
+        System.out.println("Sau khi lưu: " + assessmentGradingSaved.toString());
+//    	 
+//        // Lưu ID của grading vào session để sử dụng sau này khi load câu hỏi
+//        httpSession.setAttribute("assessmentGradingId", assessmentGradingSaved.getAssessmentGradingId());
+        
+        httpSession.setAttribute("assessmentGrading", assessmentGrading);
+        // Chuyển hướng đến trang câu hỏi
+        return "redirect:/exam-part-1-vovantri?examId=" + examId;
+    }
+    
+//    @RequestMapping(value = "/save-answer", method = RequestMethod.POST)
+//    public String saveAnswer(HttpServletRequest request, HttpSession httpSession) { 
+//    	Long assessmentGradingId  = 714L;
+//    	
+//        return "redirect:/exam-part-1-vovantri?examId=" + examId;
+//    }
+    
+    @RequestMapping(value = "/saveQuestionOfPart1", method = RequestMethod.POST)
+    @ResponseBody
+    public String saveQuestionOfPart1(HttpServletRequest request) {
+        try {
+            // Lấy thông tin từ request
+            Long assessmentGradingId = Long.parseLong(request.getParameter("assessmentGradingId"));
+            Long itemId = Long.parseLong(request.getParameter("itemId"));
+            Long itemTextId = Long.parseLong(request.getParameter("itemTextId"));
+            Long answerId = Long.parseLong(request.getParameter("answerId"));
+            String answerText = request.getParameter("answerText");
+            Long id = 0L;
+
+            // Tìm các thực thể liên quan
+            Optional<AssessmentGrading> assessmentGradingOpt = assessmentGradingService.findById(assessmentGradingId);
+            Optional<Item> itemOpt = itemService.findById(itemId);
+            Optional<ItemText> itemTextOpt = itemTextService.findById(itemTextId);
+            Optional<Answer> answerOpt = answerService.findById(answerId);
+
+            if (assessmentGradingOpt.isPresent() && itemOpt.isPresent() && itemTextOpt.isPresent() && answerOpt.isPresent()) {
+                AssessmentGrading assessmentGrading = assessmentGradingOpt.get();
+                Item item = itemOpt.get();
+                ItemText itemText = itemTextOpt.get();
+                Answer answer = answerOpt.get();
+
+                Boolean isCorrect = answer.getIsCorrect();
+                String agentId = getCurrentUserEid();
+
+                // Tạo và lưu thực thể ItemGrading
+                ItemGrading itemGrading = new ItemGrading(null, assessmentGrading, item, itemText, answer, agentId, answerText, isCorrect, id);
+    
+                // Lưu itemGrading vào database 
+                
+                System.out.println("Trước khi lưu: " + itemGrading.toString());
+                ItemGrading itemGradingSaved =  itemGradingService.saveOrUpdate(itemGrading);
+                System.out.println("Sau khi lưu: " + itemGradingSaved.toString());
+                
+                return "success";
+            } else {
+                return "fail"; // Không tìm thấy một trong các thực thể
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error"; // Lỗi trong quá trình xử lý
+        }
+    }
+      
     @RequestMapping(value = "/exam-part-1-vovantri", method = RequestMethod.GET)
-    public ModelAndView displayExamPart1_vovantri(@RequestParam("id") Long examId, HttpServletRequest request, HttpSession httpSession) {
+    public ModelAndView displayExamPart1_vovantri(@RequestParam("examId") Long examId, HttpServletRequest request, HttpSession httpSession) {
         
+    	AssessmentGrading assessmentGrading = (AssessmentGrading) httpSession.getAttribute("assessmentGrading");
+        if (assessmentGrading == null) {
+            return new ModelAndView("error").addObject("message", "Bạn cần bắt đầu kỳ thi trước.");
+        }
+        
+    		
         // Tìm Exam theo ID từ cơ sở dữ liệu (sử dụng Optional để tránh NullPointerException)
-        Optional<Exam> examOpt = examService.findById(examId);
-        
-        if (examOpt.isEmpty()) {
-            // Nếu không tìm thấy Exam, trả về trang lỗi
+        Optional<Exam> examOpt = examService.findById(examId); 
+        if (examOpt.isEmpty()) { 
             return new ModelAndView("error").addObject("message", "Exam không tồn tại.");
-        }
-//        assessmentGradingService.deleteByAssessmentGradingId((long)700);
 
-        Exam exam = examOpt.get(); // Lấy đối tượng Exam nếu tồn tại
-
-        // Tạo mới một bản ghi AssessmentGrading
-        AssessmentGrading grading = new AssessmentGrading();
-      //  grading.setAssessmentGradingId((long)700);
-        grading.setAgentId(getCurrentUserDisplayName()); // Agent hiện tại
-        grading.setIslate(0); // Không bị trễ
-        grading.setForGrade(0); // Grade mặc định là 0
-        grading.setFinalScore(1); // Điểm ban đầu là 0
-        grading.setStatus(0); // Trạng thái mặc định
-        grading.setHasauToSubmissIOnRun(0); // Không có auto submission
-        grading.setExam(exam); // Gán exam vào grading
-
-        // Ghi thông tin grading ra console
-        System.out.println("Thông tin AssessmentGrading trước khi lưu:");
-        System.out.println("Agent ID: " + grading.getAssessmentGradingId());
-
-        System.out.println("Agent ID: " + grading.getAgentId());
-        System.out.println("Is Late: " + grading.getIslate());
-        System.out.println("For Grade: " + grading.getForGrade());
-        System.out.println("Final Score: " + grading.getFinalScore());
-        System.out.println("Status: " + grading.getStatus());
-        System.out.println("Has Auto Submission Run: " + grading.getHasauToSubmissIOnRun());
-        if (grading.getExam() != null) {
-            System.out.println("Exam ID: " + grading.getExam().getId());
-            System.out.println("Exam Title: " + grading.getExam().getTitle());
-        } else {
-            System.out.println("Exam: null");
-        }
-
-        // Lưu vào cơ sở dữ liệu
-        assessmentGradingService.save(grading);
-        // Ghi thông tin grading ra console sau khi lưu (nếu grading được cập nhật)
-        System.out.println("Thông tin AssessmentGrading sau khi lưu:");
-        System.out.println("AssessmentGrading ID: " + grading.getAssessmentGradingId());
-        System.out.println("Agent ID: " + grading.getAgentId());
-        System.out.println("Is Late: " + grading.getIslate());
-        System.out.println("For Grade: " + grading.getForGrade());
-        System.out.println("Final Score: " + grading.getFinalScore());
-        System.out.println("Status: " + grading.getStatus());
-        System.out.println("Has Auto Submission Run: " + grading.getHasauToSubmissIOnRun());
-        if (grading.getExam() != null) {
-            System.out.println("Exam ID: " + grading.getExam().getId());
-            System.out.println("Exam Title: " + grading.getExam().getTitle());
-        } else {
-            System.out.println("Exam: null");
-        }
-
-
-
+        } 
+        Exam exam = examOpt.get(); 
+        System.out.println(exam.toString());
+           
         ModelAndView mav = new ModelAndView("exam-part-1-vovantri");
-        initSession(request, httpSession);
-
+        
+        initSession(request, httpSession); 
         mav.addObject("currentSiteId", getCurrentSiteId());
         mav.addObject("userDisplayName", getCurrentUserDisplayName());
 
-        // Lấy thông tin các câu hỏi của phần 1 của kỳ thi
-        List<Object[]> examPart1Details = itemTextService.getItemAndItemTextByExamIDAndPartTitle(examId, "Part1");
-
-        // Khởi tạo danh sách chứa thông tin các câu hỏi
+        // Lấy thông tin các câu hỏi của Part 1 của kỳ thi
+        List<Item> itemList = itemService.getItemByExamIDAndPartTitle(examId, "Part1");
+        List<ItemText> itemTextList = itemTextService.getItemTextByExamIDAndPartTitle(examId, "Part1");
+        
+        // Khởi tạo danh sách thông tin các câu hỏi
         List<Map<String, Object>> questionDetailsList = new ArrayList<>();
-
-        // Lặp qua tất cả các dòng trong examPart1Details
-        for (Object[] row : examPart1Details) {
-            Item item = (Item) row[0]; // Cột 0 là Item
-            ItemText itemText = (ItemText) row[1]; // Cột 1 là ItemText
-
-            // Lấy text từ itemText
-            String text = itemText.getText();
-            System.out.println("Item Text: " + text);
-
-            // Tách thủ công image URL và audio URL từ chuỗi
-            String imageUrl = extractUrl(text, "image");
-            String audioUrl = extractUrl(text, "audio");
-
+        
+        int size = Math.min(itemList.size(), itemTextList.size()); // Chọn kích thước nhỏ nhất để tránh lỗi IndexOutOfBoundsException
+        for (int i = 0; i < size; i++) {
+            Item item = itemList.get(i);
+            ItemText itemText = itemTextList.get(i);
+            
+            String imageUrl = extractUrl(itemText.getText(), "image");
+            String audioUrl = extractUrl(itemText.getText(), "audio");
+             
             // Tạo một map chứa thông tin câu hỏi
             Map<String, Object> questionDetail = new HashMap<>();
             questionDetail.put("item", item); // Item (câu hỏi)
@@ -214,17 +257,17 @@ public class ToeicController extends BaseController {
             List<Answer> answers = answerService.getAnswersByItemTextId(itemText.getItemTextId());
             questionDetail.put("answers", answers);
 
-            // Thêm vào danh sách
+            // Thêm vào danh sách thông tin câu hỏi 
             questionDetailsList.add(questionDetail);
-        }
-
-        // Thêm toàn bộ thông tin câu hỏi vào model
+        } 
+     
+        // Thêm toàn bộ thông tin câu hỏi vào model 
+        mav.addObject("assessmentGrading", assessmentGrading);
+        mav.addObject("exam", exam);  
         mav.addObject("questionDetailsList", questionDetailsList);
-        mav.addObject("exam", exam); // Đưa thông tin exam vào model
 
         return mav;
     }
-
  
 	private String extractUrl(String text, String key) {
 	    // Biểu thức chính quy tìm URL (cả URL đầy đủ và URL tương đối)

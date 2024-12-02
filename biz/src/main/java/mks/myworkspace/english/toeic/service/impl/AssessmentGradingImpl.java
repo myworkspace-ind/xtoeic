@@ -1,43 +1,45 @@
 package mks.myworkspace.english.toeic.service.impl;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import mks.myworkspace.english.toeic.entity.AssessmentGrading;
+import mks.myworkspace.english.toeic.repository.AppRepository;
 import mks.myworkspace.english.toeic.repository.AssessmentGradingRepository;
-import mks.myworkspace.english.toeic.repository.ItemTextRepository;
 import mks.myworkspace.english.toeic.service.AssessmentGradingService;
-import mks.myworkspace.english.toeic.service.ItemTextService;
 
 @Service
-public class AssessmentGradingImpl implements AssessmentGradingService{
-	
+@Slf4j
+public class AssessmentGradingImpl implements AssessmentGradingService {
+
 	@Autowired
 	private AssessmentGradingRepository repo;
 	
+	@Autowired
+	@Getter
+	AppRepository appRepo;
+
 	@Override
 	public AssessmentGradingRepository getRepo() {
 		return repo;
 	}
-
+	
 	@Override
-	public <S extends AssessmentGrading> S save(S entity) {
-		return repo.save(entity);
+	public Optional<AssessmentGrading> findById(Long id) {
+		return repo.findById(id);
 	}
 
-//	 @Override
-//	public void insertAssessmentGrading() {
-//		repo.insertAssessmentGrading();
-//		
-//	}
-
 	@Override
-	public void deleteByAssessmentGradingId(Long id) {
-		repo.deleteById(id);
+
+	public AssessmentGrading saveOrUpdate(AssessmentGrading assessmentGrading) {  
+		Long id = appRepo.saveOrUpdate(assessmentGrading);
+		if (id != null) {
+			assessmentGrading.setAssessmentGradingId(id);
+		}
+		return assessmentGrading;
 	} 
- 
-	
 }

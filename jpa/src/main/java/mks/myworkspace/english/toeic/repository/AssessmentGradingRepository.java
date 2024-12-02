@@ -13,31 +13,7 @@ import mks.myworkspace.english.toeic.entity.AssessmentGrading;
 @Repository
 
 public interface AssessmentGradingRepository extends JpaRepository<AssessmentGrading, Long> {
-
-//    @Modifying
-//    @Query(value = "INSERT INTO sam_assessmentgrading_t " +
-//                   "(AGENTID, ISLATE, FORGRADE, FINALSCORE, STATUS, HASAUTOSUBMISSIONRUN, PUBLISHEDASSESSMENTID) " +
-//                   "VALUES (:agentId, 0, 0, 0, 0, 0, :publishedAssessmentId)", 
-//           nativeQuery = true)
-//    void insertAssessmentGrading(
-//        @Param("agentId") String agentId, 
-//        @Param("publishedAssessmentId") Long publishedAssessmentId);
-    
-//    @Query(value = "INSERT INTO sam_assessmentgrading_t " +
-//            "(AGENTID, ISLATE, FORGRADE, FINALSCORE, STATUS, HASAUTOSUBMISSIONRUN, PUBLISHEDASSESSMENTID) " +
-//            "VALUES ('LyHung', 0, 0, 0, 0, 0, 126)", 
-//    nativeQuery = true)
-//void insertAssessmentGrading();
-
-
- 
-
-//	 @Modifying
-//	    @Transactional
-//	    @Query(value = "INSERT INTO sam_assessmentgrading_t (AGENTID, ISLATE, FORGRADE, FINALSCORE, STATUS, HASAUTOSUBMISSIONRUN, PUBLISHEDASSESSMENTID) " +
-//	                   "VALUES ('LyHung', 0, 0, 0, 0, 0, 126)", nativeQuery = true)
-//	    void insertAssessmentGrading();
-//    
-//	 void deleteByAssessmentGradingId(Long id);
+    // Custom query methods nếu cần  	
+	  
 }
 

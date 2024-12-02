@@ -13,13 +13,13 @@ import mks.myworkspace.english.toeic.entity.ItemText;
 public interface ItemTextRepository extends JpaRepository<ItemText, Long> {
     // Custom query methods nếu cần
 	
-	 @Query("SELECT item, itemText " +
+	 @Query("SELECT itemText " +
 	           "FROM Part part " +
 	           "JOIN part.items item " +
 	           "JOIN item.itemTexts itemText " +
 	           "WHERE part.exam.id = :assessmentId " +
 	           "AND part.title = :title " +
 	           "ORDER BY item.sequence")
-	    List<Object[]> getItemAndItemTextByExamIDAndPartTitle(@Param("assessmentId") Long assessmentId, 
+	    List<ItemText> getItemTextByExamIDAndPartTitle(@Param("assessmentId") Long assessmentId, 
 	                                                             @Param("title") String title);
 }
