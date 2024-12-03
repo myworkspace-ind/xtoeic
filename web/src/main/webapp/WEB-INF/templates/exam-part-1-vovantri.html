@@ -216,14 +216,14 @@
 										th:onclick="'submitForm(' + ${iterStat.index+1} + ')'">Save</button>
 
 									<div>
-										<label th:for="'answerId-' + ${iterStat.index+1}">answerId</label>
-										<input type="text" name="answerId"
+										<!-- <label th:for="'answerId-' + ${iterStat.index+1}">answerId</label> -->
+										<input type="hidden" name="answerId"
 											th:id="'answerId-' + ${iterStat.index+1}" readonly
 											style="margin-left: 10px;">
 									</div>
 									<div>
-										<label th:for="'answerText-' + ${iterStat.index+1}">answerText</label>
-										<input type="text" name="answerText"
+										<!-- <label th:for="'answerText-' + ${iterStat.index+1}">answerText</label> -->
+										<input type="hidden" name="answerText"
 											th:id="'answerText-' + ${iterStat.index+1}" readonly
 											style="margin-left: 10px;">
 									</div>
@@ -231,21 +231,21 @@
 
 									<!-- <input type="text" name="answerText" th:value="${iterStat.index + 1} + '-'"> -->
 									<div>
-										<label for="assessmentGradingId">ASSESSMENTGRADINGID:</label>
-										<input type="text" id="assessmentGradingId"
+										<!-- <label for="assessmentGradingId">ASSESSMENTGRADINGID:</label> -->
+										<input type="hidden" id="assessmentGradingId"
 											name="assessmentGradingId"
 											th:value="${assessmentGrading.assessmentGradingId}" readonly>
 									</div>
 
 									<div>
-										<label for="itemId">ITEMID:</label> <input type="text"
-											id="itemId" name="itemId"
+										<!-- <label for="itemId">ITEMID:</label>-->
+										<input type="hidden" id="itemId" name="itemId"
 											th:value="${questionDetail.item.itemId}" readonly>
 									</div>
 
 									<div>
-										<label for="itemTextId">ITEMTEXTID:</label> <input type="text"
-											id="itemTextId" name="itemTextId"
+										<!-- <label for="itemTextId">ITEMTEXTID:</label> -->
+										<input type="hidden" id="itemTextId" name="itemTextId"
 											th:value="${questionDetail.itemText.itemTextId}" readonly>
 									</div>
 
@@ -322,7 +322,7 @@
 					<div class="btnGroup">
 						<div class="col-md-12">
 							<!-- 	<button type="button" class="btn btn-success" id="saveBtn">SAVE</button> -->
-							 	<button type="button" class="btn btn-success" id="submitBtn">SUBMIT</button> 
+							<button type="button" class="btn btn-success" id="submitBtn">SUBMIT</button>
 
 							<div id="result" class="hidden-xs" role="alert"
 								style="display: none" align="center">
@@ -355,7 +355,7 @@
 		</div>
 	</div>
 
-	
+
 	<script>
   // Thêm khả năng kéo để di chuyển hộp thoại
 
