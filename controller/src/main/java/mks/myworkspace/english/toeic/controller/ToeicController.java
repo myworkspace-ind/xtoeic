@@ -136,8 +136,8 @@ public class ToeicController extends BaseController {
         //Do ASSESSMENTGRADINGID tự tăng nên cứ để null  
         assessmentGrading.setExam(exam);  
         assessmentGrading.setAgentId(getCurrentUserEid()); 
-        assessmentGrading.setForGrade(false);  // Bấm start là false, Bấm submit là true
-        assessmentGrading.setStatus(0);    // Bấm start là 0, Bấm submit là 1 
+        assessmentGrading.setForGrade(false);   
+        assessmentGrading.setStatus(0);    
         assessmentGrading.setLate(false);   
         assessmentGrading.setHasAutoSubmissionRun(false); 
         
@@ -147,23 +147,13 @@ public class ToeicController extends BaseController {
         
         System.out.println("Trước khi lưu: " + assessmentGrading.toString());
         AssessmentGrading assessmentGradingSaved =  assessmentGradingService.saveOrUpdate(assessmentGrading);
-        System.out.println("Sau khi lưu: " + assessmentGradingSaved.toString());
-//    	 
-//        // Lưu ID của grading vào session để sử dụng sau này khi load câu hỏi
-//        httpSession.setAttribute("assessmentGradingId", assessmentGradingSaved.getAssessmentGradingId());
+        System.out.println("Sau khi lưu: " + assessmentGradingSaved.toString()); 
         
         httpSession.setAttribute("assessmentGrading", assessmentGrading);
         // Chuyển hướng đến trang câu hỏi
         return "redirect:/exam-part-1-vovantri?examId=" + examId;
     }
-    
-//    @RequestMapping(value = "/save-answer", method = RequestMethod.POST)
-//    public String saveAnswer(HttpServletRequest request, HttpSession httpSession) { 
-//    	Long assessmentGradingId  = 714L;
-//    	
-//        return "redirect:/exam-part-1-vovantri?examId=" + examId;
-//    }
-    
+        
     @RequestMapping(value = "/saveQuestionOfPart1", method = RequestMethod.POST)
     @ResponseBody
     public String saveQuestionOfPart1(HttpServletRequest request) {

@@ -10,6 +10,9 @@ import mks.myworkspace.english.toeic.entity.Exam;
 import mks.myworkspace.english.toeic.repository.ExamRepository;
 import mks.myworkspace.english.toeic.service.ExamService;
 
+
+
+
 @Service
 public class ExamServiceImpl implements ExamService{
 
@@ -45,4 +48,5 @@ public class ExamServiceImpl implements ExamService{
 	public Optional<Exam> findById(Long id) {
         return repo.findById(id);
     }  
+
 }

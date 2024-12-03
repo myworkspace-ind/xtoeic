@@ -21,12 +21,10 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
 	@Query("SELECT b.text " +
 		       "FROM Answer a " +
 		       "JOIN a.answerFeedback b " +
-		       "WHERE a.itemText.itemTextId = :itemTextId " +
+		       "WHERE a.itemText.itemTextId = :itemTextId and b.text NOT LIKE 'null'" +
 		       "ORDER BY a.label")
 		List<String> findFeedbackTextsByItemTextId(
 		    @Param("itemTextId") Long itemTextId
 		);
 
-
-	 
 }
