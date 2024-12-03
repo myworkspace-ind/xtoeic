@@ -30,5 +30,10 @@ public class AnswerServiceImpl implements AnswerService  {
     @Override
 	public Optional<Answer> findById(Long id) {
         return repo.findById(id);
-    }  
+    }
+
+	@Override
+	public List<String> findFeedbackTextsByItemTextId(Long itemTextId) {
+		return repo.findFeedbackTextsByItemTextId(itemTextId);
+	}  
 }

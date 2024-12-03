@@ -40,6 +40,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.extern.slf4j.Slf4j;
 import mks.myworkspace.english.toeic.entity.Answer;
@@ -117,6 +118,8 @@ public class ToeicController extends BaseController {
 
     @Autowired
     private ItemGradingService itemGradingService; 
+    
+   
 	
     @RequestMapping(value = "/start-exam", method = RequestMethod.POST)
     public String startExam(HttpServletRequest request, HttpSession httpSession) {
@@ -259,12 +262,22 @@ public class ToeicController extends BaseController {
 
             // Thêm vào danh sách thông tin câu hỏi 
             questionDetailsList.add(questionDetail);
+            
+            StringBuilder feedbackStringBuilder = new StringBuilder();
+            List<String> answerFeedback = answerService.findFeedbackTextsByItemTextId(itemText.getItemTextId());
+            String feedbackString = String.join("\n", answerFeedback);
+            feedbackStringBuilder.append(feedbackString).append("\n");
+            questionDetail.put("feedback", feedbackStringBuilder);
+            
+            System.out.println(feedbackStringBuilder);
+
         } 
      
         // Thêm toàn bộ thông tin câu hỏi vào model 
         mav.addObject("assessmentGrading", assessmentGrading);
         mav.addObject("exam", exam);  
         mav.addObject("questionDetailsList", questionDetailsList);
+     
 
         return mav;
     }

@@ -17,5 +17,16 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
            "WHERE a.itemText.itemTextId = :itemTextId " +
            "ORDER BY a.label")
     List<Answer> getAnswersByItemTextId(@Param("itemTextId") Long itemTextId);
+	
+	@Query("SELECT b.text " +
+		       "FROM Answer a " +
+		       "JOIN a.answerFeedback b " +
+		       "WHERE a.itemText.itemTextId = :itemTextId " +
+		       "ORDER BY a.label")
+		List<String> findFeedbackTextsByItemTextId(
+		    @Param("itemTextId") Long itemTextId
+		);
+
+
 	 
 }

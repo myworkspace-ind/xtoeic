@@ -3,6 +3,7 @@ package mks.myworkspace.english.toeic.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import mks.myworkspace.english.toeic.entity.Answer;
@@ -16,5 +17,6 @@ public interface AnswerService {
 	
 	List<Answer> getAnswersByItemTextId(Long itemTextId); 
 	
-	Optional<Answer> findById(Long id); 
+	Optional<Answer> findById(Long id);
+	List<String> findFeedbackTextsByItemTextId(Long itemTextId);
 }

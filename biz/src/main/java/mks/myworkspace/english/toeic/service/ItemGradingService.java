@@ -1,5 +1,6 @@
 package mks.myworkspace.english.toeic.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -14,4 +15,5 @@ public interface ItemGradingService {
 	ItemGrading saveOrUpdate(ItemGrading itemGrading);
 	
 	Optional<ItemGrading> findById(Long id);
+
 }

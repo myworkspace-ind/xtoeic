@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -45,10 +46,16 @@ public class Answer implements Serializable {
     @Column(name = "ISCORRECT")
     private Boolean isCorrect; // Whether the answer is correct
     
+    
+    
+    
     @ManyToOne
     @JoinColumn(name = "ITEMTEXTID", referencedColumnName = "ITEMTEXTID")
 	private ItemText itemText;
     
+    @OneToOne(mappedBy = "answer")
+    private AnswerFeedback answerFeedback;
+
     public Answer(Long answerId, Integer sequence, String text, String label, Boolean isCorrect, ItemText itemText) {
 		this.answerId = answerId;
 		this.sequence = sequence;
