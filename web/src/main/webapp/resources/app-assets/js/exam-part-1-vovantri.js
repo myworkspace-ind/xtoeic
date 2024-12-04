@@ -139,7 +139,7 @@ function submitForm(index) {
 	        const form = document.getElementById(`form-${index}`);
 	        const formData = new FormData(form);
 	
-	        fetch('/toeic-web/saveQuestionOfPart1', {
+	        fetch('/toeic-web/saveAnswerOfUser', {
 	            method: 'POST',
 	            body: formData
 	        })

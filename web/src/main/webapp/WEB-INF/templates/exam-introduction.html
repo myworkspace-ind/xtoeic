@@ -457,13 +457,12 @@
 							</p>
 				 			<!-- <a id="start_test" class="btn btn-primary btn-lg mt-1 disable"
 								style="margin-top: 20px;" th:href="@{exam-part-1-vovantri(examId=${exam.id})}" >START</a> -->
-								
-							<form action="start-exam" method="POST">
-							    <input type="hidden" name="examId" th:value="${exam.id}">
-							    <button id="start_test" class="btn btn-primary btn-lg mt-1" style="margin-top: 20px;">START</button>
-							</form>
 							
-							<form action="start-exam" method="POST">
+							<button id="start_test" class="btn btn-primary btn-lg mt-1" style="margin-top: 20px;">START</button>	 
+							<div>
+							
+							</div>
+							<form action="start-part-1" method="POST">
 							    <input type="hidden" name="examId" th:value="${exam.id}">
 							    <button id="start_test" class="btn btn-primary btn-lg mt-1" style="margin-top: 20px;">Demo Part 1</button>
 							</form>

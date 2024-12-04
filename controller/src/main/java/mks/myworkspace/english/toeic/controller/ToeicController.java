@@ -222,8 +222,8 @@ public class ToeicController extends BaseController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/start-exam", method = RequestMethod.POST)
-	public String startExam(HttpServletRequest request, HttpSession httpSession) {
+	@RequestMapping(value = "/start-part-1", method = RequestMethod.POST)
+	public String startPart1(HttpServletRequest request, HttpSession httpSession) {
 		// Tìm Exam theo ID từ cơ sở dữ liệu (sử dụng Optional để tránh
 		// NullPointerException)
 		Long examId = Long.parseLong(request.getParameter("examId"));
@@ -255,55 +255,7 @@ public class ToeicController extends BaseController {
 		// Chuyển hướng đến trang câu hỏi
 		return "redirect:/exam-part-1-vovantri?examId=" + examId;
 	}
-
-	@RequestMapping(value = "/saveQuestionOfPart1", method = RequestMethod.POST)
-	@ResponseBody
-	public String saveQuestionOfPart1(HttpServletRequest request) {
-		try {
-			// Lấy thông tin từ request
-			Long assessmentGradingId = Long.parseLong(request.getParameter("assessmentGradingId"));
-			Long itemId = Long.parseLong(request.getParameter("itemId"));
-			Long itemTextId = Long.parseLong(request.getParameter("itemTextId"));
-			Long answerId = Long.parseLong(request.getParameter("answerId"));
-			String answerText = request.getParameter("answerText");
-			Long id = 0L;
-
-			// Tìm các thực thể liên quan
-			Optional<AssessmentGrading> assessmentGradingOpt = assessmentGradingService.findById(assessmentGradingId);
-			Optional<Item> itemOpt = itemService.findById(itemId);
-			Optional<ItemText> itemTextOpt = itemTextService.findById(itemTextId);
-			Optional<Answer> answerOpt = answerService.findById(answerId);
-
-			if (assessmentGradingOpt.isPresent() && itemOpt.isPresent() && itemTextOpt.isPresent()
-					&& answerOpt.isPresent()) {
-				AssessmentGrading assessmentGrading = assessmentGradingOpt.get();
-				Item item = itemOpt.get();
-				ItemText itemText = itemTextOpt.get();
-				Answer answer = answerOpt.get();
-
-				Boolean isCorrect = answer.getIsCorrect();
-				String agentId = getCurrentUserEid();
-
-				// Tạo và lưu thực thể ItemGrading
-				ItemGrading itemGrading = new ItemGrading(null, assessmentGrading, item, itemText, answer, agentId,
-						answerText, isCorrect, id);
-
-				// Lưu itemGrading vào database
-
-				System.out.println("Trước khi lưu: " + itemGrading.toString());
-				ItemGrading itemGradingSaved = itemGradingService.saveOrUpdate(itemGrading);
-				System.out.println("Sau khi lưu: " + itemGradingSaved.toString());
-
-				return "success";
-			} else {
-				return "fail"; // Không tìm thấy một trong các thực thể
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error"; // Lỗi trong quá trình xử lý
-		}
-	}
-
+ 
 	@RequestMapping(value = "/exam-part-1-vovantri", method = RequestMethod.GET)
 	public ModelAndView displayExamPart1_vovantri(@RequestParam("examId") Long examId, HttpServletRequest request,
 			HttpSession httpSession) {
@@ -389,6 +341,54 @@ public class ToeicController extends BaseController {
 			return url;
 		}
 		return "";
+	}
+	
+	@RequestMapping(value = "/saveAnswerOfUser", method = RequestMethod.POST)
+	@ResponseBody
+	public String saveAnswerOfUser(HttpServletRequest request) {
+		try {
+			// Lấy thông tin từ request
+			Long assessmentGradingId = Long.parseLong(request.getParameter("assessmentGradingId"));
+			Long itemId = Long.parseLong(request.getParameter("itemId"));
+			Long itemTextId = Long.parseLong(request.getParameter("itemTextId"));
+			Long answerId = Long.parseLong(request.getParameter("answerId"));
+			String answerText = request.getParameter("answerText");
+			Long id = 0L;
+
+			// Tìm các thực thể liên quan
+			Optional<AssessmentGrading> assessmentGradingOpt = assessmentGradingService.findById(assessmentGradingId);
+			Optional<Item> itemOpt = itemService.findById(itemId);
+			Optional<ItemText> itemTextOpt = itemTextService.findById(itemTextId);
+			Optional<Answer> answerOpt = answerService.findById(answerId);
+
+			if (assessmentGradingOpt.isPresent() && itemOpt.isPresent() && itemTextOpt.isPresent()
+					&& answerOpt.isPresent()) {
+				AssessmentGrading assessmentGrading = assessmentGradingOpt.get();
+				Item item = itemOpt.get();
+				ItemText itemText = itemTextOpt.get();
+				Answer answer = answerOpt.get();
+
+				Boolean isCorrect = answer.getIsCorrect();
+				String agentId = getCurrentUserEid();
+
+				// Tạo và lưu thực thể ItemGrading
+				ItemGrading itemGrading = new ItemGrading(null, assessmentGrading, item, itemText, answer, agentId,
+						answerText, isCorrect, id);
+
+				// Lưu itemGrading vào database
+
+				System.out.println("Trước khi lưu: " + itemGrading.toString());
+				ItemGrading itemGradingSaved = itemGradingService.saveOrUpdate(itemGrading);
+				System.out.println("Sau khi lưu: " + itemGradingSaved.toString());
+
+				return "success";
+			} else {
+				return "fail"; // Không tìm thấy một trong các thực thể
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error"; // Lỗi trong quá trình xử lý
+		}
 	}
 
 	// show part 2 - created by Huu Huy
