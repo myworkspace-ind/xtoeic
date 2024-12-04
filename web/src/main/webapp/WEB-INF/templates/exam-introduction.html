@@ -463,6 +463,16 @@
 							    <button id="start_test" class="btn btn-primary btn-lg mt-1" style="margin-top: 20px;">START</button>
 							</form>
 							
+							<form action="start-exam" method="POST">
+							    <input type="hidden" name="examId" th:value="${exam.id}">
+							    <button id="start_test" class="btn btn-primary btn-lg mt-1" style="margin-top: 20px;">Demo Part 1</button>
+							</form>
+							
+							<form action="start-part-2" method="POST">
+							    <input type="hidden" name="examId" th:value="${exam.id}">
+							    <button id="start_test" class="btn btn-primary btn-lg mt-1" style="margin-top: 20px;">Demo Part 2</button>
+							</form>
+							
 						</div>
 					</div>
 					<div id="test_page" class="hidden">
