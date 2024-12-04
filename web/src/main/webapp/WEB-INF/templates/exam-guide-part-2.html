@@ -80,6 +80,9 @@
 <!-- inlined tool header contribution -->
 
 <!-- end inlined tool header contribution -->
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -161,7 +164,8 @@
 						</div>
 						<div class="footer-bar">
 							<div class="contain text-right">
-								<button class="btn btn-info" onclick="nextQuestion(true)">Skip</button>
+								<a href="/exam-part-2" class="btn btn-info" style=" color: #a71c1c; "> Skip</a>
+								<!-- <button class="btn btn-info" onclick="nextQuestion(true)">Skip</button> -->
 							</div>
 						</div>
 						<!-- <script>
@@ -186,13 +190,21 @@
 						</h3>
 					</div>
 					<div id="answer_sheet" class="answer-area">
+					//for each questions
 						<div class="toeic-form" id="answer_form_1"
 							style="margin-left: 9px;">
-							<label class="ques-no">01.</label> <label class="radio-inline">
-								<input type="radio" tabindex="-1" attrid="2300" poolname="Part1"
-								answerid="11087" num="1" name="optradio[2300]" value="A">
+							//For each question.answers
+							<label class="ques-no">01.</label>
+							<label class="radio-inline">
+								<input onchange="selectAnswer(this)"
+								type="radio" tabindex="-1" 
+								attrid="2300"
+								answerid="11087"
+								name="optradio[2300]" 
+								value="A">
 								<strong>A</strong>
-							</label> <label class="radio-inline"> <input type="radio"
+							</label>
+							<!-- <label class="radio-inline"> <input type="radio"
 								tabindex="-1" attrid="2300" poolname="Part1" answerid="11088"
 								num="1" name="optradio[2300]" value="B"> <strong>B</strong>
 							</label> <label class="radio-inline"> <input type="radio"
@@ -201,10 +213,10 @@
 							</label> <label class="radio-inline"> <input type="radio"
 								tabindex="-1" attrid="2300" poolname="Part1" answerid="11089"
 								num="1" name="optradio[2300]" value="D"><strong>D</strong>
-							</label>
+							</label> -->
 						</div>
 
-						<div class="toeic-form" id="answer_form_2"
+						<!-- <div class="toeic-form" id="answer_form_2"
 							style="margin-left: 9px;">
 							<label class="ques-no">02.</label> <label class="radio-inline">
 								<input type="radio" tabindex="-1" attrid="2298" poolname="Part1"
@@ -3608,7 +3620,7 @@
 								tabindex="-1" attrid="2421" poolname="Part7" answerid="11695"
 								num="200" name="optradio[2421]" value="D"><strong>D</strong>
 							</label>
-						</div>
+						</div> -->
 					</div>
 					<div class="btnGroup">
 						<div class="col-md-12">
@@ -3639,4 +3651,17 @@
 
 		</div>
 	</div>
+	
+	<script>
+	function selectAnswer(obj){
+		console.log(obj);
+		var questionId = $(obj).attr("attrid");
+		var answerId = $(obj).attr("answerid");
+		console.log(questionId, answerId);
+		
+		
+	}
+	
+	
+	</script>
 </body>

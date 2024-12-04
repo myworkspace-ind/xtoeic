@@ -239,24 +239,17 @@ public class ToeicController extends BaseController {
 
 
 
-//	@RequestMapping(value = "/test", method = RequestMethod.GET) public
-//	ModelAndView displayTest(HttpServletRequest request, HttpSession httpSession){
-//		ModelAndView mav = new ModelAndView("test");
-//
-//		initSession(request, httpSession); 
-//		mav.addObject("currentSiteId", getCurrentSiteId());
-//		mav.addObject("userDisplayName", getCurrentUserDisplayName());
-//	
-//		List<Question> questions = examService.getAllQuestions();
-//	
-//		mav.addObject("questions", questions);
-//	
-//		for (Question question : questions) {
-//			log.debug("Thông tin đề thi: {}", question); 
-//			}
-//	
-//		return mav; 
-//	}
+    @RequestMapping(value = "/exam-part-1", method = RequestMethod.GET)
+	public ModelAndView displayExamPart1(HttpServletRequest request, HttpSession httpSession) {
+		ModelAndView mav = new ModelAndView("exam-part-1");
+
+		initSession(request, httpSession);
+
+		mav.addObject("currentSiteId", getCurrentSiteId());
+		mav.addObject("userDisplayName", getCurrentUserDisplayName());
+
+		return mav;
+	}
 
 
 
@@ -423,7 +416,7 @@ public class ToeicController extends BaseController {
 
 	@RequestMapping(value = "/test2", method = RequestMethod.GET)
 	public ModelAndView displayTest2(HttpServletRequest request, HttpSession httpSession) {
-		ModelAndView mav = new ModelAndView("fragments/headerXToeic");
+		ModelAndView mav = new ModelAndView("test2");
 
 		initSession(request, httpSession);
 
