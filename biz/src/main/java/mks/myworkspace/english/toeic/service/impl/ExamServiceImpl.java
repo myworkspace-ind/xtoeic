@@ -10,6 +10,9 @@ import mks.myworkspace.english.toeic.entity.Exam;
 import mks.myworkspace.english.toeic.repository.ExamRepository;
 import mks.myworkspace.english.toeic.service.ExamService;
 
+
+
+
 @Service
 public class ExamServiceImpl implements ExamService{
 
@@ -60,7 +63,5 @@ public class ExamServiceImpl implements ExamService{
 		return repo.findPart2FirstQuestionDetails();
 	}
 	
-	
-	 
 
 }

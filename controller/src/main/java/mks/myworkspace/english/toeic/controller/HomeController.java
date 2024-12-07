@@ -58,6 +58,7 @@ public class HomeController extends BaseController {
 	 */
 	@RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
 	public ModelAndView displayHome(HttpServletRequest request, HttpSession httpSession) {
+//		ModelAndView mav = new ModelAndView("home");
 		ModelAndView mav = new ModelAndView("home");
 
 		initSession(request, httpSession);
