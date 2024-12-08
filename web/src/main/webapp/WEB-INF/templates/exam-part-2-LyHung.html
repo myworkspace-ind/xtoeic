@@ -5,6 +5,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+
+<!-- Head material from Tool in PDA mode (will include title and headscripts) -->
+
+<meta charset="UTF-8">
+
 <!-- Style -->
 <link href="resources/app-assets/css/mystyle.css" rel="stylesheet"
 	type="text/css" media="all">
@@ -26,13 +31,59 @@
 	href="resources/app-assets/vendors/css/extensions/offline/themes/offline-theme-slide.css">
 <link rel="stylesheet" type="text/css"
 	href="resources/app-assets/vendors/css/extensions/offline/themes/offline-language-english.css">
+<!-- For Sakai only -->
+<script type="text/javascript"
+	src="https://xlms.myworkspace.vn/library/js/headscripts.js"></script>
 
+<!-- End of Head material from Tool -->
 <title>xTOEIC</title>
+<!--[if (lt IE 9)]>
+  <link href="/library/skin/morpheus-default/tool-ie.css?version=51361631" rel="stylesheet">
+<![endif]-->
+<link
+	href="https://xlms.myworkspace.vn/library/skin/morpheus-default/tool.css?version=51361631"
+	rel="stylesheet" media="screen, tty, tv, handheld, projection">
+<link
+	href="https://xlms.myworkspace.vn/library/skin/morpheus-default/print.css?version=51361631"
+	rel="stylesheet" media="print">
+<link
+	href="https://xlms.myworkspace.vn/library/skin/morpheus-default/addon-apps.css?version=51361631"
+	rel="stylesheet" type="text/css">
+<link
+	href="https://xlms.myworkspace.vn/library/webjars/jquery-ui/1.12.1/jquery-ui.min.css?version=51361631"
+	rel="stylesheet" />
+<link
+	href="https://xlms.myworkspace.vn/library/js/jquery/cluetip/1.2.10/css/jquery.cluetip.css?version=51361631"
+	rel="stylesheet">
+<link
+	href="https://xlms.myworkspace.vn/library/webjars/qtip2/3.0.3/jquery.qtip.min.css?version=51361631"
+	rel="stylesheet">
+<link
+	href="https://xlms.myworkspace.vn/library/webjars/pnotify/3.2.1/pnotify.css?version=51361631"
+	rel="stylesheet">
+<link
+	href="https://xlms.myworkspace.vn/library/webjars/pnotify/3.2.1/pnotify.buttons.css?version=51361631"
+	rel="stylesheet">
+<link
+	href="https://xlms.myworkspace.vn/library/webjars/cropper/4.0.0/dist/cropper.min.css?version=51361631"
+	rel="stylesheet">
+<link
+	href="https://xlms.myworkspace.vn/library/webjars/fontawesome/4.7.0/css/font-awesome.min.css?version=51361631"
+	rel="stylesheet">
+<script
+	src="https://xlms.myworkspace.vn/library/skin/morpheus-default/js/lib/modernizr.js?version=51361631"></script>
+<script
+	src="/webcomponents/assets/@webcomponents/webcomponentsjs/webcomponents-loader.js?version=51361631"></script>
+<script
+	src="https://xlms.myworkspace.vn/library/webjars/momentjs/2.24.0/min/moment-with-locales.min.js?version=51361631"></script>
+<script src="/profile2-tool/javascript/profile2-eb.js?version=51361631"></script>
+
 <style>
 #audioTextDialog {
 	cursor: move; /* Hiển thị biểu tượng di chuyển */
 }
 </style>
+
 
 <script type="text/javascript"
 	src="resources/app-assets/js/exam-part-1-vovantri.js"></script>
@@ -43,17 +94,20 @@
 <body>
 	<div class="Mrphs-pagebody">
 
+
 		<nav class="Mrphs-siteHierarchy">
 			<div class="Mrphs-hierarchy--sites">
+
+
 				<span class="Mrphs-hierarchy--siteName" title="English"> <a
 					href="http://xlms.myworkspace.vn/portal/site/331180a0-0361-48d4-bc82-d120869731f9/page-reset/e61c380b-e068-4ed9-b966-cc9fbf92c447">
 						<span class="Mrphs-hierarchy--siteName-label"> English </span>
 				</a>
 				</span> <span
-					class="Mrphs-hierarchy--siteNameSeparator Mrphs-hierarchy--separator">
-					<i class="fa fa-lg fa-angle-right" aria-hidden="true"></i>
-				</span>
+					class="Mrphs-hierarchy--siteNameSeparator Mrphs-hierarchy--separator"><i
+					class="fa fa-lg fa-angle-right" aria-hidden="true"></i></span>
 			</div>
+
 
 			<a
 				href="http://xlms.myworkspace.vn/portal/site/331180a0-0361-48d4-bc82-d120869731f9/tool-reset/ec30a288-c102-4d00-8f67-798e4d29f47d"
@@ -63,28 +117,35 @@
 				<span class="Mrphs-breadcrumb--icon icon-sakai--sakai-toeic "></span>
 				<span class="Mrphs-breadcrumb--toolNameText">TOEIC</span>
 			</a>
-		</nav>
 
-		<div class="row">
-			<div class="col-md-4">
-				<div data-toolbar="set-04"
-					class="btn-toolbar btn-toolbar-primary mx-auto"
-					data-toolbar-style="primary"></div>
+		</nav>
+	</div>
+
+	<div class="row">
+		<div class="col-md-4">
+			<div data-toolbar="set-04"
+				class="btn-toolbar btn-toolbar-primary mx-auto"
+				data-toolbar-style="primary">
+				<!-- <i class="fa fa-info-circle"></i> -->
 			</div>
-			<div class="col-md-4 text-center">
-				<h2 id="assessmentTitle" th:text="${exam.title}">ETS ... #...</h2>
-			</div>
-			<div class="col-md-4">
-				<div class="toeic-clock text-center">
-					<div id="time-remain-area" class="collapse in">
-						Time remaining: <span id="time_remain">120:00</span>
-					</div>
+		</div>
+		<div class="col-md-4 text-center">
+			<h2 id="assessmentTitle" th:text="${exam.title}">ETS ... #...</h2>
+		</div>
+		<div class="col-md-4">
+			<div class="toeic-clock text-center">
+				<div id="time-remain-area" class="collapse in">
+					Time remaining: <span id="time_remain">120:00</span>
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<div id="test_page" class="toeic-contain">
+	<!-- Phần chỉnh sửa -->
+	<div id="test_page" class="">
+		<div class="toeic-contain">
 			<div class="row">
+
 				<!-- question area -->
 				<div class="question-area col-sm-7">
 					<div class="area-part" id="question_contain">
@@ -94,6 +155,8 @@
 								onclick="showAudioTextDialog()">Show Audio Text</button>
 						</div>
 
+
+
 						<!-- Hộp thoại sẽ hiển thị text của âm thanh -->
 						<div id="audioTextDialog"
 							style="display: none; padding: 20px; border: 1px solid #ccc; background: #f9f9f9; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;">
@@ -102,54 +165,97 @@
 							<button onclick="closeAudioTextDialog()">Close</button>
 						</div>
 
-						<!-- Câu hỏi theo phân trang -->
-						<div id="questionPage" class="question-page">
-							<div th:each="questionDetail, iterStat : ${questionDetailsList}"
-								th:classappend="${iterStat.index < 4 ? 'active' : ''}"
-								class="test-box" style="display: none;"
-								th:id="'question-' + ${iterStat.index}">
-								<div class="toeic-index">
-									<h4 id="question_number">
-										Question <span th:text="${iterStat.index + 1}"></span>
-									</h4>
-								</div>
+						<!-- Lặp qua danh sách câu hỏi, chỉ hiển thị một câu tại một thời điểm -->
+						<div th:each="questionDetail, iterStat : ${questionDetailsList}"
+							class="test-box"
+							th:classappend="${iterStat.index == 0 ? 'active' : 'hidden'}">
 
-								<div class="for-listening text-center audio_question">
-									<div class="black"></div>
-									<audio class="mt-md-3s" preload="auto"
-										th:src="${questionDetail.audioUrl}"
-										th:id="'audio-' + ${iterStat.index}" controls
-										th:onended="onAudioEnded(${iterStat.index})">
-									</audio>
-								</div>
-								<p>
-									Link Audio gốc: <a th:href="${questionDetail.audioUrl}"
-										th:text="${questionDetail.audioUrl}"></a>
-								</p>
+							<!-- Audio câu hỏi -->
+							<div class="for-listening text-center audio_question">
+								<div class="black"></div>
+								<audio class="mt-md-3s" preload="auto"
+									th:src="${questionDetail.audioUrl}"
+									th:id="'audio-' + ${iterStat.index}" controls
+									th:onended="onAudioEnded(${iterStat.index})">
+								</audio>
 
-								<div class="toeic-select">
-									<form class="toeic-form" action="#" method="POST"
-										th:name="'form-' + ${iterStat.index + 1}"
-										th:id="'form-' + ${iterStat.index + 1}">
-										<button type="button" class="btn btn-success"
-											style="margin-top: 10px;"
-											th:onclick="'submitForm(' + ${iterStat.index + 1} + ')'">Save</button>
-										<div>
-											<input type="hidden" name="answerId"
-												th:id="'answerId-' + ${iterStat.index + 1}" readonly
-												style="margin-left: 10px;">
+							</div>
+							<p>
+								Link Audio gốc: <a th:href="${questionDetail.audioUrl}"
+									th:text="${questionDetail.audioUrl}"></a>
+							</p>
+
+							<!-- Các câu trả lời -->
+
+							<div class="toeic-select">
+
+								<form class="toeic-form" action="#" method="POST"
+									th:name="'form-' + ${iterStat.index+1}"
+									th:id="'form-' + ${iterStat.index+1}">
+									<button type="button" class="btn btn-success"
+										style="margin-top: 10px;"
+										th:onclick="'submitForm(' + ${iterStat.index+1} + ')'">Save</button>
+
+									<div>
+										<!-- <label th:for="'answerId-' + ${iterStat.index+1}">answerId</label> -->
+										<input type="hidden" name="answerId"
+											th:id="'answerId-' + ${iterStat.index+1}" readonly
+											style="margin-left: 10px;">
+									</div>
+									<div>
+										<!-- <label th:for="'answerText-' + ${iterStat.index+1}">answerText</label> -->
+										<input type="hidden" name="answerText"
+											th:id="'answerText-' + ${iterStat.index+1}" readonly
+											style="margin-left: 10px;">
+									</div>
+
+
+									<!-- <input type="text" name="answerText" th:value="${iterStat.index + 1} + '-'"> -->
+									<div>
+										<!-- <label for="assessmentGradingId">ASSESSMENTGRADINGID:</label> -->
+										<input type="hidden" id="assessmentGradingId"
+											name="assessmentGradingId"
+											th:value="${assessmentGrading.assessmentGradingId}" readonly>
+									</div>
+
+									<div>
+										<!-- <label for="itemId">ITEMID:</label>-->
+										<input type="hidden" id="itemId" name="itemId"
+											th:value="${questionDetail.item.itemId}" readonly>
+									</div>
+
+									<div>
+										<!-- <label for="itemTextId">ITEMTEXTID:</label> -->
+										<input type="hidden" id="itemTextId" name="itemTextId"
+											th:value="${questionDetail.itemText.itemTextId}" readonly>
+									</div>
+
+									<!-- Lặp qua các câu trả lời -->
+									<div th:each="answer, iterStat : ${questionDetail.answers}">
+										<div th:if="${#strings.trim(answer.text) != ''}">
+											<label class="radio-inline answerTextOption"
+												th:onclick="'selectAnswer(' + ${answer.answerId} + ')'">
+												ANSWERID: <span th:text="${answer.answerId}"></span> - <strong
+												th:text="${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.substring(iterStat.index, iterStat.index + 1) + '. '}"></strong>
+												<span th:text="${answer.text}"></span>
+											</label>
 										</div>
-										<div>
-											<input type="hidden" name="answerText"
-												th:id="'answerText-' + ${iterStat.index + 1}" readonly
-												style="margin-left: 10px;">
-										</div>
-									</form>
-								</div>
+									</div>
+
+									<!-- Thêm thẻ ẩn chứa feedback -->
+									<div id="feedback-${questionDetail.itemText.itemTextId}"
+										th:data-feedback="${questionDetail.feedback}"
+										style="display: none;"></div>
+
+								</form>
+
 							</div>
 						</div>
+
 					</div>
 				</div>
+				<!-- end col 7 -->
+
 
 				<!-- answer area -->
 				<div class="col-sm-5">
@@ -168,66 +274,91 @@
 							<div class="toeic-form answer-form"
 								th:id="'answer_form_' + (${iterStat.index + 7})"
 								style="margin-left: 9px; display: flex; align-items: center;">
+
 								<label class="ques-no" th:text="${iterStat.index + 7} + '. '"
 									style="margin-right: 25px"></label>
+
 								<div th:each="answer, iStat : ${questionDetail.answers}">
 									<label class="radio-inline"
 										th:if="${#strings.trim(answer.text) != ''}"
 										style="display: inline-block; margin-right: 42px;"> <input
 										type="radio" tabindex="-1"
-										th:attr="attrid=${questionDetail.item.itemId}, poolname='Part1', answerid=${answer.answerId}, num=${iterStat.index + 7}, name=${'optradio[' + questionDetail.item.itemId + ']'}"
+										th:attr="attrid=${questionDetail.item.itemId}, poolname='Part1', 
+                                    answerid=${answer.answerId}, num=${iterStat.index + 7}, 
+                                    name=${'optradio[' + questionDetail.item.itemId + ']'}"
 										th:value="${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.substring(iStat.index, iStat.index + 1)}"
 										th:onclick="'selectAnswer(' + ${answer.answerId} + ')'">
 										<strong
-										th:text="${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.substring(iStat.index, iStat.index + 1)}">A</strong>
+										th:text="${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.substring(iStat.index, iStat.index + 1)}"></strong>
 									</label>
 								</div>
 							</div>
 						</div>
 					</div>
 
-					<div class="toeic-btn text-center">
-						<button type="button" class="btn btn-primary" id="nextBtn"
-							onclick="nextQuestion()">Next</button>
+
+					<!-- Các nút chức năng -->
+					<div class="btnGroup">
+						<div class="col-md-12">
+							<!-- 	<button type="button" class="btn btn-success" id="saveBtn">SAVE</button> -->
+							<!-- <button type="button" class="btn btn-success" id="submitBtn">SUBMIT</button> -->
+							<a class="btn btn-success" id="submitBtn"
+								th:href="@{list-of-exam}" style="color: white;">SUBMIT</a>
+							<div id="result" class="hidden-xs" role="alert"
+								style="display: none" align="center">
+								<strong align="center">Save OK</strong>
+							</div>
+							<div class="loader" style="display: none" id="loading"></div>
+						</div>
+					</div>
+				</div>
+				<!-- end col 5 -->
+
+			</div>
+
+
+
+			<!-- Footer bar -->
+			<div class="row">
+				<div class="col-sm-8">
+					<div class="footer-bar">
+						<div class="toeic-btn text-center">
+							<button type="button" class="btn btn-default hidden" id="backBtn">BACK</button>
+							<button type="button" class="btn btn-default" id="nextBtn"
+								onclick="nextQuestion()">Next</button>
+
+						</div>
 					</div>
 				</div>
 			</div>
+
 		</div>
-
-		<!-- Scripts -->
-		<script>
-            let currentGroup = 0; // Chỉ số nhóm câu hỏi hiện tại
-            const totalGroups = Math.ceil(${questionDetailsList.size()} / 4); // Tổng số nhóm câu hỏi
-
-            function showQuestions() {
-                const questions = document.querySelectorAll('.test-box');
-                questions.forEach((group, index) => {
-                    group.style.display = (Math.floor(index / 4) === currentGroup) ? 'block' : 'none'; // Hiển thị nhóm câu hỏi hiện tại
-                });
-            }
-
-            function nextQuestion() {
-                if (currentGroup < totalGroups - 1) {
-                    currentGroup++;
-                    showQuestions();
-                }
-            }
-
-            document.addEventListener("DOMContentLoaded", () => {
-                showQuestions(); // Hiển thị nhóm câu hỏi đầu tiên khi tải trang
-            });
-
-            function showAudioTextDialog() {
-                // Mã mở hộp thoại hiển thị văn bản âm thanh
-                document.getElementById("audioTextDialog").style.display = "block";
-                document.getElementById("audioTextContent").innerText = "Audio text goes here...";
-            }
-
-            function closeAudioTextDialog() {
-                // Mã đóng hộp thoại hiển thị văn bản âm thanh
-                document.getElementById("audioTextDialog").style.display = "none";
-            }
-        </script>
 	</div>
+
+
+	<script>
+  // Thêm khả năng kéo để di chuyển hộp thoại
+
+		const dialog = document.getElementById('audioTextDialog');
+		 let offsetX = 0, offsetY = 0, isDragging = false;
+
+		 dialog.addEventListener('mousedown', (e) => {
+		   isDragging = true;
+		   offsetX = e.clientX - dialog.offsetLeft;
+		   offsetY = e.clientY - dialog.offsetTop;
+		   document.addEventListener('mousemove', moveDialog);
+		 });
+
+		 document.addEventListener('mouseup', () => {
+		   isDragging = false;
+		   document.removeEventListener('mousemove', moveDialog);
+		 });
+
+		 function moveDialog(e) {
+		   if (isDragging) {
+		     dialog.style.left = `${e.clientX - offsetX}px`;
+		     dialog.style.top = `${e.clientY - offsetY}px`;
+		   }
+		 }
+</script>
 </body>
-</html>

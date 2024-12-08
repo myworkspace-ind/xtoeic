@@ -18,6 +18,7 @@
  */
 
 package mks.myworkspace.english.toeic.controller;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -116,38 +117,37 @@ public class ToeicController extends BaseController {
 
 	@Autowired
 	private ItemGradingService itemGradingService;
-	
-	@RequestMapping(value = "/start-part-3", method = RequestMethod.POST)
+
+	@RequestMapping(value = "/start-part-5", method = RequestMethod.POST)
 	public String startPart3_NTT(@RequestParam("examId") Long examId, HttpSession httpSession) {
-	    System.out.println("Exam ID received: " + examId);
+		System.out.println("Exam ID received: " + examId);
 
-	    // Tìm Exam theo ID
-	    Exam exam = examService.findById(examId).orElseThrow(() -> 
-	        new IllegalArgumentException("Invalid exam ID: " + examId)
-	    );
+		// Tìm Exam theo ID
+		Exam exam = examService.findById(examId)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid exam ID: " + examId));
 
-	    AssessmentGrading assessmentGrading = new AssessmentGrading();
-	    assessmentGrading.setExam(exam);
-	    assessmentGrading.setAgentId(getCurrentUserEmail());
-	    assessmentGrading.setForGrade(false);
-	    assessmentGrading.setStatus(0);
-	    assessmentGrading.setLate(false);
-	    assessmentGrading.setHasAutoSubmissionRun(false);
+		AssessmentGrading assessmentGrading = new AssessmentGrading();
+		assessmentGrading.setExam(exam);
+		assessmentGrading.setAgentId(getCurrentUserEmail());
+		assessmentGrading.setForGrade(false);
+		assessmentGrading.setStatus(0);
+		assessmentGrading.setLate(false);
+		assessmentGrading.setHasAutoSubmissionRun(false);
 
-	    LocalDateTime currentDateTime = LocalDateTime.now();
-	    assessmentGrading.setAttemptDate(currentDateTime);
-	    assessmentGrading.setSubmittedDate(currentDateTime);
+		LocalDateTime currentDateTime = LocalDateTime.now();
+		assessmentGrading.setAttemptDate(currentDateTime);
+		assessmentGrading.setSubmittedDate(currentDateTime);
 
-	    System.out.println("Trước khi lưu: " + assessmentGrading.toString());
-	    AssessmentGrading assessmentGradingSaved = assessmentGradingService.saveOrUpdate(assessmentGrading);
-	    System.out.println("Sau khi lưu: " + assessmentGradingSaved.toString());
+		System.out.println("Trước khi lưu: " + assessmentGrading.toString());
+		AssessmentGrading assessmentGradingSaved = assessmentGradingService.saveOrUpdate(assessmentGrading);
+		System.out.println("Sau khi lưu: " + assessmentGradingSaved.toString());
 
-	    httpSession.setAttribute("assessmentGrading", assessmentGrading);
-	    return "redirect:/exam-part-3-NguyenTuanThanh?examId=" + examId;
+		httpSession.setAttribute("assessmentGrading", assessmentGrading);
+		return "redirect:/exam-part-5-NguyenTuanThanh?examId=" + examId;
 	}
-	
-	@RequestMapping(value = "/exam-part-3-NguyenTuanThanh", method = RequestMethod.GET)
-	public ModelAndView displayExamPart3_NguyenTuanThanh(@RequestParam("examId") Long examId, HttpServletRequest request,
+
+	@RequestMapping(value = "/exam-part-5-NguyenTuanThanh", method = RequestMethod.GET)
+	public ModelAndView displayExamPart5_NguyenTuanThanh(@RequestParam("examId") Long examId, HttpServletRequest request,
 			HttpSession httpSession) {
 
 		AssessmentGrading assessmentGrading = (AssessmentGrading) httpSession.getAttribute("assessmentGrading");
@@ -163,55 +163,48 @@ public class ToeicController extends BaseController {
 
 		}
 		Exam exam = examOpt.get();
+		System.out.println(exam.toString());
 
-		ModelAndView mav = new ModelAndView("exam-part3-NguyenTuanThanh");
+		ModelAndView mav = new ModelAndView("exam-part5-NguyenTuanThanh");
 
 		initSession(request, httpSession);
 		mav.addObject("currentSiteId", getCurrentSiteId());
 		mav.addObject("userDisplayName", getCurrentUserDisplayName());
 
-		// Lấy thông tin các câu hỏi của Part 3 của ETS_2024_#1
-		List<Item> itemList = itemService.getItemByExamIDAndPartTitle(examId, "Part3");
-		List<ItemText> itemTextList = itemTextService.getItemTextByExamIDAndPartTitle(examId, "Part3");
+		// Lấy thông tin các câu hỏi của Part 1 của kỳ thi
+		List<Item> itemList = itemService.getItemByExamIDAndPartTitle(examId, "Part5");
+		List<ItemText> itemTextList = itemTextService.getItemTextByExamIDAndPartTitle(examId, "Part5");
 
 		// Khởi tạo danh sách thông tin các câu hỏi
 		List<Map<String, Object>> questionDetailsList = new ArrayList<>();
 
-		int size = Math.min(itemList.size(), itemTextList.size()); // Đảm bảo không vượt giới hạn danh sách
-		int questionCycle = 4; // Chu kỳ: 1 câu audio + 3 câu hỏi thường
-
+		int size = Math.min(itemList.size(), itemTextList.size()); // Chọn kích thước nhỏ nhất để tránh lỗi
+		
+		// IndexOutOfBoundsException
 		for (int i = 0; i < size; i++) {
-		    Item item = itemList.get(i);
-		    ItemText itemText = itemTextList.get(i);
+			Item item = itemList.get(i);
+			ItemText itemText = itemTextList.get(i);
+			String question = itemText.getText();
+			// Tạo một map chứa thông tin câu hỏi
+			Map<String, Object> questionDetail = new HashMap<>();
+			questionDetail.put("item", item); // Item (câu hỏi)
+			questionDetail.put("itemText", itemText); // ItemText (text)
+			questionDetail.put("question", question);
+			// Lấy danh sách câu trả lời cho câu hỏi này
+			List<Answer> answers = answerService.getAnswersByItemTextId(itemText.getItemTextId());
+			questionDetail.put("answers", answers);
 
-		    // Tạo một map chứa thông tin câu hỏi
-		    Map<String, Object> questionDetail = new HashMap<>();
+			// Thêm vào danh sách thông tin câu hỏi
+			questionDetailsList.add(questionDetail);
 
-		    if (i % questionCycle == 0) { // Câu audio (đầu chu kỳ)
-		        String audioUrl = extractUrl(itemText.getText(), "audio");
-		        questionDetail.put("item", item); // Item (câu hỏi)
-		        questionDetail.put("itemText", itemText); // ItemText (text)
-		        questionDetail.put("audioUrl", audioUrl); // Audio URL
-		    } else { // Các câu hỏi thường (trong chu kỳ)
-		        questionDetail.put("item", item); // Item (câu hỏi)
-		        questionDetail.put("itemText", itemText); // ItemText (text)
+			StringBuilder feedbackStringBuilder = new StringBuilder();
+			List<String> answerFeedback = answerService.findFeedbackTextsByItemTextId(itemText.getItemTextId());
+			String feedbackString = String.join("\n", answerFeedback);
+			feedbackStringBuilder.append(feedbackString).append("\n");
+			questionDetail.put("feedback", feedbackStringBuilder);
 
-		        // Lấy danh sách câu trả lời
-		        List<Answer> answers = answerService.getAnswersByItemTextId(itemText.getItemTextId());
-		        questionDetail.put("answers", answers);
+			System.out.println(feedbackStringBuilder);
 
-		        // Lấy feedback cho câu hỏi
-		        StringBuilder feedbackStringBuilder = new StringBuilder();
-		        List<String> answerFeedback = answerService.findFeedbackTextsByItemTextId(itemText.getItemTextId());
-		        String feedbackString = String.join("\n", answerFeedback);
-		        feedbackStringBuilder.append(feedbackString).append("\n");
-		        questionDetail.put("feedback", feedbackStringBuilder);
-
-		        System.out.println(feedbackStringBuilder);
-		    }
-
-		    // Thêm thông tin câu hỏi vào danh sách
-		    questionDetailsList.add(questionDetail);
 		}
 
 		// Thêm toàn bộ thông tin câu hỏi vào model
@@ -221,10 +214,7 @@ public class ToeicController extends BaseController {
 
 		return mav;
 	}
-	
-	
-	
-	
+
 	@RequestMapping(value = "/start-part-2", method = RequestMethod.POST)
 	public String startPart2(HttpServletRequest request, HttpSession httpSession) {
 		// Tìm Exam theo ID từ cơ sở dữ liệu (sử dụng Optional để tránh
@@ -282,8 +272,8 @@ public class ToeicController extends BaseController {
 		mav.addObject("userDisplayName", getCurrentUserDisplayName());
 
 		// Lấy thông tin các câu hỏi của Part 1 của kỳ thi
-		List<Item> itemList = itemService.getItemByExamIDAndPartTitle(examId, "Part3");
-		List<ItemText> itemTextList = itemTextService.getItemTextByExamIDAndPartTitle(examId, "Part3");
+		List<Item> itemList = itemService.getItemByExamIDAndPartTitle(examId, "Part2");
+		List<ItemText> itemTextList = itemTextService.getItemTextByExamIDAndPartTitle(examId, "Part2");
 
 		// Khởi tạo danh sách thông tin các câu hỏi
 		List<Map<String, Object>> questionDetailsList = new ArrayList<>();
@@ -326,7 +316,7 @@ public class ToeicController extends BaseController {
 
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/start-part-1", method = RequestMethod.POST)
 	public String startPart1(HttpServletRequest request, HttpSession httpSession) {
 		// Tìm Exam theo ID từ cơ sở dữ liệu (sử dụng Optional để tránh
@@ -360,7 +350,7 @@ public class ToeicController extends BaseController {
 		// Chuyển hướng đến trang câu hỏi
 		return "redirect:/exam-part-1-vovantri?examId=" + examId;
 	}
- 
+
 	@RequestMapping(value = "/exam-part-1-vovantri", method = RequestMethod.GET)
 	public ModelAndView displayExamPart1_vovantri(@RequestParam("examId") Long examId, HttpServletRequest request,
 			HttpSession httpSession) {
@@ -432,48 +422,6 @@ public class ToeicController extends BaseController {
 		mav.addObject("questionDetailsList", questionDetailsList);
 
 		return mav;
-	}
-	
-	
-	@RequestMapping(value = "/exam-part2-nguyentuanthanh", method = RequestMethod.GET)
-	public ModelAndView displayFirstQuestionPart2(HttpServletRequest request, HttpSession httpSession) {
-	    ModelAndView mav = new ModelAndView("exam-part2-ntt");
-
-	    initSession(request, httpSession);
-
-	    mav.addObject("currentSiteId", getCurrentSiteId());
-	    mav.addObject("userDisplayName", getCurrentUserDisplayName());
-
-	    List<Object[]> listExam = examService.findPart2FirstQuestionDetails();
-
-	    // Kiểm tra danh sách có trả về dữ liệu không
-	    if (listExam == null || listExam.isEmpty()) {
-	        System.out.println("No data found for the query.");
-	        mav.addObject("audioUrl", "");
-	        mav.addObject("answers", new ArrayList<>());
-	        return mav;
-	    }
-
-	    // Lấy dòng đầu tiên
-	    Object[] firstRow = listExam.get(0);
-	    Item item = (Item) firstRow[0];
-	    ItemText itemText = (ItemText) firstRow[1];
-	    String text = itemText.getText();
-
-	    // Tách URL audio từ text (giả sử bạn có cách để tách URL từ text)
-	    String audioUrl = extractUrl(text, "audio");
-
-	    mav.addObject("audioUrl", audioUrl);
-
-	    // Lấy danh sách các câu trả lời
-	    List<Answer> answers = new ArrayList<>();
-	    for (Object[] row : listExam) {
-	        Answer answer = (Answer) row[2];
-	        answers.add(answer);
-	    }
-
-	    mav.addObject("answers", answers);
-	    return mav;
 	}
 
 //	@RequestMapping(value = "/exam-part-1-vovantri", method = RequestMethod.GET)
@@ -549,7 +497,7 @@ public class ToeicController extends BaseController {
 		}
 		return "";
 	}
-	
+
 	@RequestMapping(value = "/saveAnswerOfUser", method = RequestMethod.POST)
 	@ResponseBody
 	public String saveAnswerOfUser(HttpServletRequest request) {
@@ -601,15 +549,13 @@ public class ToeicController extends BaseController {
 	// show part 2 - created by Huu Huy
 
 	@RequestMapping(value = "/exam-part-2-huuhuy", method = RequestMethod.GET)
-	public ModelAndView displayExamPart2_huuhuy(HttpServletRequest request,
-			HttpSession httpSession) {
+	public ModelAndView displayExamPart2_huuhuy(HttpServletRequest request, HttpSession httpSession) {
 		ModelAndView mav = new ModelAndView("exam-part-2-huuhuy");
 		initSession(request, httpSession);
 
 		mav.addObject("currentSiteId", getCurrentSiteId());
 		mav.addObject("userDisplayName", getCurrentUserDisplayName());
 
-		
 		return mav;
 	}
 
