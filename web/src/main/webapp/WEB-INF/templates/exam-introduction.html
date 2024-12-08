@@ -1,4 +1,5 @@
-	<!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="en-US" dir="ltr" class="Mrphs-html"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -426,7 +427,8 @@
 									</div>
 								</div>
 							</label> <br> <label class="checkbox-inline"
-								style="padding-left: 30px;"> Layout for Reading Parts 5~7
+								style="padding-left: 30px;"> Layout for Reading Parts
+								5~7
 								<div
 									class="bootstrap-switch-id-templateT bootstrap-switch bootstrap-switch-wrapper
 									bootstrap-switch-focused bootstrap-switch-animate bootstrap-switch-on"
@@ -450,28 +452,34 @@
 								<strong>Question by question:</strong> Each question is on a
 								separate page.
 							</p>
-							
+
 							<p>
 								<strong>Part by part:</strong> All questions of each part are
 								displayed on a page.
 							</p>
-				 			<!-- <a id="start_test" class="btn btn-primary btn-lg mt-1 disable"
+							<!-- <a id="start_test" class="btn btn-primary btn-lg mt-1 disable"
 								style="margin-top: 20px;" th:href="@{exam-part-1-vovantri(examId=${exam.id})}" >START</a> -->
-							
-							<button id="start_test" class="btn btn-primary btn-lg mt-1" style="margin-top: 20px;">START</button>	 
-							<div>
-							
-							</div>
+
+							<button id="start_test" class="btn btn-primary btn-lg mt-1"
+								style="margin-top: 20px;">START</button>
+							<div></div>
 							<form action="start-part-1" method="POST">
-							    <input type="hidden" name="examId" th:value="${exam.id}">
-							    <button id="start_test" class="btn btn-primary btn-lg mt-1" style="margin-top: 20px;">Demo Part 1</button>
+								<input type="hidden" name="examId" th:value="${exam.id}">
+								<button id="start_test" class="btn btn-primary btn-lg mt-1"
+									style="margin-top: 20px;">Demo Part 1</button>
 							</form>
-							
+
 							<form action="start-part-2" method="POST">
-							    <input type="hidden" name="examId" th:value="${exam.id}">
-							    <button id="start_test" class="btn btn-primary btn-lg mt-1" style="margin-top: 20px;">Demo Part 2</button>
+								<input type="hidden" name="examId" th:value="${exam.id}">
+								<button id="start_test" class="btn btn-primary btn-lg mt-1"
+									style="margin-top: 20px;">Demo Part 2</button>
 							</form>
-							
+							<form action="start-part-3" method="POST">
+								<input type="hidden" name="examId" th:value="${exam.id}">
+								<button id="start_test" class="btn btn-primary btn-lg mt-1"
+									style="margin-top: 20px;">Demo Part 3</button>
+							</form>
+
 						</div>
 					</div>
 					<div id="test_page" class="hidden">
@@ -536,8 +544,10 @@
 				<!-- 	<script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script> -->
 				<!-- 	<script type="text/javascript" src="resources/js/bootstrap.min.js"></script> -->
 				<!-- jQuery library -->
-				<script src="https://xlms.myworkspace.vn/library/webjars/jquery/3.4.1/dist/jquery.min.js"></script>
-				<script src="https://xlms.myworkspace.vn/library/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+				<script
+					src="https://xlms.myworkspace.vn/library/webjars/jquery/3.4.1/dist/jquery.min.js"></script>
+				<script
+					src="https://xlms.myworkspace.vn/library/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 				<script type="text/javascript"
 					src="resources/app-assets/js/core/libraries/jquery_ui/jquery-ui.min.js"></script>
 				<script type="text/javascript"

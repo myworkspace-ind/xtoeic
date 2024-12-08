@@ -22,4 +22,5 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 	           "ORDER BY item.sequence")
     List<Item> getItemByExamIDAndPartTitle(@Param("assessmentId") Long assessmentId, 
 	                                                             @Param("title") String title);
+	
 }

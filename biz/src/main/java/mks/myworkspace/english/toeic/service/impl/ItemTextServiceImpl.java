@@ -29,5 +29,9 @@ public class ItemTextServiceImpl implements ItemTextService{
 	@Override
 	public Optional<ItemText> findById(Long id) {
         return repo.findById(id);
-    }  
+    }
+
+	
+	
+	
 }
