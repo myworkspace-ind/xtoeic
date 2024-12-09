@@ -182,8 +182,9 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>${sakai.jackson.version}</version>
-			<scope>provided</scope>
 		</dependency>
+		
+		
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
