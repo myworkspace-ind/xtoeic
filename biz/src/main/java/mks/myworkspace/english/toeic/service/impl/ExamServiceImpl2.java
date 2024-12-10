@@ -17,8 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import lombok.RequiredArgsConstructor;
-import mks.myworkspace.english.toeic.entity.AssessmentGrading;
-import mks.myworkspace.english.toeic.entity.ItemGrading;
+import mks.myworkspace.english.toeic.entity.AssessmentGrading2;
+import mks.myworkspace.english.toeic.entity.ItemGrading2;
 import mks.myworkspace.english.toeic.entity.PublishedAccessControl;
 import mks.myworkspace.english.toeic.entity.PublishedAnswer;
 import mks.myworkspace.english.toeic.entity.PublishedAssessment;
@@ -30,19 +30,19 @@ import mks.myworkspace.english.toeic.model.ExamAnswer;
 import mks.myworkspace.english.toeic.model.ExamQuestionControl;
 import mks.myworkspace.english.toeic.model.ExamResult;
 import mks.myworkspace.english.toeic.model.ExamSection;
-import mks.myworkspace.english.toeic.repository.AssessmentGradingRepository;
-import mks.myworkspace.english.toeic.repository.ItemGradingRepository;
+import mks.myworkspace.english.toeic.repository.AssessmentGradingRepository2;
+import mks.myworkspace.english.toeic.repository.ItemGradingRepository2;
 import mks.myworkspace.english.toeic.repository.PublishedAnswerRepository;
 import mks.myworkspace.english.toeic.repository.PublishedAssessmentRepository;
-import mks.myworkspace.english.toeic.service.ExamService;
+import mks.myworkspace.english.toeic.service.ExamService2;
 
 @Service
 @RequiredArgsConstructor
-public class ExamServiceImpl implements ExamService {
+public class ExamServiceImpl2 implements ExamService2 {
     private final PublishedAssessmentRepository publishedAssessmentRepository;
     private final PublishedAnswerRepository publishedAnswerRepository;
-    private final AssessmentGradingRepository assessmentGradingRepository;
-    private final ItemGradingRepository itemGradingRepository;
+    private final AssessmentGradingRepository2 assessmentGradingRepository;
+    private final ItemGradingRepository2 itemGradingRepository;
 
     // Default agent id -> change to dynamic on login user
     private static final String AGENT_ID = "70a9eec6-9663-40ad-aa1c-120dbfc9665d";
@@ -71,7 +71,7 @@ public class ExamServiceImpl implements ExamService {
             return null;
         }
         PublishedAccessControl accessControl = assessment.getAccessControl();
-        AssessmentGrading assessmentGrading = assessmentGradingRepository.findByAgentIdAndAssessmentIdAndStatus(AGENT_ID, id, 0);
+        AssessmentGrading2 assessmentGrading = assessmentGradingRepository.findByAgentIdAndAssessmentIdAndStatus(AGENT_ID, id, 0);
         return Exam.builder()
             .id(assessment.getId())
             .title(assessment.getTitle())
@@ -108,10 +108,10 @@ public class ExamServiceImpl implements ExamService {
     @Override
     @Transactional
     public void attemptExam(Integer examId) {
-        AssessmentGrading assessmentGrading = assessmentGradingRepository.findByAgentIdAndAssessmentIdAndStatus(
+        AssessmentGrading2 assessmentGrading = assessmentGradingRepository.findByAgentIdAndAssessmentIdAndStatus(
             AGENT_ID, examId, 0);
         if (assessmentGrading == null) {
-            assessmentGrading = AssessmentGrading.builder()
+            assessmentGrading = AssessmentGrading2.builder()
                 .assessmentId(examId)
                 .agentId(AGENT_ID)
                 .isLate(false)
@@ -192,12 +192,12 @@ public class ExamServiceImpl implements ExamService {
         PublishedAssessment assessment = publishedAssessmentRepository.findById(examId)
             .orElse(null);
         if (assessment == null) return null;
-        AssessmentGrading assessmentGrading = assessmentGradingRepository.findByAgentIdAndAssessmentIdAndStatus(AGENT_ID, examId, 0);
+        AssessmentGrading2 assessmentGrading = assessmentGradingRepository.findByAgentIdAndAssessmentIdAndStatus(AGENT_ID, examId, 0);
         List<Integer> checkedAnswerIds;
         if (assessmentGrading != null) {
-            List<ItemGrading> itemGradings = itemGradingRepository.findAllByAssessmentGradingId(assessmentGrading.getId());
+            List<ItemGrading2> itemGradings = itemGradingRepository.findAllByAssessmentGradingId(assessmentGrading.getId());
             checkedAnswerIds = itemGradings.stream()
-                .map(ItemGrading::getPublishedAnswerId)
+                .map(ItemGrading2::getPublishedAnswerId)
                 .collect(Collectors.toList());
         } else {
             checkedAnswerIds = new ArrayList<>();
@@ -253,11 +253,11 @@ public class ExamServiceImpl implements ExamService {
             .orElse(null);
         if (assessment == null) return;
         List<PublishedSection> sections = assessment.getSections();
-        List<ItemGrading> itemGradings = new ArrayList<>();
+        List<ItemGrading2> itemGradings = new ArrayList<>();
         int questionNo = 0;
         List<Integer> answerIds = answerForm.values().stream()
             .map(Integer::parseInt).collect(Collectors.toList());
-        AssessmentGrading assessmentGrading = assessmentGradingRepository.findByAgentIdAndAssessmentIdAndStatus(
+        AssessmentGrading2 assessmentGrading = assessmentGradingRepository.findByAgentIdAndAssessmentIdAndStatus(
             AGENT_ID, examId, 0);
         if (assessmentGrading == null) return;
         assessmentGrading.setTotalAutoScore(this.autoScore(answerIds));
@@ -268,14 +268,14 @@ public class ExamServiceImpl implements ExamService {
             for (PublishedItem item : items) {
                 questionNo++;
                 if (answerForm.containsKey(String.valueOf(questionNo))) {
-                    ItemGrading itemGrading = itemGradingRepository.findByAssessmentGradingIdAndPublishedItemId(assessmentGrading.getId(), item.getId());
+                    ItemGrading2 itemGrading = itemGradingRepository.findByAssessmentGradingIdAndPublishedItemId(assessmentGrading.getId(), item.getId());
                     Integer answerId = Integer.parseInt(answerForm.get(String.valueOf(questionNo)));
                     PublishedAnswer answer = item.getAnswers().stream()
                         .filter(publishedAnswer -> publishedAnswer.getId().equals(answerId))
                         .findFirst().orElse(null);
                     if (answer == null) continue;
                     if (itemGrading == null) {
-                        itemGrading = ItemGrading.builder()
+                        itemGrading = ItemGrading2.builder()
                             .assessmentGradingId(assessmentGrading.getId())
                             .publishedItemId(item.getId())
                             .publishedItemTextId(item.getPublishedItemText().getId())
@@ -311,7 +311,7 @@ public class ExamServiceImpl implements ExamService {
     @Override
     @Transactional
     public Page<ExamResult> getPagingResult(Integer examId, Pageable pageable) {
-        Page<AssessmentGrading> assessmentGradingPage = assessmentGradingRepository.findAllByAgentIdAndAssessmentId(AGENT_ID, examId, pageable);
+        Page<AssessmentGrading2> assessmentGradingPage = assessmentGradingRepository.findAllByAgentIdAndAssessmentId(AGENT_ID, examId, pageable);
         return assessmentGradingPage.map(assessmentGrading -> ExamResult.builder()
             .id(assessmentGrading.getId())
             .attemptDate(assessmentGrading.getAttemptDate())

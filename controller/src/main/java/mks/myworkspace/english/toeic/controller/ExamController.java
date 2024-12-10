@@ -18,13 +18,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import lombok.RequiredArgsConstructor;
 import mks.myworkspace.english.toeic.model.ExamQuestionControl;
 import mks.myworkspace.english.toeic.model.ExamTakingOption;
-import mks.myworkspace.english.toeic.service.ExamService;
+import mks.myworkspace.english.toeic.service.ExamService2;
 
 @Controller
 @RequestMapping("/exam")
 @RequiredArgsConstructor
 public class ExamController {
-    private final ExamService examService;
+    private final ExamService2 examService;
 
     @GetMapping("")
     public String exam(Model model) {
@@ -41,7 +41,7 @@ public class ExamController {
 
         model.addAttribute("option", option);
         model.addAttribute("exam", examService.getExamById(id));
-        return "exam-introduction";
+        return "exam-introduction2";
     }
 
     @PostMapping("/{id}/taking/start")
@@ -97,7 +97,7 @@ public class ExamController {
         Model model,
         Pageable pageable) {
         model.addAttribute("examResultPage", examService.getPagingResult(id, pageable));
-        return "fragment/exam :: exam_result";
+        return "fragments/exam :: exam_result";
     }
 
     @PostMapping(value="{id}/taking/questions")
@@ -119,7 +119,7 @@ public class ExamController {
         model.addAttribute("sectNo", sectNo);
         model.addAttribute("quesNo", quesNo);
         model.addAttribute("section", examService.getSection(id, sectNo));
-        return "fragment/exam :: exam_taking_question";
+        return "fragments/exam :: exam_taking_question";
     }
 
 }

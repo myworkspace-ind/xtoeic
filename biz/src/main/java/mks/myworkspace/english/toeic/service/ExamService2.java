@@ -17,7 +17,7 @@ import mks.myworkspace.english.toeic.model.ExamSection;
 
 
 @Service
-public interface ExamService {
+public interface ExamService2 {
 
     List<Exam> getExams();
 

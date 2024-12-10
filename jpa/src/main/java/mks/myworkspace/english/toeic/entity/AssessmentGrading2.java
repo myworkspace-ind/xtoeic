@@ -12,7 +12,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AssessmentGrading {
+public class AssessmentGrading2 {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
