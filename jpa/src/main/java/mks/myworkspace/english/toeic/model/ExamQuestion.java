@@ -1,19 +1,19 @@
 package mks.myworkspace.english.toeic.model;
 
+import java.util.List;
+
 import lombok.Builder;
 import lombok.Data;
-
-import javax.persistence.Column;
-import javax.persistence.Id;
-import java.util.List;
 
 @Data
 @Builder
 public class ExamQuestion {
 
-    private Integer id;
+	private Integer id;
 
     private String audio;
+
+    private String audioText;
 
     private String image;
 

@@ -10,6 +10,8 @@ import java.util.Date;
 public class ExamResult {
 
     private Integer id;
+    
+    private Integer assessmentId;
 
     private Date attemptDate;
 

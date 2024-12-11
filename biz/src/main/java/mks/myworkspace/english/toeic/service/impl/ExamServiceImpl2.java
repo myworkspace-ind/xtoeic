@@ -9,8 +9,6 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
-import javax.transaction.Transactional;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,6 +22,7 @@ import mks.myworkspace.english.toeic.entity.PublishedAnswer;
 import mks.myworkspace.english.toeic.entity.PublishedAssessment;
 import mks.myworkspace.english.toeic.entity.PublishedItem;
 import mks.myworkspace.english.toeic.entity.PublishedSection;
+import mks.myworkspace.english.toeic.enums.HeaderQuestion;
 import mks.myworkspace.english.toeic.mapper.ExamMapper;
 import mks.myworkspace.english.toeic.model.Exam;
 import mks.myworkspace.english.toeic.model.ExamAnswer;
@@ -34,12 +33,16 @@ import mks.myworkspace.english.toeic.repository.AssessmentGradingRepository2;
 import mks.myworkspace.english.toeic.repository.ItemGradingRepository2;
 import mks.myworkspace.english.toeic.repository.PublishedAnswerRepository;
 import mks.myworkspace.english.toeic.repository.PublishedAssessmentRepository;
+import mks.myworkspace.english.toeic.repository.PublishedItemRepository;
+import mks.myworkspace.english.toeic.repository.PublishedSectionRepository;
 import mks.myworkspace.english.toeic.service.ExamService2;
 
 @Service
 @RequiredArgsConstructor
 public class ExamServiceImpl2 implements ExamService2 {
-    private final PublishedAssessmentRepository publishedAssessmentRepository;
+	private final PublishedAssessmentRepository publishedAssessmentRepository;
+    private final PublishedSectionRepository publishedSectionRepository;
+    private final PublishedItemRepository publishedItemRepository;
     private final PublishedAnswerRepository publishedAnswerRepository;
     private final AssessmentGradingRepository2 assessmentGradingRepository;
     private final ItemGradingRepository2 itemGradingRepository;
@@ -48,7 +51,6 @@ public class ExamServiceImpl2 implements ExamService2 {
     private static final String AGENT_ID = "70a9eec6-9663-40ad-aa1c-120dbfc9665d";
 
     @Override
-    @Transactional
     public List<Exam> getExams() {
         List<PublishedAssessment> assessments = publishedAssessmentRepository.findAll();
         return assessments.stream()
@@ -63,15 +65,14 @@ public class ExamServiceImpl2 implements ExamService2 {
     }
 
     @Override
-    @Transactional
     public Exam getExamById(Integer id) {
         PublishedAssessment assessment = publishedAssessmentRepository.findById(id)
-                .orElse(null);
+            .orElse(null);
         if (Objects.isNull(assessment)) {
             return null;
         }
         PublishedAccessControl accessControl = assessment.getAccessControl();
-        AssessmentGrading2 assessmentGrading = assessmentGradingRepository.findByAgentIdAndAssessmentIdAndStatus(AGENT_ID, id, 0);
+        AssessmentGrading2 assessmentGrading = assessmentGradingRepository.findByAgentIdAndIdAndStatus(AGENT_ID, id, 0);
         return Exam.builder()
             .id(assessment.getId())
             .title(assessment.getTitle())
@@ -83,14 +84,13 @@ public class ExamServiceImpl2 implements ExamService2 {
     }
 
     @Override
-    @Transactional
     public ExamSection getSection(Integer examId, Integer sectNo) {
         PublishedAssessment publishedAssessment = publishedAssessmentRepository.findById(examId)
             .orElse(null);
         if (Objects.isNull(publishedAssessment)) {
             return null;
         }
-        List<PublishedSection> publishedSections = publishedAssessment.getSections();
+        List<PublishedSection> publishedSections = publishedSectionRepository.findAllByAssessmentIdOrderBySequence(examId);
         if (publishedSections.size() < sectNo
             || CollectionUtils.isEmpty(publishedSections)) {
             return null;
@@ -98,15 +98,15 @@ public class ExamServiceImpl2 implements ExamService2 {
         PublishedSection publishedSection = publishedSections.get(sectNo - 1);
         return ExamSection.builder()
             .id(publishedSection.getId())
-            .assessmentId(publishedSection.getPublishedAssessment().getId())
+            .assessmentId(examId)
             .sequence(publishedSection.getSequence())
-            .title(publishedSection.getTitle())
-            .description(publishedSection.getDescription())
+            .part(HeaderQuestion.valueOf(publishedSection.getTitle()).name())
+            .title(HeaderQuestion.valueOf(publishedSection.getTitle()).getTitle())
+            .description(HeaderQuestion.valueOf(publishedSection.getTitle()).getDescription())
             .build();
     }
 
     @Override
-    @Transactional
     public void attemptExam(Integer examId) {
         AssessmentGrading2 assessmentGrading = assessmentGradingRepository.findByAgentIdAndAssessmentIdAndStatus(
             AGENT_ID, examId, 0);
@@ -129,69 +129,73 @@ public class ExamServiceImpl2 implements ExamService2 {
     }
 
     @Override
-    @Transactional
     public ExamQuestionControl getQuestions(Integer examId, Integer sectNo, Integer quesNo) {
         ExamQuestionControl control = new ExamQuestionControl();
         control.setIsFirst(false);
         control.setIsLast(false);
         control.setSectNo(sectNo);
-        control.setSectNo(quesNo);
-        PublishedAssessment publishedAssessment = publishedAssessmentRepository.findById(examId)
-            .orElse(null);
-        if (Objects.isNull(publishedAssessment)) {
-            control.setQuestions(new ArrayList<>());
-            return control;
-        }
-        List<PublishedSection> publishedSections = publishedAssessment.getSections();
+        control.setQuesNo(quesNo);
+
+        List<PublishedSection> publishedSections = publishedSectionRepository.findAllByAssessmentIdOrderBySequence(examId);
         if (publishedSections.size() < sectNo
             || CollectionUtils.isEmpty(publishedSections)) {
             control.setQuestions(new ArrayList<>());
             return control;
         }
         PublishedSection publishedSection = publishedSections.get(sectNo - 1);
-        int passedQues = 0;
+        List<Integer> passedSectionIds = new ArrayList<>();
         for (int i = 0; i < sectNo - 1; i++) {
-            passedQues += publishedSections.get(i).getPublishedItems().size();
+            passedSectionIds.add(publishedSections.get(i).getId());
         }
 
+        int passedQues = publishedItemRepository.countAllBySectionIdIn(passedSectionIds);
+
         if (Objects.nonNull(quesNo)) {
-            if (publishedSection.getPublishedItems().size() < quesNo - passedQues
+            Integer sectionItemCount = publishedItemRepository.countAllBySectionId(publishedSection.getId());
+            if (sectionItemCount < quesNo - passedQues
                 && publishedSections.size() > sectNo) {
                 sectNo++;
-                passedQues += publishedSection.getPublishedItems().size();
+                passedQues += sectionItemCount;
                 publishedSection = publishedSections.get(sectNo - 1);
+                sectionItemCount = publishedItemRepository.countAllBySectionId(publishedSection.getId());
             }
             if (sectNo > 1 && quesNo == passedQues) {
                 sectNo--;
                 publishedSection = publishedSections.get(sectNo - 1);
-                passedQues -= publishedSection.getPublishedItems().size();
+                sectionItemCount = publishedItemRepository.countAllBySectionId(publishedSection.getId());
+                passedQues -= sectionItemCount;
             }
             control.setSectNo(sectNo);
             control.setQuesNo(quesNo);
             control.setIsFirst(sectNo == 1 && quesNo == 1);
-            control.setIsLast(publishedSections.size() == sectNo && publishedSection.getPublishedItems().size() == quesNo);
-            PublishedItem publishedItem = publishedSection.getPublishedItems().get(quesNo - passedQues - 1);
-            control.setQuestions(List.of(ExamMapper.toExamQuestion(quesNo, publishedItem)));
+            sectionItemCount = publishedItemRepository.countAllBySectionId(publishedSection.getId());
+            control.setIsLast(publishedSections.size() == sectNo && Objects.equals(sectionItemCount, quesNo - passedQues));
+
+            List<PublishedItem> publishedItems = publishedItemRepository.findAllBySectionIdOrderBySequence(publishedSection.getId());
+            PublishedItem publishedItem = publishedItems.get(quesNo - passedQues - 1);
+            control.setQuestions(List.of(ExamMapper.toExamQuestion(
+                quesNo,
+                publishedItem,
+                publishedAnswerRepository.findAllByItemIdOrderBySequence(publishedItem.getId()))));
             return control;
         } else {
             AtomicReference<Integer> startQuestionNo = new AtomicReference<>(passedQues + 1);
             control.setSectNo(sectNo);
             control.setIsFirst(sectNo == 1);
             control.setIsLast(publishedSections.size() == sectNo);
-            control.setQuestions(publishedSection.getPublishedItems().stream()
-                .map(publishedItem -> ExamMapper.toExamQuestion(startQuestionNo.getAndSet(startQuestionNo.get() + 1), publishedItem))
+            control.setQuestions(publishedItemRepository.findAllBySectionIdOrderBySequence(publishedSection.getId()).stream()
+                .map(publishedItem -> ExamMapper.toExamQuestion(
+                    startQuestionNo.getAndSet(startQuestionNo.get() + 1),
+                    publishedItem,
+                    publishedAnswerRepository.findAllByItemIdOrderBySequence(publishedItem.getId())))
                 .collect(Collectors.toList()));
             return control;
         }
     }
 
     @Override
-    @Transactional
     public Map<Integer, List<ExamAnswer>> getExamAnswerSheet(Integer examId) {
         // 1st solution
-        PublishedAssessment assessment = publishedAssessmentRepository.findById(examId)
-            .orElse(null);
-        if (assessment == null) return null;
         AssessmentGrading2 assessmentGrading = assessmentGradingRepository.findByAgentIdAndAssessmentIdAndStatus(AGENT_ID, examId, 0);
         List<Integer> checkedAnswerIds;
         if (assessmentGrading != null) {
@@ -202,14 +206,15 @@ public class ExamServiceImpl2 implements ExamService2 {
         } else {
             checkedAnswerIds = new ArrayList<>();
         }
-        List<PublishedSection> sections = assessment.getSections();
+        List<PublishedSection> sections = publishedSectionRepository.findAllByAssessmentIdOrderBySequence(examId);
         int questionNo = 0;
         Map<Integer, List<ExamAnswer>> answerSheet = new HashMap<>();
         for (PublishedSection section : sections) {
-            List<PublishedItem> items = section.getPublishedItems();
+            List<PublishedItem> items = publishedItemRepository.findAllBySectionIdOrderBySequence(section.getId());
             for (PublishedItem item : items) {
                 answerSheet.put(++questionNo,
-                    item.getAnswers().stream()
+                    publishedAnswerRepository.findAllByItemIdOrderBySequence(item.getId()).stream()
+                        .filter(pa -> !ExamMapper.AUDIO_TEXT_LABEL.equals(pa.getLabel()))
                         .map(publishedAnswer -> ExamAnswer.builder()
                             .id(publishedAnswer.getId())
                             .itemId(item.getId())
@@ -222,25 +227,45 @@ public class ExamServiceImpl2 implements ExamService2 {
             }
         }
 
-        // 2nd solution
-//        List<ExamAnswer> answers = publishedAnswerRepository.findAllByExamId(examId);
-//        int questionNo = 0;
-//        Map<Integer, List<ExamAnswer>> answerSheet = new HashMap<>();
-//        int secNo = answers.get(0).getSectionNo();
-//        int itemNo = answers.get(0).getSectionNo();
-//        List<ExamAnswer> splitAnswers = new ArrayList<>();
-//        for (ExamAnswer answer : answers) {
-//            if (answer.getSectionNo() != secNo || answer.getItemNo() != itemNo) {
-//                questionNo++;
-//                answerSheet.put(questionNo, splitAnswers);
-//                splitAnswers = new ArrayList<>();
-//                secNo = answer.getSectionNo();
-//                itemNo = answer.getItemNo();
-//            }
-//            splitAnswers.add(answer);
-//        }
-//        questionNo++;
-//        answerSheet.put(questionNo, splitAnswers);
+        return answerSheet;
+    }
+
+    @Override
+    public Map<Integer, List<ExamAnswer>> getExamAnswerSheetResult(Integer examId, Integer gradingId) {
+        // 1st solution
+        AssessmentGrading2 assessmentGrading;
+        try {
+            assessmentGrading = assessmentGradingRepository.findByAgentIdAndIdAndStatus(AGENT_ID, gradingId, 2);
+            if (assessmentGrading == null) return new HashMap<>();
+        } catch (Exception e) {
+            return new HashMap<>();
+        }
+        List<ItemGrading2> itemGradings = itemGradingRepository.findAllByAssessmentGradingId(assessmentGrading.getId());
+        List<Integer> checkedAnswerIds = itemGradings.stream()
+            .map(ItemGrading2::getPublishedAnswerId)
+            .collect(Collectors.toList());
+
+        List<PublishedSection> sections = publishedSectionRepository.findAllByAssessmentIdOrderBySequence(examId);
+        int questionNo = 0;
+        Map<Integer, List<ExamAnswer>> answerSheet = new HashMap<>();
+        for (PublishedSection section : sections) {
+            List<PublishedItem> items = publishedItemRepository.findAllBySectionIdOrderBySequence(section.getId());
+            for (PublishedItem item : items) {
+                answerSheet.put(++questionNo,
+                    publishedAnswerRepository.findAllByItemIdOrderBySequence(item.getId()).stream()
+                        .filter(answer -> !answer.getLabel().equals("E"))
+                        .map(publishedAnswer -> ExamAnswer.builder()
+                            .id(publishedAnswer.getId())
+                            .itemId(item.getId())
+                            .label(publishedAnswer.getLabel())
+                            .text(publishedAnswer.getText())
+                            .isCorrect(publishedAnswer.getIsCorrect())
+                            .isChecked(checkedAnswerIds.contains(publishedAnswer.getId()))
+                            .build())
+                        .collect(Collectors.toList())
+                );
+            }
+        }
 
         return answerSheet;
     }
@@ -249,10 +274,7 @@ public class ExamServiceImpl2 implements ExamService2 {
     public void saveAnswer(Integer examId, Map<String, String> answerForm) {
         Integer timeElapsed = Integer.valueOf(answerForm.get("-1"));
         answerForm.remove("-1");
-        PublishedAssessment assessment = publishedAssessmentRepository.findById(examId)
-            .orElse(null);
-        if (assessment == null) return;
-        List<PublishedSection> sections = assessment.getSections();
+        List<PublishedSection> sections = publishedSectionRepository.findAllByAssessmentIdOrderBySequence(examId);
         List<ItemGrading2> itemGradings = new ArrayList<>();
         int questionNo = 0;
         List<Integer> answerIds = answerForm.values().stream()
@@ -264,13 +286,13 @@ public class ExamServiceImpl2 implements ExamService2 {
         assessmentGrading.setTimeElapsed(timeElapsed);
         assessmentGradingRepository.saveAndFlush(assessmentGrading);
         for (PublishedSection section : sections) {
-            List<PublishedItem> items = section.getPublishedItems();
+            List<PublishedItem> items = publishedItemRepository.findAllBySectionIdOrderBySequence(section.getId());
             for (PublishedItem item : items) {
                 questionNo++;
                 if (answerForm.containsKey(String.valueOf(questionNo))) {
                     ItemGrading2 itemGrading = itemGradingRepository.findByAssessmentGradingIdAndPublishedItemId(assessmentGrading.getId(), item.getId());
                     Integer answerId = Integer.parseInt(answerForm.get(String.valueOf(questionNo)));
-                    PublishedAnswer answer = item.getAnswers().stream()
+                    PublishedAnswer answer = publishedAnswerRepository.findAllByItemIdOrderBySequence(item.getId()).stream()
                         .filter(publishedAnswer -> publishedAnswer.getId().equals(answerId))
                         .findFirst().orElse(null);
                     if (answer == null) continue;
@@ -300,20 +322,79 @@ public class ExamServiceImpl2 implements ExamService2 {
     }
 
     @Override
-    @Transactional
-    public Double submitAnswer(Integer examId, Map<String, String> answerForm) {
+    public Map<String, Object> submitAnswer(Integer examId, Map<String, String> answerForm) {
+        Map<String, Object> map = new HashMap<>();
+        Integer timeElapsed = Integer.valueOf(answerForm.get("-1"));
         answerForm.remove("-1");
+        PublishedAssessment assessment = publishedAssessmentRepository.findById(examId)
+            .orElse(null);
+        if (assessment == null) return map;
+        List<PublishedSection> sections = publishedSectionRepository.findAllByAssessmentIdOrderBySequence(examId);
+        List<ItemGrading2> itemGradings = new ArrayList<>();
+        int questionNo = 0;
         List<Integer> answerIds = answerForm.values().stream()
             .map(Integer::parseInt).collect(Collectors.toList());
-        return autoScore(answerIds);
+        AssessmentGrading2 assessmentGrading = assessmentGradingRepository.findByAgentIdAndAssessmentIdAndStatus(
+            AGENT_ID, examId, 0);
+
+        if (assessmentGrading == null) return map;
+
+        Double autoScore = this.autoScore(answerIds);
+        assessmentGrading.setTotalAutoScore(autoScore);
+        assessmentGrading.setFinalScore(autoScore);
+        assessmentGrading.setTimeElapsed(timeElapsed);
+        assessmentGrading.setStatus(2);
+        assessmentGrading.setIsAutoSubmitted(timeElapsed >= assessment.getAccessControl().getTimeLimit());
+        assessmentGradingRepository.saveAndFlush(assessmentGrading);
+        for (PublishedSection section : sections) {
+            List<PublishedItem> items = publishedItemRepository.findAllBySectionIdOrderBySequence(section.getId());
+            for (PublishedItem item : items) {
+                questionNo++;
+                if (answerForm.containsKey(String.valueOf(questionNo))) {
+                    ItemGrading2 itemGrading = itemGradingRepository.findByAssessmentGradingIdAndPublishedItemId(assessmentGrading.getId(), item.getId());
+                    Integer answerId = Integer.parseInt(answerForm.get(String.valueOf(questionNo)));
+                    PublishedAnswer answer = publishedAnswerRepository.findAllByItemIdOrderBySequence(item.getId()).stream()
+                        .filter(publishedAnswer -> publishedAnswer.getId().equals(answerId))
+                        .findFirst().orElse(null);
+                    if (answer == null) continue;
+                    if (itemGrading == null) {
+                        itemGrading = ItemGrading2.builder()
+                            .assessmentGradingId(assessmentGrading.getId())
+                            .publishedItemId(item.getId())
+                            .publishedItemTextId(item.getPublishedItemText().getId())
+                            .agentId(AGENT_ID)
+                            .publishedAnswerId(answer.getId())
+                            .answerText(String.format("%s-%s", questionNo, answer.getLabel()))
+                            .isCorrect(answer.getIsCorrect())
+                            .build();
+                    } else {
+                        itemGrading.setPublishedAnswerId(answer.getId());
+                        itemGrading.setAnswerText(String.format("%s-%s", questionNo, answer.getLabel()));
+                        itemGrading.setIsCorrect(answer.getIsCorrect());
+                        itemGradings.add(itemGrading);
+                    }
+                    itemGradings.add(itemGrading);
+                }
+            }
+        }
+        if (!CollectionUtils.isEmpty(itemGradings)) {
+            itemGradingRepository.saveAll(itemGradings);
+        }
+        Map<String, Object> mapScore = assessmentGradingRepository.getScoreByPart(assessmentGrading.getId());
+        map.put("examId", assessmentGrading.getAssessmentId());
+        map.put("listeningScore", mapScore.get("listeningScore"));
+        map.put("readingScore", mapScore.get("readingScore"));
+        map.put("totalScore", assessmentGrading.getFinalScore());
+        map.put("gradingId", assessmentGrading.getId());
+        return map;
     }
 
     @Override
-    @Transactional
     public Page<ExamResult> getPagingResult(Integer examId, Pageable pageable) {
-        Page<AssessmentGrading2> assessmentGradingPage = assessmentGradingRepository.findAllByAgentIdAndAssessmentId(AGENT_ID, examId, pageable);
+        Page<AssessmentGrading2> assessmentGradingPage = assessmentGradingRepository.findAllByAgentIdAndAssessmentIdAndStatus(AGENT_ID, examId, 2, pageable);
         return assessmentGradingPage.map(assessmentGrading -> ExamResult.builder()
             .id(assessmentGrading.getId())
+            .assessmentId(examId)
             .attemptDate(assessmentGrading.getAttemptDate())
             .submittedDate(assessmentGrading.getSubmittedDate())
             .finalScore(assessmentGrading.getFinalScore())

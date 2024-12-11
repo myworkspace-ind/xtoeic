@@ -17,9 +17,12 @@ import java.util.List;
 @AllArgsConstructor
 public class PublishedSection {
 
-    @Id
+	@Id
     @Column(name = "SECTIONID")
     private Integer id;
+
+    @Column(name = "ASSESSMENTID")
+    private Integer assessmentId;
 
     @Column(name = "DURATION")
     private Integer duration;
@@ -50,13 +53,5 @@ public class PublishedSection {
 
     @Column(name = "LASTMODIFIEDDATE")
     private Date lastModifiedDate;
-
-    @ManyToOne
-    @JoinColumn(name = "ASSESSMENTID", referencedColumnName = "ID")
-    private PublishedAssessment publishedAssessment;
-
-    @OrderBy(value = "sequence")
-    @OneToMany(mappedBy = "publishedSection", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<PublishedItem> publishedItems;
 
 }

@@ -71,8 +71,8 @@ public class PublishedAssessment {
     @PrimaryKeyJoinColumn
     private PublishedAccessControl accessControl;
 
-    @OrderBy(value = "sequence")
-    @OneToMany(mappedBy = "publishedAssessment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<PublishedSection> sections;
+//    @OrderBy(value = "sequence")
+//    @OneToMany(mappedBy = "publishedAssessment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private List<PublishedSection> sections;
 
 }

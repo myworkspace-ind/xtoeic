@@ -34,19 +34,6 @@
     <script type="text/javascript"
             src="https://xlms.myworkspace.vn/library/js/headscripts.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
-    <style>
-        .ui-widget-header,.ui-state-default, ui-button {
-           background:#b9cd6d;
-           border: 1px solid #b9cd6d;
-           color: #FFFFFF;
-           font-weight: bold;
-        }
-
-        #title_part_multi {
-            display: inline-block;
-        }
-     </style>
 
     <!-- End of Head material from Tool -->
     <title>xTOEIC</title>
@@ -120,15 +107,6 @@
     <div class="col-md-4 text-center">
         <h2 id="assessmentTitle" th:text="${exam.title}"></h2>
     </div>
-    <div class="col-md-4">
-        <div class="toeic-clock text-center">
-            <div id="time-remain-area" class="collapse in">
-                Time remaining: <span id="time_remain"
-                                      th:with="sec=${(exam.timeLimit-exam.timeElapsed)%60},min=${(exam.timeLimit-exam.timeElapsed-sec)/60}"
-                                      th:text="|${min}:${#numbers.formatInteger(sec,2)}|"></span>
-            </div>
-        </div>
-    </div>
 </div>
 
 <!-- <div id="test_page" class="hidden"> -->
@@ -142,50 +120,39 @@
             <!-- end col 8 -->
 
             <!-- answer area -->
-            <form method="post" th:action="@{/exam/{id}/taking/stop(id = ${exam.id})}">
-                <input type="hidden" th:name="-1" id="timeElapsedForm">
-                <div class="col-sm-5">
-                    <div class="title-part">
-                        <h3 class="text-center">
-                            <button class="btn btn-info" onclick="toastr.remove();">
-                                <i class="fa fa-bell-slash"></i>
-                            </button>
-                            Answer sheet
-                        </h3>
-                    </div>
-                    <hr>
-                    <div style="height: 60vh; overflow-y: scroll;" id="answer_scroll">
-                        <div id="answer_sheet" class="answer-area" th:each="answerMap : ${answerSheet}" th:attr="onclick=|changeCurrentAnswer(${answerMap.key})|">
-                            <div class="toeic-form" th:id="${answerMap.key}" style="padding-left: 8px;">
-                                <label class="ques-no" th:text="|${#numbers.formatInteger(answerMap.key,2)}.|"></label>
-                                <span th:each="answer : ${answerMap.value}">
+            <div class="col-sm-5">
+                <div class="title-part">
+                    <h3 class="text-center">
+                        <button class="btn btn-info" onclick="toastr.remove();">
+                            <i class="fa fa-bell-slash"></i>
+                        </button>
+                        Answer sheet
+                    </h3>
+                </div>
+                <hr>
+                <div style="height: 60vh; overflow-y: scroll;" id="answer_scroll">
+                    <div id="answer_sheet" class="answer-area" th:each="answerMap : ${answerSheet}">
+                        <div class="toeic-form" th:id="${answerMap.key}" style="padding-left: 8px;">
+                            <label class="ques-no" th:text="|${#numbers.formatInteger(answerMap.key,2)}.|"></label>
+                            <span th:each="answer : ${answerMap.value}">
                                     <label class="radio-inline" style="padding-right: 8px">
                                         <input th:name="${answerMap.key}" type="radio" tabindex="-1" attrid="2300"
-                                               poolname="Part1"
+                                               poolname="Part1" disabled
                                                th:answerid="${answer.id}" num="1" name="optradio[2300]"
                                                th:value="${answer.id}" th:checked="${answer.isChecked}">
                                         <strong th:text="${answer.label}"></strong>
+                                        <span th:if="${answer.isCorrect}">
+                                            <i class="fa fa-check" style="color: limegreen" aria-hidden="true"></i>
+                                        </span>
+                                        <span th:if="${!answer.isCorrect && answer.isChecked}">
+                                            <i class="fa fa-times" style="color: red" aria-hidden="true"></i>
+                                        </span>
                                     </label>
                                 </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="btnGroup" style="padding-top: 12px">
-                        <div class="col-md-12">
-                            <button type="submit" class="btn btn-success" id="saveBtn" name="save">SAVE</button>
-                            <button type="button" class="btn btn-success" id="submitBtn"
-                                    th:onclick="showSubmitConfirm()">SUBMIT
-                            </button>
-                            <div id="result" class="hidden-xs" role="alert"
-                                 style="display: none">
-                                <strong style="text-align:center">Save OK</strong>
-                            </div>
-                            <div class="loader" style="display: none" id="loading"></div>
                         </div>
                     </div>
                 </div>
-                <div th:insert="fragments/exam :: exam_submit_confirm"></div>
-            </form>
+            </div>
             <!-- end col 4 -->
 
         </div>
@@ -194,124 +161,32 @@
 </div>
 <script>
 
-    let currentAnswer = 1;
     updateView();
 
     function updateView() {
         let quesNos = document.querySelectorAll('div.toiec-question p.text-question');
-        if (quesNos.length === 0) return;
         let firstQuesNo = parseInt(quesNos[0].innerHTML.replace(".", ""));
         let lastQuesNo = parseInt(quesNos[quesNos.length - 1].innerHTML.replace(".", ""));
         document.getElementById('answer_scroll').scrollTop =
             document.querySelector('div.answer-area div[id="' + firstQuesNo + '"]').offsetTop
             - ((document.getElementById('answer_scroll').offsetHeight - document.getElementById('answer_scroll').offsetTop) * 0.3);
         let answerRows = document.querySelectorAll('div.answer-area');
-        currentAnswer = firstQuesNo;
-        document.querySelector('div.answer-area div[id="' + currentAnswer + '"]').parentElement.style.border = "2px solid blue";
-        document.querySelector('div.answer-area div[id="' + currentAnswer + '"]').style.borderRadius = "inherit";
         for (let i = 1; i <= answerRows.length; i++) {
             let answer = document.querySelector('div.answer-area div[id="' + i + '"]');
-            answer.parentElement.style.borderRadius = "8px";
             if (firstQuesNo <= i && i <= lastQuesNo) {
                 answer.style.background = "#c7e5ff";
             } else {
                 answer.style.background = "";
-                answer.style.borderRadius = "";
             }
         }
-    }
-
-    function changeCurrentAnswer(quesNo){
-        document.querySelector('div.answer-area div[id="' + currentAnswer + '"]').parentElement.style.border = "";
-        document.querySelector('div.answer-area div[id="' + currentAnswer + '"]').style.borderRadius = "";
-        currentAnswer = quesNo;
-        document.querySelector('div.answer-area div[id="' + currentAnswer + '"]').parentElement.style.border = "2px solid blue";
-        document.querySelector('div.answer-area div[id="' + currentAnswer + '"]').style.borderRadius = "inherit";
     }
 
     function updateOutput(examId, layout, secNo, quesNo) {
-        $( ".show-audio-text" ).remove();
-        document.querySelector('div.answer-area div[id="' + currentAnswer + '"]').parentElement.style.border = "";
-        document.querySelector('div.answer-area div[id="' + currentAnswer + '"]').style.borderRadius = "";
-        $.post("taking/questions?layout=" + layout + "&sectNo=" + secNo + "&quesNo=" + quesNo, {id: examId}).done(function (fragments) {
+        $.post("../taking/questions?layout=" + layout + "&sectNo=" + secNo + "&quesNo=" + quesNo + "&showBack=true", {id: examId}).done(function (fragments) {
             $("#question_contain").replaceWith(fragments);
             updateView();
-            showAudioTextDialog();
         });
     }
 
-    const dlgConfirm = $("#dlgConfirm");
-
-    function showSubmitConfirm() {
-        let checkedAnswers = [...document.querySelectorAll('input[type="radio"]:checked')].map(item => Number(item.name));
-        let unansweredCount = [[${answerSheet.size}]];
-        let unansweredArr = Array.from(Array(unansweredCount), (e, i) => i + 1);
-        let confirmBody = '';
-        unansweredArr.forEach(item => {
-            if (!checkedAnswers.includes(item)) {
-                unansweredCount--;
-                confirmBody += item + ', '
-            }
-        });
-        console.log($("#confirmTitle"));
-        document.getElementById('confirmTitle').innerHTML = 'You have ' + unansweredCount + ' questions left unanswered';
-        document.getElementById('confirmBody').innerHTML = confirmBody;
-        dlgConfirm.css('display', 'block');
-        dlgConfirm.addClass("in");
-    }
-
-    function closeSubmitConfirm() {
-        dlgConfirm.removeClass("in");
-        dlgConfirm.css('display', 'none');
-    }
-
-    let timeLimit = [[${exam.timeLimit}]];
-    let timeElapsed = [[${exam.timeElapsed}]];
-    const elementTimeRemain = document.getElementById('time_remain');
-    let interval1s = setInterval(function () {
-        timeElapsed++;
-
-        // Find the remaining time
-        let remain = timeLimit - timeElapsed;
-
-        // Time calculations minutes and seconds
-        let seconds = remain % 60;
-        let minutes = (remain - seconds) / 60;
-
-        // Display the result
-        elementTimeRemain.innerHTML = minutes + ":" + seconds.toLocaleString(
-            undefined,
-            {minimumIntegerDigits: 2}
-        );
-
-        // count down is finished
-        if (remain < 0) {
-            clearInterval(interval1s);
-            if (timeLimit === 0) {
-                elementTimeRemain.innerHTML = "UNLIMITED";
-            } else {
-                $("#submitModalBtn").click();
-            }
-        }
-        $("#timeElapsedForm").val(timeElapsed);
-    }, 1000);
-         $(function() {
-            showAudioTextDialog();
-         });
-
-         function showAudioTextDialog() {
-             console.log($(".show-audio-text"));
-            if ($(".show-audio-text")[0]){
-                $( "#showAudioBtn" ).show();
-            }else{
-                $( "#showAudioBtn" ).hide();
-            }
-            $( ".show-audio-text" ).dialog({
-               autoOpen: false,  
-            });
-            $( "#showAudioBtn" ).click(function() {
-                $( ".show-audio-text" ).dialog('open');
-            });
-        }
 </script>
 </body>

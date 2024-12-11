@@ -266,8 +266,8 @@
     const dlgAssessmentGrading = $("#dlgAssessmentGrading");
 
     function openResult(examId) {
-        $.post("exam/"+examId+"/result").done(function (fragment) {
-            $("#exam_result").replaceWith(fragment);
+        $.post("exam/"+examId+"/result").done(function (fragments) {
+            $("#exam_result").replaceWith(fragments);
         });
         dlgAssessmentGrading.css('display', 'block');
         dlgAssessmentGrading.addClass("in");

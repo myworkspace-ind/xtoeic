@@ -17,101 +17,96 @@ import java.util.List;
 @AllArgsConstructor
 public class PublishedItem {
 
-    @Id
-    @Column(name = "ITEMID")
-    private Integer id;
+	@Id
+	@Column(name = "ITEMID")
+	private Integer id;
 
-    @Column(name = "ITEMIDSTRING")
-    private String idString;
+	@Column(name = "SECTIONID")
+	private Integer sectionId;
 
-    @Column(name = "SEQUENCE")
-    private Integer sequence;
+	@Column(name = "ITEMIDSTRING")
+	private String idString;
 
-    @Column(name = "DURATION")
-    private Integer duration;
+	@Column(name = "SEQUENCE")
+	private Integer sequence;
 
-    @Column(name = "TRIESALLOWED")
-    private Integer triesAllowed;
+	@Column(name = "DURATION")
+	private Integer duration;
 
-    @Column(name = "INSTRUCTION")
-    private String instruction;
+	@Column(name = "TRIESALLOWED")
+	private Integer triesAllowed;
 
-    @Column(name = "DESCRIPTION")
-    private String description;
+	@Column(name = "INSTRUCTION")
+	private String instruction;
 
-    @Column(name = "TYPEID")
-    private Integer typeId;
+	@Column(name = "DESCRIPTION")
+	private String description;
 
-    @Column(name = "GRADE")
-    private String grade;
+	@Column(name = "TYPEID")
+	private Integer typeId;
 
-    @Column(name = "SCORE")
-    private Double score;
+	@Column(name = "GRADE")
+	private String grade;
 
-    @Column(name = "DISCOUNT")
-    private Double discount;
+	@Column(name = "SCORE")
+	private Double score;
 
-    @Column(name = "ANSWER_OPTIONS_RICH_COUNT")
-    private Integer answerOptionsRichCount;
+	@Column(name = "DISCOUNT")
+	private Double discount;
 
-    @Column(name = "ANSWER_OPTIONS_SIMPLE_OR_RICH")
-    private Integer answerOptionsSimpleOrRich;
+	@Column(name = "ANSWER_OPTIONS_RICH_COUNT")
+	private Integer answerOptionsRichCount;
 
-    @Column(name = "SCORE_DISPLAY_FLAG")
-    private Boolean scoreDisplayFlag;
+	@Column(name = "ANSWER_OPTIONS_SIMPLE_OR_RICH")
+	private Integer answerOptionsSimpleOrRich;
 
-    @Column(name = "MIN_SCORE")
-    private Double minScore;
+	@Column(name = "SCORE_DISPLAY_FLAG")
+	private Boolean scoreDisplayFlag;
 
-    @Column(name = "HINT")
-    private String hint;
+	@Column(name = "MIN_SCORE")
+	private Double minScore;
 
-    @Column(name = "HASRATIONALE")
-    private Boolean hasRationale;
+	@Column(name = "HINT")
+	private String hint;
 
-    @Column(name = "PARTIAL_CREDIT_FLAG")
-    private Boolean partialCreditFlag;
+	@Column(name = "HASRATIONALE")
+	private Boolean hasRationale;
 
-    @Column(name = "STATUS")
-    private Integer status;
+	@Column(name = "PARTIAL_CREDIT_FLAG")
+	private Boolean partialCreditFlag;
 
-    @Column(name = "CREATEDBY")
-    private String createdBy;
+	@Column(name = "STATUS")
+	private Integer status;
 
-    @Column(name = "CREATEDDATE")
-    private Date createdDate;
+	@Column(name = "CREATEDBY")
+	private String createdBy;
 
-    @Column(name = "LASTMODIFIEDBY")
-    private String lastModifiedBy;
+	@Column(name = "CREATEDDATE")
+	private Date createdDate;
 
-    @Column(name = "LASTMODIFIEDDATE")
-    private Date lastModifiedDate;
+	@Column(name = "LASTMODIFIEDBY")
+	private String lastModifiedBy;
 
-    @Column(name = "HASH")
-    private String hash;
+	@Column(name = "LASTMODIFIEDDATE")
+	private Date lastModifiedDate;
 
-    @Column(name = "ITEMHASH")
-    private String itemHash;
+	@Column(name = "HASH")
+	private String hash;
 
-    @Column(name = "ISEXTRACREDIT")
-    private Boolean isExtraCredit;
+	@Column(name = "ITEMHASH")
+	private String itemHash;
 
-    @Column(name = "MIN_DURATION")
-    private Integer minDuration;
+	@Column(name = "ISEXTRACREDIT")
+	private Boolean isExtraCredit;
 
-    @Column(name = "MAX_DURATION")
-    private Integer maxDuration;
+	@Column(name = "MIN_DURATION")
+	private Integer minDuration;
 
-    @OneToOne(mappedBy = "publishedItem", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private PublishedItemText publishedItemText;
+	@Column(name = "MAX_DURATION")
+	private Integer maxDuration;
 
-    @ManyToOne
-    @JoinColumn(name = "SECTIONID")
-    private PublishedSection publishedSection;
-
-    @OrderBy(value = "sequence")
-    @OneToMany(mappedBy = "publishedItem", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<PublishedAnswer> answers;
+	@OneToOne(mappedBy = "publishedItem", cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+	private PublishedItemText publishedItemText;
 
 }

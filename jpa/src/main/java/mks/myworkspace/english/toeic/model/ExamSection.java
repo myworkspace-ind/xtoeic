@@ -16,6 +16,8 @@ public class ExamSection {
     private Integer assessmentId;
 
     private Integer sequence;
+    
+    private String part;
 
     private String title;
 

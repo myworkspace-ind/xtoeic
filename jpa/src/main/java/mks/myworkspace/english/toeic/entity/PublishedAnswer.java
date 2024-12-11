@@ -15,9 +15,12 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class PublishedAnswer {
 
-    @Id
+	@Id
     @Column(name = "ANSWERID")
     private Integer id;
+
+    @Column(name = "ITEMID")
+    private Integer itemId;
 
     @Column(name = "ITEMTEXTID")
     private Integer itemTextId;
@@ -45,9 +48,5 @@ public class PublishedAnswer {
 
     @Column(name = "partial_credit")
     private Double partialCredit;
-
-    @ManyToOne
-    @JoinColumn(name = "ITEMID")
-    private PublishedItem publishedItem;
 
 }
