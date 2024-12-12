@@ -64,4 +64,10 @@ public class ExamServiceImpl implements ExamService{
 
 	 
 
+	@Override
+	public List<Object[]> findPart2FirstQuestionDetails() {
+		return repo.findPart2FirstQuestionDetails();
+	}
+	
+
 }

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr" class="Mrphs-html">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <!-- Head material from Tool in PDA mode (will include title and headscripts) -->
+
+    <meta charset="UTF-8">
+
+    <!-- Style -->
+    <link href="resources/app-assets/css/mystyle.css" rel="stylesheet"
+          type="text/css" media="all">
+    <link rel="stylesheet" type="text/css"
+          href="resources/app-assets/vendors/css/tables/datatable/datatables.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="resources/app-assets/vendors/css/tables/extensions/autoFill.dataTables.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="resources/app-assets/vendors/css/tables/extensions/colReorder.dataTables.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="resources/app-assets/vendors/css/tables/datatable/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="resources/app-assets/vendors/css/tables/datatable/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="resources/app-assets/vendors/css/tables/datatable/select.dataTables.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="resources/app-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="resources/app-assets/vendors/css/extensions/offline/themes/offline-theme-slide.css">
+    <link rel="stylesheet" type="text/css"
+          href="resources/app-assets/vendors/css/extensions/offline/themes/offline-language-english.css">
+    <!-- For Sakai only -->
+    <script type="text/javascript"
+            src="https://xlms.myworkspace.vn/library/js/headscripts.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- End of Head material from Tool -->
+    <title>xTOEIC</title>
+    <!--[if (lt IE 9)]>
+    <link href="/library/skin/morpheus-default/tool-ie.css?version=51361631" rel="stylesheet">
+    <![endif]-->
+    <link
+            href="https://xlms.myworkspace.vn/library/skin/morpheus-default/tool.css?version=51361631"
+            rel="stylesheet" media="screen, tty, tv, handheld, projection">
+    <link
+            href="https://xlms.myworkspace.vn/library/skin/morpheus-default/print.css?version=51361631"
+            rel="stylesheet" media="print">
+    <link
+            href="https://xlms.myworkspace.vn/library/skin/morpheus-default/addon-apps.css?version=51361631"
+            rel="stylesheet" type="text/css">
+    <link
+            href="https://xlms.myworkspace.vn/library/webjars/jquery-ui/1.12.1/jquery-ui.min.css?version=51361631"
+            rel="stylesheet"/>
+    <link
+            href="https://xlms.myworkspace.vn/library/js/jquery/cluetip/1.2.10/css/jquery.cluetip.css?version=51361631"
+            rel="stylesheet">
+    <link
+            href="https://xlms.myworkspace.vn/library/webjars/qtip2/3.0.3/jquery.qtip.min.css?version=51361631"
+            rel="stylesheet">
+    <link
+            href="https://xlms.myworkspace.vn/library/webjars/pnotify/3.2.1/pnotify.css?version=51361631"
+            rel="stylesheet">
+    <link
+            href="https://xlms.myworkspace.vn/library/webjars/pnotify/3.2.1/pnotify.buttons.css?version=51361631"
+            rel="stylesheet">
+    <link
+            href="https://xlms.myworkspace.vn/library/webjars/cropper/4.0.0/dist/cropper.min.css?version=51361631"
+            rel="stylesheet">
+    <link
+            href="https://xlms.myworkspace.vn/library/webjars/fontawesome/4.7.0/css/font-awesome.min.css?version=51361631"
+            rel="stylesheet">
+    <script
+            src="https://xlms.myworkspace.vn/library/skin/morpheus-default/js/lib/modernizr.js?version=51361631"></script>
+    <script
+            src="/webcomponents/assets/@webcomponents/webcomponentsjs/webcomponents-loader.js?version=51361631"></script>
+    <script
+            src="https://xlms.myworkspace.vn/library/webjars/momentjs/2.24.0/min/moment-with-locales.min.js?version=51361631"></script>
+    <script src="/profile2-tool/javascript/profile2-eb.js?version=51361631"></script>
+
+    <!-- inlined tool header contribution -->
+
+    <!-- end inlined tool header contribution -->
+</head>
+
+<body>
+
+<div class="Mrphs-pagebody">
+
+
+    <nav class="Mrphs-siteHierarchy">
+        <div class="Mrphs-hierarchy--sites">
+
+
+				<span class="Mrphs-hierarchy--siteName" title="English"> <a
+                        th:href="@{/}">
+						<span class="Mrphs-hierarchy--siteName-label"> English </span>
+				</a>
+				</span> <span
+                class="Mrphs-hierarchy--siteNameSeparator Mrphs-hierarchy--separator"><i
+                class="fa fa-lg fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+
+
+        <a th:href="@{/}"
+           title="Tool Home"
+           class="Mrphs-hierarchy-item Mrphs-hierarchy--toolName"> <span
+                class="Mrphs-breadcrumb--reset-icon fa fa-share" aria-hidden="true"></span>
+            <span class="Mrphs-breadcrumb--icon icon-sakai--sakai-toeic "></span>
+            <span class="Mrphs-breadcrumb--toolNameText">TOEIC</span>
+        </a>
+
+    </nav>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div data-toolbar="set-04"
+             class="btn-toolbar btn-toolbar-primary mx-auto"
+             data-toolbar-style="primary">
+            <!-- <i class="fa fa-info-circle"></i> -->
+        </div>
+    </div>
+    <div class="col-md-4 text-center">
+        <h2 id="assessmentTitle" th:text="${exam.title}"></h2>
+    </div>
+    <div class="col-md-4">
+        <div class="toeic-clock text-center">
+            <div id="time-remain-area" class="collapse in">
+                Time remaining: <span id="time_remain"
+                                      th:with="sec=${(exam.timeLimit-exam.timeElapsed)%60},min=${(exam.timeLimit-exam.timeElapsed-sec)/60}"
+                                      th:text="|${min}:${#numbers.formatInteger(sec,2)}|"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div id="test_page" class="hidden"> -->
+<div id="test_page" class="">
+    <div class="toeic-contain">
+        <div class="row">
+            <!-- question area -->
+            <div class="question-area col-sm-7">
+                <div th:insert="fragments/exam :: exam_taking_question"></div>
+            </div>
+            <!-- end col 8 -->
+
+            <!-- answer area -->
+            <form method="post" th:action="@{/exam/{id}/taking/stop(id = ${exam.id})}">
+                <input type="hidden" th:name="-1" id="timeElapsedForm">
+                <div class="col-sm-5">
+                    <div class="title-part">
+                        <h3 class="text-center">
+                            <button class="btn btn-info" style="margin: 5px;"
+                                    onclick="toastr.remove();">
+                                <i class="fa fa-bell-slash"></i>
+                            </button>
+                            Answer sheet
+                        </h3>
+                    </div>
+                    <div style="height: 80vh; overflow-y: scroll">
+                        <div id="answer_sheet" class="answer-area" th:each="answerMap : ${answerSheet}">
+                            <div class="toeic-form" th:id="${answerMap.key}" style="margin-left: 9px;">
+                                <label class="ques-no" th:text="|${#numbers.formatInteger(answerMap.key,2)}.|"></label>
+                                <span th:each="answer : ${answerMap.value}">
+                            <label class="radio-inline" style="padding-right: 8px">
+                                <input th:name="${answerMap.key}" type="radio" tabindex="-1" attrid="2300"
+                                       poolname="Part1"
+                                       th:answerid="${answer.id}" num="1" name="optradio[2300]"
+                                       th:value="${answer.id}" th:checked="${answer.isChecked}">
+                                <strong th:text="${answer.label}"></strong>
+                            </label>
+                        </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btnGroup">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-success" id="saveBtn" name="save">SAVE</button>
+                            <button type="button" class="btn btn-success" id="submitBtn"
+                                    th:onclick="showSubmitConfirm()">SUBMIT
+                            </button>
+                            <div id="result" class="hidden-xs" role="alert"
+                                 style="display: none">
+                                <strong style="text-align:center">Save OK</strong>
+                            </div>
+                            <div class="loader" style="display: none" id="loading"></div>
+                        </div>
+                    </div>
+                </div>
+                <div th:insert="fragments/exam :: exam_submit_confirm"></div>
+            </form>
+            <!-- end col 4 -->
+
+        </div>
+        <!-- Footer bar -->
+    </div>
+</div>
+<script>
+    function updateOutput(examId, layout, secNo, quesNo) {
+        $.post("taking/questions?layout=" + layout + "&sectNo=" + secNo + "&quesNo=" + quesNo, {id: examId}).done(function (fragment) {
+            $("#question_contain").replaceWith(fragment);
+        });
+    }
+
+    const dlgConfirm = $("#dlgConfirm");
+
+    function showSubmitConfirm() {
+        let checkedAnswers = [...document.querySelectorAll('input[type="radio"]:checked')].map(item => Number(item.name));
+        let unansweredCount = [[${answerSheet.size}]];
+        let unansweredArr = Array.from(Array(unansweredCount), (e, i) => i + 1);
+        let confirmBody = '';
+        unansweredArr.forEach(item => {
+            if (!checkedAnswers.includes(item)) {
+                unansweredCount--;
+                confirmBody += item + ', '
+            }
+        });
+        console.log($("#confirmTitle"));
+        document.getElementById('confirmTitle').innerHTML = 'You have ' + unansweredCount + ' questions left unanswered';
+        document.getElementById('confirmBody').innerHTML = confirmBody;
+        dlgConfirm.css('display', 'block');
+        dlgConfirm.addClass("in");
+    }
+
+    function closeSubmitConfirm() {
+        dlgConfirm.removeClass("in");
+        dlgConfirm.css('display', 'none');
+    }
+
+    let timeLimit = [[${exam.timeLimit}]];
+    let timeElapsed = [[${exam.timeElapsed}]];
+    const elementTimeRemain = document.getElementById('time_remain');
+    let interval1s = setInterval(function () {
+        timeElapsed++;
+
+        // Find the remaining time
+        let remain = timeLimit - timeElapsed;
+
+        // Time calculations minutes and seconds
+        let seconds = remain % 60;
+        let minutes = (remain - seconds) / 60;
+
+        // Display the result
+        elementTimeRemain.innerHTML = minutes + ":" + seconds.toLocaleString(
+            undefined,
+            {minimumIntegerDigits: 2}
+        );
+
+        // count down is finished
+        if (remain < 0) {
+            clearInterval(interval1s);
+            if (timeLimit === 0) {
+                elementTimeRemain.innerHTML = "UNLIMITED";
+            } else {
+                $("#submitModalBtn").click();
+            }
+        }
+        $("#timeElapsedForm").val(timeElapsed);
+    }, 1000);
+
+</script>
+</body>

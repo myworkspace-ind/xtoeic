@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="exam_taking_question" class="area-part" id="question_contain">
+    <div class="title-part">
+        <h3 id="title_part_multi" th:text="|${section.title}: ${section.description}|"></h3>
+        <!--                                                <button class="btn btn-info" style="margin: 5px"-->
+        <!--                                                        onclick="showAudioTextDialog()">Show Audio Text-->
+        <!--                                                </button>-->
+    </div>
+    <div class="test-box">
+        <div class="toeic-index" th:if="${questionControl.questions.size() == 1}">
+            <h4 id="question_number"
+                th:text="|Question ${questionControl.questions.get(0).questionNo}|"></h4>
+        </div>
+        <div class="toeic-index" th:if="${questionControl.questions.size() > 1}">
+            <h4 id="question_number_multi"
+                th:text="|Question ${questionControl.questions.get(0).questionNo} - ${questionControl.questions.get(questionControl.questions.size()-1).questionNo}|"></h4>
+        </div>
+        <!--                        <div class="toiec-question">-->
+        <!--                            <div id="pic_question_multi"></div>-->
+        <!--                            <p class="text-question" id="text_question_multi"></p>-->
+        <!--                        </div>-->
+        <!--                        -->
+        <!--                        <div class="for-listening text-center" id="audio_question_multi">-->
+        <!--                            <div class="black"></div>-->
+        <!--                            <audio preload="auto"-->
+        <!--                                   src="blob:https://xlms.myworkspace.vn/2eaa0485-de8f-421e-8075-da2999db376f"-->
+        <!--                                   id="audioQuestion" controls="" controlslist="nodownload">-->
+        <!--                            </audio>-->
+        <!--                        </div>-->
+
+
+        <div class="multi-question" id="multi_question"
+             th:each="question: ${questionControl.questions}">
+
+            <div class="toiec-question">
+                <p class="text-question" th:id="${question.id}"
+                   th:text="|${#numbers.formatInteger(question.questionNo,2)}. ${question.text != null ? question.text : ''}|"></p>
+
+                <span th:if="${question.audio != null}">
+                            <div id="pic_question_multi">
+                            <img style="cursor: pointer;"
+                                 th:src="${question.image}"
+                                 onclick="showImage(this)"
+                                 alt="Couldn't load image, your internet access might be disconnected.">
+                            </div>
+                        </span>
+
+                <span th:if="${question.audio != null}">
+                            <div class="for-listening text-center" id="audio_question_multi">
+                                <div class="black"></div>
+                                <audio preload="auto" controls="" controlslist="nodownload">
+                                    <source th:src="${question.audio}" type="audio/mpeg">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                        </span>
+            </div>
+            <form class="toiec-form id-2027" id="0">
+                        <span th:each="answer: ${question.answers}">
+                            <label class="radio-inline answerTextOption" onclick="selectAnswer(9675)">
+                                <strong th:text="|${answer.label}. |">A. </strong> <span
+                                    th:text="${answer.text}"></span>
+                            </label>
+                        </span>
+            </form>
+            <br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="footer-bar">
+                <div class="toeic-btn text-right">
+                    <!-- <a th:href="@{/exam/{id}/taking(id = ${exam.id}, layout=${layout}, sectNo=${layout=='part' ? sectNo - 1:sectNo}, quesNo=${layout=='question' ? quesNo -1 : null})}"
+                       type="button"
+                       th:class="'btn btn-default '+${questionControl.isFirst ? 'hidden' : ''}"
+                       id="backBtn">BACK</a> -->
+
+                    <button
+                            id="backBtn"
+                            th:class="'btn btn-default '+${questionControl.isFirst ? 'hidden' : ''}"
+                            th:attr="onclick=|updateOutput(${exam.id}, '${layout}', '${layout=='part' ? sectNo - 1:sectNo}', '${layout=='question' ? quesNo -1 : ''}')|">
+                        BACK
+                    </button>
+                    <!-- <a th:href="@{/exam/{id}/taking(id = ${exam.id}, layout=${layout}, sectNo=${layout=='part' ? sectNo+1:sectNo}, quesNo=${layout=='question' ? quesNo+1 : null})}"
+                       type="button" th:class="'btn btn-default '+${questionControl.isLast ? 'hidden' : ''}"
+                       id="nextBtn" onclick="updateOutput()" ></a> -->
+                    <button
+                            id="nextBtn"
+                            th:class="'btn btn-default '+${questionControl.isLast ? 'hidden' : ''}"
+                            th:attr="onclick=|updateOutput(${exam.id}, '${layout}', '${layout=='part' ? sectNo+1:sectNo}', '${layout=='question' ? quesNo+1 : ''}')|">
+                        NEXT
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="exam_result" class="modal-dialog modal-lg" role="document" id="exam_result">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close"
+                    style="color: black !important; opacity: 1 !important;"
+                    th:onclick="closeResult()"
+                    data-dismiss="modal">×
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Result</h4>
+        </div>
+        <div class="modal-body">
+            <div id="resultTable_wrapper"
+                 class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="dataTables_length" id="resultTable_length"><label>Show
+                            <select name="resultTable_length" aria-controls="resultTable"
+                                    class="form-control form-control-sm">
+                                <option value="20">20</option>
+                                <!--                                                        <option value="10">10</option>-->
+                                <!--                                                        <option value="25">25</option>-->
+                                <!--                                                        <option value="50">50</option>-->
+                                <!--                                                        <option value="100">100</option>-->
+                            </select> entries</label></div>
+                        <button class="btn btn-info" style="margin-left: 30px; margin-top: 0px;"
+                                id="exportSR" onclick="exportStudentAssessmentResult()"
+                                disabled="">Export
+                        </button>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div id="resultTable_filter" class="dataTables_filter">
+                            <label>Search:<input type="search"
+                                                 class="form-control form-control-sm"
+                                                 placeholder=""
+                                                 aria-controls="resultTable"></label></div>
+                    </div>
+                </div>
+                <div class="row" style="overflow-y: auto; max-height: 480px">
+                    <div class="col-sm-12">
+                        <table id="resultTable"
+                               class="table table-striped table-bordered dataTable no-footer"
+                               role="grid" aria-describedby="resultTable_info"
+                               style="width: 100%">
+                            <thead>
+                            <tr role="row">
+                                <th class="sorting_asc" tabindex="0" aria-controls="resultTable"
+                                    rowspan="1" colspan="1" style="width: 0px;"
+                                    aria-label="Attempt Date: activate to sort column descending"
+                                    aria-sort="ascending">Attempt Date
+                                </th>
+                                <th class="sorting" tabindex="0" aria-controls="resultTable"
+                                    rowspan="1" colspan="1" style="width: 0px;"
+                                    aria-label="Submitted Date: activate to sort column ascending">
+                                    Submitted Date
+                                </th>
+                                <th class="sorting" tabindex="0" aria-controls="resultTable"
+                                    rowspan="1" colspan="1" style="width: 0px;"
+                                    aria-label="Final Score: activate to sort column ascending">
+                                    Final Score
+                                </th>
+                                <th class="sorting" tabindex="0" aria-controls="resultTable"
+                                    rowspan="1" colspan="1" style="width: 0px;"
+                                    aria-label="Details: activate to sort column ascending">
+                                    Details
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <div th:if="${examResultPage.totalElements == 0}">
+                                <tr class="odd">
+                                    <td colspan="4" class="dataTables_empty">No data
+                                        available in table
+                                    </td>
+                                </tr>
+                            </div>
+                            <tr th:each="examResult : ${examResultPage.content}">
+                                <td th:text="${examResult.attemptDate}"></td>
+                                <td th:text="${examResult.submittedDate}"></td>
+                                <td th:text="${examResult.finalScore}"></td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-5">
+                        <div class="dataTables_info" id="resultTable_info" role="status"
+                             aria-live="polite">
+                            Showing <span
+                                th:text="|${examResultPage.pageable.pageNumber + 1} to |"/>
+                            <span th:text="${((examResultPage.pageable.pageNumber+1)*examResultPage.pageable.pageSize) > examResultPage.totalElements ? examResultPage.totalElements : (examResultPage.pageable.pageNumber+1)*examResultPage.pageable.pageSize}"/>
+                            <span th:text="| of ${examResultPage.totalElements} entries|"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-7">
+                        <div class="dataTables_paginate paging_simple_numbers"
+                             id="resultTable_paginate">
+                            <ul class="pagination">
+                                <li class="paginate_button page-item previous disabled"
+                                    id="resultTable_previous"><a href="#"
+                                                                 aria-controls="resultTable"
+                                                                 data-dt-idx="0" tabindex="0"
+                                                                 class="page-link">Previous</a>
+                                </li>
+                                <li class="paginate_button page-item next disabled"
+                                    id="resultTable_next"><a href="#"
+                                                             aria-controls="resultTable"
+                                                             data-dt-idx="1" tabindex="0"
+                                                             class="page-link">Next</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="exam_submit_confirm" class="modal fade" id="dlgConfirm" role="dialog"
+     style="display: none; padding-right: 17px;">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="confirmModalTitle">Are you sure you still want to
+                    submit?</h4>
+            </div>
+            <div class="modal-body">
+                <p id="confirmTitle">You have 0 questions left unanswered</p>
+                <p id="confirmBody"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" name="submit"
+                        class="btn btn-success" data-dismiss="modal" id="submitModalBtn">Submit</button>
+                <button type="button" class="btn btn-info" data-dismiss="modal"
+                        id="cancelModalBtn" th:onclick="closeSubmitConfirm()">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
