@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en-US" dir="ltr" class="Mrphs-html">
+<html lang="en-US" dir="ltr" class="Mrphs-html"
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -80,6 +81,10 @@
 <!-- inlined tool header contribution -->
 
 <!-- end inlined tool header contribution -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
 </head>
 
 <body> 
@@ -121,6 +126,10 @@
 		</div>
 		<div class="col-md-4 text-center">
 			<h2 id="assessmentTitle">ETS 2024 #3</h2>
+			<div>
+				Thời gian còn lại: <span id="timeDisplay">Loading...</span>
+			</div>
+
 		</div>
 		<div class="col-md-4">
 			<div class="toeic-clock text-center">
@@ -133,7 +142,7 @@
 
 
 
-	<!-- <div id="test_page" class="hidden"> -->
+	<!-- <div id="t	_page" class="hidden"> -->
 	<div id="test_page" class="">
 		<div class="toeic-contain">
 			<div class="row">
@@ -149,7 +158,7 @@
 							<div class="toeic-index">
 								<h4 id="question_number">Question 1</h4>
 							</div>
-							<div class="toiec-question">
+							<!-- <div class="toiec-question">
 								<div id="pic_question">
 									<img style="cursor: pointer;"
 										src="resources/app-assets/images/photo/img-exam-part-1.png"
@@ -183,7 +192,33 @@
 									</label>
 
 								</form>
-							</div>
+							</div> -->
+							<!-- <div>
+								<h1>
+									Exam: <span th:text="${exam.title}"></span>
+								</h1>
+								<p>
+									Description: <span th:text="${exam.description}"></span>
+								</p>
+								<p>
+									Time Limit: <span th:text="${exam.timeLimit}"></span> minutes
+								</p>
+								<p>
+									Due Date: <span th:text="${exam.dueDateTime}"></span>
+								</p>
+
+								<h2>Questions</h2>
+								<div th:each="question : ${exam.questions}">
+									<p>
+										<b>Question <span th:text="${question.id}"></span>:
+										</b> <span th:text="${question.content}"></span>
+									</p>
+									<ul>
+										<li th:each="answer : ${question.answers}"><span
+											th:text="${answer.content}"></span></li>
+									</ul>
+								</div>
+							</div> -->
 						</div>
 					</div>
 				</div>
@@ -3654,4 +3689,117 @@
 
 		</div>
 	</div>
+
+	<script type="text/javascript">
+	/* alert("autoGotoNextQuestion2"); */
+	console.log("autoGotoNextQuestion1");
+	$(function() {
+		startExam();
+	});
+	/* var isProcessing = false;
+	function autoGotoNextQuestion() {
+	    console.log("autoGotoNextQuestion started");
+	    var interval = 3000;
+
+	    setInterval(async function () {
+	        if (isProcessing) return;
+
+	        isProcessing = true;
+	        console.log("Calling API...");
+	        try {
+	            let response = await fetch('/gotoNextQuestion', { method: 'GET' });
+	            let data = await response.text();
+	            console.log("API Response: ", data);
+
+	            // Hiển thị kết quả trả về lên giao diện
+	            document.getElementById("divCurrentDateTime").innerText = data;
+	        } catch (error) {
+	            console.error("Error calling API: ", error);
+	        } finally {
+	            isProcessing = false;
+	        }
+	    }, interval);
+	}
+
+	function autoGotoNextQuestion2() {
+	    console.log("autoGotoNextQuestion2 started");
+	    var interval = 3000;
+
+	    setInterval(function () {
+	        if (isProcessing) return;
+
+	        isProcessing = true;
+	        console.log("Calling API with jQuery...");
+	        $.get("${pageContext.request.contextPath}/gotoNextQuestion", {})
+	            .done(function (data) {
+	                console.log("API Response: ", data);
+
+	                // Hiển thị kết quả trả về lên giao diện
+	                document.getElementById("divCurrentDateTime").innerText = data;
+	            })
+	            .fail(function (error) {
+	                console.error("Error calling API: ", error);
+	            })
+	            .always(function () {
+	                isProcessing = false;
+	            });
+	    }, interval);
+	} */
+
+	var totalRemainingTime = 0;
+
+    function getRemainingTime(){
+    	console.log("Fetching remaining time...");
+
+        // Gọi API để lấy tổng số giây còn lại
+        fetch("${pageContext.request.contextPath}/GetRemainingTime", { method: 'GET' })
+            .then(response => response.json())
+            .then(data => {
+                totalRemainingTime = data;
+                console.log("Remaining time in seconds:", totalRemainingTime);
+
+                // Sau khi có thời gian, bắt đầu hiển thị đếm ngược
+                debugger
+                showRemainingTime();
+            })
+            .catch(error => console.error("Error fetching remaining time:", error));
+    }
+
+    
+    // Hàm hiển thị đếm ngược
+    function showRemainingTime() {
+    // Lặp lại mỗi giây
+	    setInterval(function () {
+	        if (totalRemainingTime > 0) {
+	            totalRemainingTime--;
+	
+	            // Hiển thị thời gian còn lại
+	            const $timeDisplayElement = $("#timeDisplay");
+	            if ($timeDisplayElement) {
+	                const minutes = Math.floor(totalRemainingTime / 60);
+	                const seconds = totalRemainingTime % 60;
+	                $timeDisplayElement.html(minutes + " phút " + seconds + " giây");
+	            } else {
+	                console.error("Không tìm thấy phần tử 'timeDisplay'!");
+	            }
+	        } else {
+	            console.log("Hết giờ!");
+	        }
+	    }, 1000);
+	}
+    
+    function startExam(){
+    	fetch("${pageContext.request.contextPath}/startExam", { method: 'GET' })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Start Exam:", data);
+
+            totalRemainingTime = data; 	
+            // Sau khi có thời gian, bắt đầu hiển thị đếm ngược
+            showRemainingTime();
+        })
+        .catch(error => console.error("Error fetching start exam:", error));
+    }
+
+	</script>
 </body>

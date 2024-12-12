@@ -14,7 +14,7 @@
 		<dependency>
 			<groupId>mks.myworkspace.english.toeic</groupId>
 			<artifactId>toeic-jpa</artifactId>
-			<version>${module.version}</version>
+			<version>23.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -57,6 +57,16 @@
 			<artifactId>commons-io</artifactId>
 			<!--        <version>${sakai.commons-io.version}</version>-->
 		</dependency>
+		
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
+		
+
+		
+
 	</dependencies>
 	<build>
 		<!-- configure the build to use the standard maven structure -->

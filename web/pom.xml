@@ -144,6 +144,12 @@
 			<artifactId>apacheds-server-jndi</artifactId>
 			<version>1.5.7</version>
 		</dependency>
+		
+		<dependency>
+    		<groupId>com.mysql</groupId>
+    		<artifactId>mysql-connector-j</artifactId>
+    		<version>9.0.0</version>
+		</dependency>
 
 		<!-- Use Tiles to apply GUI layout -->
 		<!--         <dependency> -->
@@ -182,8 +188,9 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>${sakai.jackson.version}</version>
-			<scope>provided</scope>
 		</dependency>
+		
+		
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
