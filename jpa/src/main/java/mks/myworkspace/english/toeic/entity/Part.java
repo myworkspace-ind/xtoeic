@@ -31,10 +31,7 @@ public class Part implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "SECTIONID")
 	private Long sectionId; // system field
-	
-//	@Column(name = "ASSESSMENTID", length = 99)
-//	private String assessmentid;
-	
+	 
 	@Column(name = "SEQUENCE")
 	private Integer sequence;
 	
@@ -47,21 +44,25 @@ public class Part implements Serializable {
 	 
 	@OneToMany(mappedBy = "part")
 	private List<Item> items;
-
-	public Part(Long sectionId, Integer sequence, String title) {
-	    this.sectionId = sectionId; 
+	
+	public Part(Long sectionId, Integer sequence, String title, Exam exam, List<Item> items) {
+	    this.sectionId = sectionId;
 	    this.sequence = sequence;
-	    this.title = title; 
+	    this.title = title;
+	    this.exam = exam;
+	    this.items = items;
 	}
 
 	@Override
 	public String toString() {
-	    return "Part [sectionId=" + sectionId  
-	        + ", sequence=" + sequence 
-	        + ", title=" + title + "]";
+	    return "Part [\n" +
+	           "sectionId=" + sectionId + "\n" +
+	           ", sequence=" + sequence + "\n" +
+	           ", title='" + title + '\'' + "\n" +
+	           ", exam=" + (exam != null ? exam.getId() : "null") + "\n" +  // Hiển thị id của Exam
+	           ", itemsCount=" + (items != null ? items.size() : 0) + "\n" + // Hiển thị số lượng Item
+	           ']';
 	}
 
-
-
-	
+ 
 }

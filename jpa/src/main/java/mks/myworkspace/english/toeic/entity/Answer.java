@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -44,30 +45,40 @@ public class Answer implements Serializable {
 
     @Column(name = "ISCORRECT")
     private Boolean isCorrect; // Whether the answer is correct
-
-    @Column(name = "SCORE")
-    private Double score; // Score for this answer
+    
+    
+    
     
     @ManyToOne
     @JoinColumn(name = "ITEMTEXTID", referencedColumnName = "ITEMTEXTID")
 	private ItemText itemText;
+    
+    @OneToOne(mappedBy = "answer")
+    private AnswerFeedback answerFeedback;
 
-    public Answer(Long answerId, Integer sequence, String text, String label, Boolean isCorrect, Double score) {
-        this.answerId = answerId; 
-        this.sequence = sequence;
-        this.text = text;
-        this.label = label;
-        this.isCorrect = isCorrect;
-        this.score = score;
-    }
-
+    public Answer(Long answerId, Integer sequence, String text, String label, Boolean isCorrect, ItemText itemText) {
+		this.answerId = answerId;
+		this.sequence = sequence;
+		this.text = text;
+		this.label = label;
+		this.isCorrect = isCorrect;
+		this.itemText = itemText;
+	}
+    
     @Override
     public String toString() {
-        return "Answer [answerId=" + answerId  
-            + ", sequence=" + sequence 
-            + ", text=" + text 
-            + ", label=" + label 
-            + ", isCorrect=" + isCorrect 
-            + ", score=" + score + "]";
+        return "Answer [\n" +
+               "answerId=" + answerId + "\n" +
+               ", sequence=" + sequence + "\n" +
+               ", text='" + text + '\'' + "\n" +
+               ", label='" + label + '\'' + "\n" +
+               ", isCorrect=" + isCorrect + "\n" +
+               ", itemText=" + (itemText != null ? itemText.getItemTextId() : "null") + "\n" +
+               ']';
     }
+
+
+
+
+	
 }

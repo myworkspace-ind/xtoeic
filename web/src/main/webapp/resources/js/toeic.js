@@ -89,7 +89,7 @@ var lengthPartAll = {
 var isDisplayedBegin = false;
 
 // Event btn
-start_test.addEventListener("click", function () {
+start_test.addEventListener("click", function() {
 	if (faceRec.startRecognition) {
 		startCamera();
 		$("#start_page").addClass("hidden");
@@ -98,21 +98,21 @@ start_test.addEventListener("click", function () {
 	}
 });
 // Event for next button
-nextBtn.addEventListener("click", function () {
+nextBtn.addEventListener("click", function() {
 	nextQuestion();
 });
 // Event for back button
-backBtn.addEventListener("click", function () {
+backBtn.addEventListener("click", function() {
 	prevQuestion();
 });
 
 // Event for submit button
-submitBtn.addEventListener("click", function () {
+submitBtn.addEventListener("click", function() {
 	submitForGrading(true);
 });
 
 // Event for save button
-saveBtn.addEventListener("click", function () {
+saveBtn.addEventListener("click", function() {
 	submitForGrading(false);
 });
 
@@ -130,13 +130,13 @@ audioLook.addEventListener("ended", () => {
 	_("audioQuestion").play();
 });
 
-audioNumber.onerror = function (e) {
+audioNumber.onerror = function(e) {
 	if ($(e.path[0]).attr("src")) {
 		errorAlert(error_number);
 	}
 };
 
-audioLook.onerror = function (e) {
+audioLook.onerror = function(e) {
 	if ($(e.path[0]).attr("src")) {
 		errorAlert(error_look);
 	}
