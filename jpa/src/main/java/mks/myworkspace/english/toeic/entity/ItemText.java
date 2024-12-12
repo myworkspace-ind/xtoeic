@@ -48,16 +48,24 @@ public class ItemText implements Serializable {
     @OneToMany(mappedBy = "itemText")
 	private List<Answer> answers;
 
-    public ItemText(Long itemTextId, Integer sequence, String text) {
-        this.itemTextId = itemTextId; 
+    public ItemText(Long itemTextId, Integer sequence, String text, Item item, List<Answer> answers) {
+        this.itemTextId = itemTextId;
         this.sequence = sequence;
-        this.text = text; 
+        this.text = text;
+        this.item = item;
+        this.answers = answers;
     }
 
     @Override
     public String toString() {
-        return "ItemText [itemTextId=" + itemTextId  
-            + ", sequence=" + sequence 
-            + ", text=" + text + "]";
+        return "ItemText [\n" +
+               "itemTextId=" + itemTextId + "\n" +
+               ", sequence=" + sequence + "\n" +
+               ", text='" + text + '\'' + "\n" +
+               ", item=" + (item != null ? item.getItemId() : "null") + "\n" +  // Hiển thị id của Item
+               ", answersCount=" + (answers != null ? answers.size() : 0) + "\n" + // Hiển thị số lượng Answer
+               ']';
     }
+
+
 }

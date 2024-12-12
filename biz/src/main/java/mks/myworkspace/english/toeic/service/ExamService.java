@@ -1,10 +1,9 @@
 package mks.myworkspace.english.toeic.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import mks.myworkspace.english.toeic.entity.Exam;
@@ -23,10 +22,11 @@ public interface ExamService {
 
     List<Exam> getExamsWithETSTitleAndExamType();
     
-    Optional<Exam> findById(Long id);
-    
-    List<Object[]> getExamPart1Details(Long examId);
-	
-    List<Object[]> findAllExamPart1Details(Long examId);
+    Optional<Exam> findById(Long id); 
+
+	List<Object[]> findPart2FirstQuestionDetails();
+
+	List<Object[]> findAllExamPart1Details(Long examId);
+
 
 }
