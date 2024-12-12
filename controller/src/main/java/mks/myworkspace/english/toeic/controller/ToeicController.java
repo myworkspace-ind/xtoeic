@@ -102,6 +102,7 @@ public class ToeicController extends BaseController {
 	 */
 	@Autowired
 	private ExamService examService;
+	
 
 	@Autowired
 	private ItemService itemService;
@@ -423,6 +424,9 @@ public class ToeicController extends BaseController {
 
 		return mav;
 	}
+	
+	
+
 
 //	@RequestMapping(value = "/exam-part-1-vovantri", method = RequestMethod.GET)
 //	public ModelAndView displayExamPart1_vovantri(@RequestParam("id") Long examId, HttpServletRequest request, HttpSession httpSession) {
@@ -510,6 +514,8 @@ public class ToeicController extends BaseController {
 			String answerText = request.getParameter("answerText");
 			Long id = 0L;
 
+	
+// show list of exams
 			// Tìm các thực thể liên quan
 			Optional<AssessmentGrading> assessmentGradingOpt = assessmentGradingService.findById(assessmentGradingId);
 			Optional<Item> itemOpt = itemService.findById(itemId);
