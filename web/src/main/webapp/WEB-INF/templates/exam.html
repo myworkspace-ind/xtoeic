@@ -219,7 +219,7 @@
                          class="modal fade bd-search-product-modal-lg"
                          id="dlgAssessmentGrading" tabindex="-1" role="dialog"
                          aria-labelledby="selectSearchProductModalLabel" aria-hidden="true"
-                         th:insert="fragments/exam :: exam_result">
+                         th:insert="fragments/exam-result :: exam_result">
 
                     </div>
 
@@ -266,7 +266,7 @@
     const dlgAssessmentGrading = $("#dlgAssessmentGrading");
 
     function openResult(examId) {
-        $.post("exam/"+examId+"/result").done(function (fragment) {
+        $.post("exam/"+examId + "/result").done(function (fragment) {
             $("#exam_result").replaceWith(fragment);
         });
         dlgAssessmentGrading.css('display', 'block');

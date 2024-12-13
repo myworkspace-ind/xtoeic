@@ -137,7 +137,7 @@
         <div class="row">
             <!-- question area -->
             <div class="question-area col-sm-7" style="border-right: 1px solid darkcyan">
-                <div th:insert="fragments/exam :: ${fragment}"></div>
+                <div th:insert="${fragments}"></div>
             </div>
             <!-- end col 8 -->
 
@@ -186,7 +186,7 @@
                         </div>
                     </div>
                 </div>
-                <div th:insert="fragments/exam :: exam_submit_confirm"></div>
+                <div th:insert="fragments/exam-submit-confirm :: exam_submit_confirm"></div>
             </form>
             <!-- end col 4 -->
 

@@ -3,12 +3,14 @@ package mks.myworkspace.english.toeic.controller;
 import java.util.Map;
 import java.util.Objects;
 
+import lombok.extern.slf4j.Slf4j;
 import mks.myworkspace.english.toeic.entity.AssessmentGrading;
 import mks.myworkspace.english.toeic.entity.AssessmentGrading2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -21,6 +23,7 @@ import mks.myworkspace.english.toeic.service.ExamService2;
 @Controller
 @RequestMapping("/exam")
 @RequiredArgsConstructor
+@Slf4j
 public class ExamController {
     private final ExamService2 examService;
 
@@ -66,7 +69,7 @@ public class ExamController {
             quesNo = null;
         }
         model.addAttribute("layout", layout);
-        model.addAttribute("fragments", quesNo > 1 ?"exam_taking_question":"exam_taking_guide");
+        model.addAttribute("fragments", quesNo > 1 ?"fragments/exam-taking-question":"fragments/exam-taking-guide");
         model.addAttribute("exam", examService.getExamById(id));
 
         ExamQuestionControl control = examService.getQuestions(id, secNo, quesNo);
@@ -86,6 +89,7 @@ public class ExamController {
             examService.saveAnswer(id, answerForm);
             return "Save OK";
         }catch (Exception e){
+            log.error("error save",e);
             return "Save not OK";
         }
 //        return String.format("redirect:/exam/%s/introduction", id);
@@ -132,7 +136,7 @@ public class ExamController {
             Model model,
             Pageable pageable) {
         model.addAttribute("examResultPage", examService.getPagingResult(id, pageable));
-        return "fragments/exam :: exam_result";
+        return "fragments/exam-result :: exam_result";
     }
 
     @PostMapping(value="{id}/taking/questions")
@@ -157,7 +161,7 @@ public class ExamController {
             model.addAttribute("quesNo", quesNo);
             model.addAttribute("questionControl", control);
             model.addAttribute("section", examService.getSection(id, sectNo));
-            return "fragments/exam :: exam_taking_guide";
+            return "fragments/exam-taking-guide :: exam_taking_guide";
         }
         sectNo = control.getSectNo();
         quesNo = control.getQuesNo();
@@ -165,7 +169,7 @@ public class ExamController {
         model.addAttribute("quesNo", quesNo);
         model.addAttribute("questionControl", control);
         model.addAttribute("section", examService.getSection(id, sectNo));
-        return "fragments/exam :: exam_taking_question";
+        return "fragments/exam-taking-question :: exam_taking_question";
     }
 
 }

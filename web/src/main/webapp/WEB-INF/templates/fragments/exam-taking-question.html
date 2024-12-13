@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="exam_taking_question" class="area-part" id="question_contain">
+    <div class="title-part" style="text-align: center">
+        <h3 id="title_part_multi" th:text="${section.title}"></h3>
+        <button id="showAudioBtn" class="btn btn-info" style="margin: 5px; display: none" >Show Audio Text</button>
+    </div>
+    <hr>
+    <div class="test-box">
+        <div class="toeic-index" th:if="${questionControl.questions.size() == 1}">
+            <h4 id="question_number"
+                th:text="|Question ${questionControl.questions.get(0).questionNo}|"></h4>
+        </div>
+        <div class="toeic-index" th:if="${questionControl.questions.size() > 1}">
+            <h4 id="question_number_multi"
+                th:text="|Question ${questionControl.questions.get(0).questionNo} - ${questionControl.questions.get(questionControl.questions.size()-1).questionNo}|"></h4>
+        </div>
+        <div style="max-height: 60vh; overflow-y: scroll;">
+            <div class="multi-question" id="multi_question"
+                 th:each="question: ${questionControl.questions}">
+                <div class="show-audio-text" th:utext="${question.audioText}" th:if="${question.audioText != null && question.audioText != ''}">Show audio text</div>
+                <div class="toiec-question">
+                    <p class="text-question" th:id="${question.id}"
+                       th:text="|${#numbers.formatInteger(question.questionNo,2)}. ${question.text != null ? question.text : ''}|"></p>
+
+                    <span th:if="${question.audio != null}">
+                            <div id="pic_question_multi">
+                            <img style="cursor: pointer;"
+                                 th:src="${question.image}"
+                                 onclick="showImage(this)"
+                                 alt="Couldn't load image, your internet access might be disconnected.">
+                            </div>
+                        </span>
+
+                    <span th:if="${question.audio != null}">
+                            <div class="for-listening text-center" id="audio_question_multi">
+                                <div class="black"></div>
+                                <audio preload="auto" controls="" controlslist="nodownload">
+                                    <source th:src="${question.audio}" type="audio/mpeg">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                        </span>
+                </div>
+                <form class="toiec-form id-2027" id="0">
+                        <span th:each="answer: ${question.answers}">
+                            <label class="radio-inline answerTextOption" onclick="selectAnswer(9675)">
+                                <strong th:text="|${answer.label}. |">A. </strong> <span
+                                    th:text="${answer.text}"></span>
+                            </label>
+                        </span>
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="padding-top: 12px">
+        <div class="col-sm-12">
+            <div class="footer-bar">
+                <div class="toeic-btn text-right">
+                    <!-- <a th:href="@{/exam/{id}/taking(id = ${exam.id}, layout=${layout}, sectNo=${layout=='part' ? sectNo - 1:sectNo}, quesNo=${layout=='question' ? quesNo -1 : null})}"
+                       type="button"
+                       th:class="'btn btn-default '+${questionControl.isFirst ? 'hidden' : ''}"
+                       id="backBtn">BACK</a> -->
+                    <button th:if="${questionControl.isShowBack || section.part >='Part5'}"
+                            id="backBtn"
+                            th:class="'btn btn-default '+${questionControl.isFirst ? 'hidden' : ''}"
+                            th:attr="onclick=|updateOutput(${exam.id}, '${layout}', '${layout=='part' ? sectNo - 1:sectNo}', '${layout=='question' ? quesNo -1 : ''}')|">
+                        BACK
+                    </button>
+                    <!-- <a th:href="@{/exam/{id}/taking(id = ${exam.id}, layout=${layout}, sectNo=${layout=='part' ? sectNo+1:sectNo}, quesNo=${layout=='question' ? quesNo+1 : null})}"
+                       type="button" th:class="'btn btn-default '+${questionControl.isLast ? 'hidden' : ''}"
+                       id="nextBtn" onclick="updateOutput()" ></a> -->
+                    <button
+                            id="nextBtn"
+                            th:class="'btn btn-default '+${questionControl.isLast ? 'hidden' : ''}"
+                            th:attr="onclick=|updateOutput(${exam.id}, '${layout}', '${layout=='part' ? sectNo+1:sectNo}', '${layout=='question' ? quesNo+1 : ''}')|">
+                        NEXT
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

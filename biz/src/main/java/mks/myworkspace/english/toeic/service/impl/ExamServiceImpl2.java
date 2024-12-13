@@ -9,14 +9,13 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
-import javax.transaction.Transactional;
-
 import mks.myworkspace.english.toeic.entity.*;
 import mks.myworkspace.english.toeic.enums.HeaderQuestion;
 import mks.myworkspace.english.toeic.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -98,6 +97,7 @@ public class ExamServiceImpl2 implements ExamService2 {
     }
 
     @Override
+    @Transactional(value = "transactionManagerJpa")
     public void attemptExam(Integer examId) {
         AssessmentGrading2 assessmentGrading = assessmentGradingRepository.findByAgentIdAndAssessmentIdAndStatus(
                 AGENT_ID, examId, 0);
@@ -116,7 +116,7 @@ public class ExamServiceImpl2 implements ExamService2 {
                     .lastVisitedQuestion(0)
                     .hasAutoSubmissionRun(false)
                     .build();
-            assessmentGradingRepository.save(assessmentGrading);
+            assessmentGradingRepository.saveAndFlush(assessmentGrading);
         }
     }
 
@@ -263,6 +263,7 @@ public class ExamServiceImpl2 implements ExamService2 {
     }
 
     @Override
+    @Transactional(value = "transactionManagerJpa")
     public void saveAnswer(Integer examId, Map<String, String> answerForm) {
         Integer timeElapsed = Integer.valueOf(answerForm.get("timeRemain"));
         answerForm.remove("timeRemain");
@@ -316,8 +317,10 @@ public class ExamServiceImpl2 implements ExamService2 {
     }
 
     @Override
+    @Transactional(value = "transactionManagerJpa")
     public Map<String, Object> submitAnswer(Integer examId, Map<String, String> answerForm) {
         Map<String, Object> map = new HashMap<>();
+        map.put("start", "OK");
         Integer timeElapsed = Integer.valueOf(answerForm.get("timeRemain"));
         answerForm.remove("timeRemain");
         PublishedAssessment assessment = publishedAssessmentRepository.findById(examId)

@@ -157,14 +157,14 @@
     }
 
     function exportResults(){
-      window.location.href = "/exam/"+[[${examId}]]+'/result/'+[[${gradingId}]]
+      window.location.href = "exam/"+[[${examId}]]+'/result/'+[[${gradingId}]]
     }
     // Radar chart for TOEIC scores
     const ctx = document.getElementById('radarChart').getContext('2d');
     const radarChart = new Chart(ctx, {
       type: 'radar',
       data: {
-        labels: ['Listening', 'Reading', 'Grammar', 'Vocabulary', 'Writing'],
+        labels: ['Part1', 'Part2', 'Part3', 'Part4', 'Part5', 'Part6', 'Part7'],
         datasets: [{
           label: 'TOEIC Scores',
           data: [listeningScore, readingScore, 20, 15, 10], // Example scores
