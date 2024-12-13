@@ -1,18 +1,16 @@
 package mks.myworkspace.english.toeic.controller;
 
 import java.util.Map;
+import java.util.Objects;
 
+import mks.myworkspace.english.toeic.entity.AssessmentGrading;
+import mks.myworkspace.english.toeic.entity.AssessmentGrading2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +23,11 @@ import mks.myworkspace.english.toeic.service.ExamService2;
 @RequiredArgsConstructor
 public class ExamController {
     private final ExamService2 examService;
+
+    @GetMapping({"/index", "/"})
+    public String home(Model model) {
+        return "redirect:exam";
+    }
 
     @GetMapping("")
     public String exam(Model model) {
@@ -53,36 +56,50 @@ public class ExamController {
 
     @GetMapping("/{id}/taking")
     public String examTaking(
-        @PathVariable Integer id,
-        @RequestParam(name = "layout") String layout,
-        Model model) {
-        Integer quesNo = 1;
+            @PathVariable Integer id,
+            @RequestParam(name = "layout") String layout,
+            Model model) {
+        AssessmentGrading2 grading = examService.getCurrentAssesmentGrading(id);
+        Integer quesNo = Objects.isNull(grading) || grading.getLastVisitedQuestion() == 0 ? 1: grading.getLastVisitedQuestion();
+        Integer secNo = Objects.isNull(grading) || grading.getLastVisitedPart() == 0 ? 1: grading.getLastVisitedPart();
         if ("part".equals(layout)) {
             quesNo = null;
         }
         model.addAttribute("layout", layout);
+        model.addAttribute("fragments", quesNo > 1 ?"exam_taking_question":"exam_taking_guide");
         model.addAttribute("exam", examService.getExamById(id));
-        ExamQuestionControl control = examService.getQuestions(id, 1, quesNo);
+
+        ExamQuestionControl control = examService.getQuestions(id, secNo, quesNo);
         model.addAttribute("questionControl", control);
-        model.addAttribute("sectNo", 1);
+        model.addAttribute("sectNo", secNo);
         model.addAttribute("quesNo", quesNo);
-        model.addAttribute("section", examService.getSection(id, 1));
+        model.addAttribute("section", examService.getSection(id, secNo));
         model.addAttribute("answerSheet", examService.getExamAnswerSheet(id));
         return "exam-taking";
     }
 
-    @PostMapping(value = "/{id}/taking/stop", params = "save")
+    @PostMapping(value = "/{id}/taking/stop")
+    @ResponseBody
     public String examTakingSave(@PathVariable Integer id, @RequestParam Map<String, String> answerForm) {
-        answerForm.remove("save");
-        examService.saveAnswer(id, answerForm);
-        return String.format("redirect:/exam/%s/introduction", id);
+        try{
+            answerForm.remove("save");
+            examService.saveAnswer(id, answerForm);
+            return "Save OK";
+        }catch (Exception e){
+            return "Save not OK";
+        }
+//        return String.format("redirect:/exam/%s/introduction", id);
     }
 
     @PostMapping(value = "/{id}/taking/stop", params = "submit")
     public String examTakingSubmit(@PathVariable Integer id, @RequestParam Map<String, String> answerForm, RedirectAttributes redirectAttrs) {
         answerForm.remove("submit");
-        Double totalScore = examService.submitAnswer(id, answerForm);
-        redirectAttrs.addFlashAttribute("totalScore", totalScore);
+        Map<String, Object> mapDataGrading = examService.submitAnswer(id, answerForm);
+        redirectAttrs.addFlashAttribute("examId", mapDataGrading.get("examId"));
+        redirectAttrs.addFlashAttribute("listeningScore", mapDataGrading.get("listeningScore"));
+        redirectAttrs.addFlashAttribute("readingScore", mapDataGrading.get("readingScore"));
+        redirectAttrs.addFlashAttribute("totalScore", mapDataGrading.get("totalScore"));
+        redirectAttrs.addFlashAttribute("gradingId", mapDataGrading.get("gradingId"));
         return String.format("redirect:/exam/%s/result/chart", id);
     }
 
@@ -91,33 +108,62 @@ public class ExamController {
         return "exam-result-chart";
     }
 
+    @GetMapping(value="{id}/result/{gradingId}")
+    public String examTakingDetail(
+            @PathVariable Integer id,
+            @PathVariable Integer gradingId,
+            Model model) {
+        Integer quesNo = null;
+        model.addAttribute("layout", "part");
+        model.addAttribute("exam", examService.getExamById(id));
+        ExamQuestionControl control = examService.getQuestions(id, 1, quesNo);
+        control.setIsShowBack(true);
+        model.addAttribute("questionControl", control);
+        model.addAttribute("sectNo", 1);
+        model.addAttribute("quesNo", quesNo);
+        model.addAttribute("section", examService.getSection(id, 1));
+        model.addAttribute("answerSheet", examService.getExamAnswerSheetResult(id, gradingId));
+        return "exam-result-detail";
+    }
+
     @PostMapping(value="{id}/result")
     public String examTakingResult(
-        @PathVariable Integer id,
-        Model model,
-        Pageable pageable) {
+            @PathVariable Integer id,
+            Model model,
+            Pageable pageable) {
         model.addAttribute("examResultPage", examService.getPagingResult(id, pageable));
         return "fragments/exam :: exam_result";
     }
 
     @PostMapping(value="{id}/taking/questions")
     public String examTakingQuestion(
-        @PathVariable Integer id,
-        @RequestParam(name = "layout") String layout,
-        @RequestParam(name = "sectNo") Integer sectNo,
-        @RequestParam(name = "quesNo", required = false) Integer quesNo,
-        Model model) {
+            @PathVariable Integer id,
+            @RequestParam(name = "layout") String layout,
+            @RequestParam(name = "sectNo") Integer sectNo,
+            @RequestParam(name = "quesNo", required = false) Integer quesNo,
+            @RequestParam(name = "showBack", required = false, defaultValue = "false") Boolean showBack,
+            Model model) {
         if ("part".equals(layout)) {
             quesNo = null;
         }
         model.addAttribute("layout", layout);
         model.addAttribute("exam", examService.getExamById(id));
         ExamQuestionControl control = examService.getQuestions(id, sectNo, quesNo);
+        control.setIsShowBack(showBack);
+        if ("question".equals(layout) && sectNo < control.getSectNo()) {
+            sectNo = control.getSectNo();
+            quesNo = control.getQuesNo();
+            model.addAttribute("sectNo", sectNo);
+            model.addAttribute("quesNo", quesNo);
+            model.addAttribute("questionControl", control);
+            model.addAttribute("section", examService.getSection(id, sectNo));
+            return "fragments/exam :: exam_taking_guide";
+        }
         sectNo = control.getSectNo();
         quesNo = control.getQuesNo();
-        model.addAttribute("questionControl", control);
         model.addAttribute("sectNo", sectNo);
         model.addAttribute("quesNo", quesNo);
+        model.addAttribute("questionControl", control);
         model.addAttribute("section", examService.getSection(id, sectNo));
         return "fragments/exam :: exam_taking_question";
     }

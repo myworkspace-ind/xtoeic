@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import mks.myworkspace.english.toeic.entity.AssessmentGrading;
+import mks.myworkspace.english.toeic.entity.AssessmentGrading2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -31,10 +33,14 @@ public interface ExamService2 {
 
     Map<Integer, List<ExamAnswer>> getExamAnswerSheet(Integer examId);
 
+    Map<Integer, List<ExamAnswer>> getExamAnswerSheetResult(Integer examId, Integer gradingId);
+
     void saveAnswer(Integer examId, Map<String, String> answerForm);
 
-    Double submitAnswer(Integer examId, Map<String, String> answerForm);
+    Map<String,Object> submitAnswer(Integer examId, Map<String, String> answerForm);
 
     Page<ExamResult> getPagingResult(Integer examId, Pageable pageable);
+
+    AssessmentGrading2 getCurrentAssesmentGrading(Integer examId);
 
 }

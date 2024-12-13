@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "sam_publisheditem_t")
@@ -20,6 +19,9 @@ public class PublishedItem {
     @Id
     @Column(name = "ITEMID")
     private Integer id;
+
+    @Column(name = "SECTIONID")
+    private Integer sectionId;
 
     @Column(name = "ITEMIDSTRING")
     private String idString;
@@ -105,13 +107,5 @@ public class PublishedItem {
     @OneToOne(mappedBy = "publishedItem", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private PublishedItemText publishedItemText;
-
-    @ManyToOne
-    @JoinColumn(name = "SECTIONID")
-    private PublishedSection publishedSection;
-
-    @OrderBy(value = "sequence")
-    @OneToMany(mappedBy = "publishedItem", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<PublishedAnswer> answers;
 
 }

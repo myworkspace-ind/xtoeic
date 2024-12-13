@@ -29,3 +29,7 @@ target
 .classpath
 .factorypath
 .project
+
+#Intelij
+.idea
+.mvn

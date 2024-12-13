@@ -137,7 +137,7 @@
       </div>
       <div class="buttons">
         <button th:onclick="goHome()">Home</a></button>
-        <button class="export" onclick="exportResults()">Export</button>
+        <button class="export" onclick="exportResults()">Result</button>
       </div>
     </div>
   </div>
@@ -145,8 +145,8 @@
   <script>
     // Sample total score (to be dynamically updated)
     const totalScore = [[${totalScore}]]; // Example score
-    const listeningScore = 0; // Example Listening Score
-    const readingScore = 0; // Example Reading Score
+    const listeningScore = [[${listeningScore}]]; // Example Listening Score
+    const readingScore = [[${readingScore}]]; // Example Reading Score
     // Update the displayed values
     document.getElementById('totalScore').textContent = totalScore;
     document.getElementById('listeningScore').textContent = listeningScore;
@@ -156,9 +156,8 @@
       window.location.href = '/';
     }
 
-    function exportResults() {
-      alert('Exporting results...');
-      // Here you can implement the logic to generate a PDF or export the results
+    function exportResults(){
+      window.location.href = "/exam/"+[[${examId}]]+'/result/'+[[${gradingId}]]
     }
     // Radar chart for TOEIC scores
     const ctx = document.getElementById('radarChart').getContext('2d');
@@ -187,6 +186,7 @@
         }
       }
     });
+
   </script>
 
 </body>

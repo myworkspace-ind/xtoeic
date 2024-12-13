@@ -3,8 +3,6 @@ package mks.myworkspace.english.toeic.model;
 import lombok.Builder;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
 import java.util.List;
 
 @Data
@@ -14,6 +12,8 @@ public class ExamQuestion {
     private Integer id;
 
     private String audio;
+
+    private String audioText;
 
     private String image;
 

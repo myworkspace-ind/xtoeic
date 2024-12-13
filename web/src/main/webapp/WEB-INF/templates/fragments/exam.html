@@ -2,12 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <div th:fragment="exam_taking_question" class="area-part" id="question_contain">
-    <div class="title-part">
-        <h3 id="title_part_multi" th:text="|${section.title}: ${section.description}|"></h3>
-        <!--                                                <button class="btn btn-info" style="margin: 5px"-->
-        <!--                                                        onclick="showAudioTextDialog()">Show Audio Text-->
-        <!--                                                </button>-->
+    <div class="title-part" style="text-align: center">
+        <h3 id="title_part_multi" th:text="${section.title}"></h3>
+       <button id="showAudioBtn" class="btn btn-info" style="margin: 5px; display: none" >Show Audio Text</button>
     </div>
+    <hr>
     <div class="test-box">
         <div class="toeic-index" th:if="${questionControl.questions.size() == 1}">
             <h4 id="question_number"
@@ -17,28 +16,15 @@
             <h4 id="question_number_multi"
                 th:text="|Question ${questionControl.questions.get(0).questionNo} - ${questionControl.questions.get(questionControl.questions.size()-1).questionNo}|"></h4>
         </div>
-        <!--                        <div class="toiec-question">-->
-        <!--                            <div id="pic_question_multi"></div>-->
-        <!--                            <p class="text-question" id="text_question_multi"></p>-->
-        <!--                        </div>-->
-        <!--                        -->
-        <!--                        <div class="for-listening text-center" id="audio_question_multi">-->
-        <!--                            <div class="black"></div>-->
-        <!--                            <audio preload="auto"-->
-        <!--                                   src="blob:https://xlms.myworkspace.vn/2eaa0485-de8f-421e-8075-da2999db376f"-->
-        <!--                                   id="audioQuestion" controls="" controlslist="nodownload">-->
-        <!--                            </audio>-->
-        <!--                        </div>-->
+        <div style="max-height: 60vh; overflow-y: scroll;">
+            <div class="multi-question" id="multi_question"
+                 th:each="question: ${questionControl.questions}">
+                 <div class="show-audio-text" th:utext="${question.audioText}" th:if="${question.audioText != null && question.audioText != ''}">Show audio text</div>
+                <div class="toiec-question">
+                    <p class="text-question" th:id="${question.id}"
+                       th:text="|${#numbers.formatInteger(question.questionNo,2)}. ${question.text != null ? question.text : ''}|"></p>
 
-
-        <div class="multi-question" id="multi_question"
-             th:each="question: ${questionControl.questions}">
-
-            <div class="toiec-question">
-                <p class="text-question" th:id="${question.id}"
-                   th:text="|${#numbers.formatInteger(question.questionNo,2)}. ${question.text != null ? question.text : ''}|"></p>
-
-                <span th:if="${question.audio != null}">
+                    <span th:if="${question.audio != null}">
                             <div id="pic_question_multi">
                             <img style="cursor: pointer;"
                                  th:src="${question.image}"
@@ -47,7 +33,7 @@
                             </div>
                         </span>
 
-                <span th:if="${question.audio != null}">
+                    <span th:if="${question.audio != null}">
                             <div class="for-listening text-center" id="audio_question_multi">
                                 <div class="black"></div>
                                 <audio preload="auto" controls="" controlslist="nodownload">
@@ -56,19 +42,20 @@
                                 </audio>
                             </div>
                         </span>
-            </div>
-            <form class="toiec-form id-2027" id="0">
+                </div>
+                <form class="toiec-form id-2027" id="0">
                         <span th:each="answer: ${question.answers}">
                             <label class="radio-inline answerTextOption" onclick="selectAnswer(9675)">
                                 <strong th:text="|${answer.label}. |">A. </strong> <span
                                     th:text="${answer.text}"></span>
                             </label>
                         </span>
-            </form>
-            <br>
+                </form>
+                <br>
+            </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="padding-top: 12px">
         <div class="col-sm-12">
             <div class="footer-bar">
                 <div class="toeic-btn text-right">
@@ -76,8 +63,7 @@
                        type="button"
                        th:class="'btn btn-default '+${questionControl.isFirst ? 'hidden' : ''}"
                        id="backBtn">BACK</a> -->
-
-                    <button
+                    <button th:if="${questionControl.isShowBack || section.part >='Part5'}"
                             id="backBtn"
                             th:class="'btn btn-default '+${questionControl.isFirst ? 'hidden' : ''}"
                             th:attr="onclick=|updateOutput(${exam.id}, '${layout}', '${layout=='part' ? sectNo - 1:sectNo}', '${layout=='question' ? quesNo -1 : ''}')|">
@@ -91,6 +77,32 @@
                             th:class="'btn btn-default '+${questionControl.isLast ? 'hidden' : ''}"
                             th:attr="onclick=|updateOutput(${exam.id}, '${layout}', '${layout=='part' ? sectNo+1:sectNo}', '${layout=='question' ? quesNo+1 : ''}')|">
                         NEXT
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="exam_taking_guide" class="area-part" id="question_contain">
+    <div class="title-part" style="text-align: center">
+        <h3 id="title_part_multi" th:text="${section.title}"></h3>
+    </div>
+    <hr>
+    <div class="test-box">
+        <div style="max-height: 60vh; overflow-y: scroll;">
+            <p th:utext="|${section.description}|"></p>
+        </div>
+    </div>
+    <div class="row" style="padding-top: 12px">
+        <div class="col-sm-12">
+            <div class="footer-bar">
+                <div class="toeic-btn text-right">
+                    <button
+                            id="skipBtn"
+                            class="btn btn-default"
+                            th:attr="onclick=|updateOutput(${exam.id}, '${layout}', '${sectNo}', '${layout=='question' ? quesNo : ''}')|">
+                        SKIP
                     </button>
                 </div>
             </div>
@@ -177,7 +189,7 @@
                                 <td th:text="${examResult.attemptDate}"></td>
                                 <td th:text="${examResult.submittedDate}"></td>
                                 <td th:text="${examResult.finalScore}"></td>
-                                <td></td>
+                                <td><a th:href="@{/exam/{id}/result/{gradingId}(id = ${examResult.assessmentId}, gradingId = ${examResult.id})}">Show</a></td>
                             </tr>
                             </tbody>
                         </table>
@@ -233,9 +245,11 @@
             </div>
             <div class="modal-footer">
                 <button type="submit" name="submit"
-                        class="btn btn-success" data-dismiss="modal" id="submitModalBtn">Submit</button>
+                        class="btn btn-success" data-dismiss="modal" id="submitModalBtn">Submit
+                </button>
                 <button type="button" class="btn btn-info" data-dismiss="modal"
-                        id="cancelModalBtn" th:onclick="closeSubmitConfirm()">Cancel</button>
+                        id="cancelModalBtn" th:onclick="closeSubmitConfirm()">Cancel
+                </button>
             </div>
         </div>
 

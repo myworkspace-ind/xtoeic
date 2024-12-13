@@ -34,6 +34,19 @@
     <script type="text/javascript"
             src="https://xlms.myworkspace.vn/library/js/headscripts.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+    <style>
+        .ui-widget-header,.ui-state-default, ui-button {
+           background:#b9cd6d;
+           border: 1px solid #b9cd6d;
+           color: #FFFFFF;
+           font-weight: bold;
+        }
+
+        #title_part_multi {
+            display: inline-block;
+        }
+     </style>
 
     <!-- End of Head material from Tool -->
     <title>xTOEIC</title>
@@ -83,34 +96,18 @@
     <!-- end inlined tool header contribution -->
 </head>
 
-<body>
+<body style="padding: 12px;">
 
-<div class="Mrphs-pagebody">
+<div class="Mrphs-siteHierarchy">
 
+    <a th:href="@{/}"
+       title="Tool Home"
+       class="Mrphs-hierarchy-item Mrphs-hierarchy--toolName"> <span
+            class="Mrphs-breadcrumb--reset-icon fa fa-share" aria-hidden="true"></span>
+        <span class="Mrphs-breadcrumb--icon icon-sakai--sakai-toeic "></span>
+        <span class="Mrphs-breadcrumb--toolNameText">TOEIC</span>
+    </a>
 
-    <nav class="Mrphs-siteHierarchy">
-        <div class="Mrphs-hierarchy--sites">
-
-
-				<span class="Mrphs-hierarchy--siteName" title="English"> <a
-                        th:href="@{/}">
-						<span class="Mrphs-hierarchy--siteName-label"> English </span>
-				</a>
-				</span> <span
-                class="Mrphs-hierarchy--siteNameSeparator Mrphs-hierarchy--separator"><i
-                class="fa fa-lg fa-angle-right" aria-hidden="true"></i></span>
-        </div>
-
-
-        <a th:href="@{/}"
-           title="Tool Home"
-           class="Mrphs-hierarchy-item Mrphs-hierarchy--toolName"> <span
-                class="Mrphs-breadcrumb--reset-icon fa fa-share" aria-hidden="true"></span>
-            <span class="Mrphs-breadcrumb--icon icon-sakai--sakai-toeic "></span>
-            <span class="Mrphs-breadcrumb--toolNameText">TOEIC</span>
-        </a>
-
-    </nav>
 </div>
 <div class="row">
     <div class="col-md-4">
@@ -135,47 +132,49 @@
 </div>
 
 <!-- <div id="test_page" class="hidden"> -->
-<div id="test_page" class="">
+<div id="test_page" class="mx-2" style="border: 2px solid darkcyan; border-radius: 16px; padding: 12px">
     <div class="toeic-contain">
         <div class="row">
             <!-- question area -->
-            <div class="question-area col-sm-7">
-                <div th:insert="fragments/exam :: exam_taking_question"></div>
+            <div class="question-area col-sm-7" style="border-right: 1px solid darkcyan">
+                <div th:insert="fragments/exam :: ${fragment}"></div>
             </div>
             <!-- end col 8 -->
 
             <!-- answer area -->
             <form method="post" th:action="@{/exam/{id}/taking/stop(id = ${exam.id})}">
-                <input type="hidden" th:name="-1" id="timeElapsedForm">
+                <input type="hidden" th:name="timeRemain" id="timeElapsedForm">
+                <input type="hidden" th:name="currentQuestion" id="currentQuestion" th:value="${quesNo}">
+                <input type="hidden" th:name="currentPart" id="currentPart" th:value="${sectNo}">
                 <div class="col-sm-5">
                     <div class="title-part">
                         <h3 class="text-center">
-                            <button class="btn btn-info" style="margin: 5px;"
-                                    onclick="toastr.remove();">
+                            <button class="btn btn-info" onclick="toastr.remove();">
                                 <i class="fa fa-bell-slash"></i>
                             </button>
                             Answer sheet
                         </h3>
                     </div>
-                    <div style="height: 80vh; overflow-y: scroll">
-                        <div id="answer_sheet" class="answer-area" th:each="answerMap : ${answerSheet}">
-                            <div class="toeic-form" th:id="${answerMap.key}" style="margin-left: 9px;">
+                    <hr>
+                    <div style="height: 60vh; overflow-y: scroll;" id="answer_scroll">
+                        <div id="answer_sheet" class="answer-area" th:each="answerMap : ${answerSheet}" th:attr="onclick=|changeCurrentAnswer(${answerMap.key})|">
+                            <div class="toeic-form" th:id="${answerMap.key}" style="padding-left: 8px;">
                                 <label class="ques-no" th:text="|${#numbers.formatInteger(answerMap.key,2)}.|"></label>
                                 <span th:each="answer : ${answerMap.value}">
-                            <label class="radio-inline" style="padding-right: 8px">
-                                <input th:name="${answerMap.key}" type="radio" tabindex="-1" attrid="2300"
-                                       poolname="Part1"
-                                       th:answerid="${answer.id}" num="1" name="optradio[2300]"
-                                       th:value="${answer.id}" th:checked="${answer.isChecked}">
-                                <strong th:text="${answer.label}"></strong>
-                            </label>
-                        </span>
+                                    <label class="radio-inline" style="padding-right: 8px">
+                                        <input th:name="${answerMap.key}" type="radio" tabindex="-1" attrid="2300"
+                                               poolname="Part1"
+                                               th:answerid="${answer.id}" num="1" name="optradio[2300]"
+                                               th:value="${answer.id}" th:checked="${answer.isChecked}">
+                                        <strong th:text="${answer.label}"></strong>
+                                    </label>
+                                </span>
                             </div>
                         </div>
                     </div>
-                    <div class="btnGroup">
+                    <div class="btnGroup" style="padding-top: 12px">
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-success" id="saveBtn" name="save">SAVE</button>
+                            <button type="button" class="btn btn-success" id="saveBtn" name="save" >SAVE</button>
                             <button type="button" class="btn btn-success" id="submitBtn"
                                     th:onclick="showSubmitConfirm()">SUBMIT
                             </button>
@@ -196,9 +195,69 @@
     </div>
 </div>
 <script>
+
+    let currentAnswer = 1;
+    updateView();
+
+    function updateView() {
+        let quesNos = document.querySelectorAll('div.toiec-question p.text-question');
+        if (quesNos.length === 0) return;
+        let firstQuesNo = parseInt(quesNos[0].innerHTML.replace(".", ""));
+        let lastQuesNo = parseInt(quesNos[quesNos.length - 1].innerHTML.replace(".", ""));
+        document.getElementById('answer_scroll').scrollTop =
+            document.querySelector('div.answer-area div[id="' + firstQuesNo + '"]').offsetTop
+            - ((document.getElementById('answer_scroll').offsetHeight - document.getElementById('answer_scroll').offsetTop) * 0.3);
+        let answerRows = document.querySelectorAll('div.answer-area');
+        currentAnswer = firstQuesNo;
+        document.querySelector('div.answer-area div[id="' + currentAnswer + '"]').parentElement.style.border = "2px solid blue";
+        document.querySelector('div.answer-area div[id="' + currentAnswer + '"]').style.borderRadius = "inherit";
+        for (let i = 1; i <= answerRows.length; i++) {
+            let answer = document.querySelector('div.answer-area div[id="' + i + '"]');
+            answer.parentElement.style.borderRadius = "8px";
+            if (firstQuesNo <= i && i <= lastQuesNo) {
+                answer.style.background = "#c7e5ff";
+            } else {
+                answer.style.background = "";
+                answer.style.borderRadius = "";
+            }
+        }
+    }
+
+    function changeCurrentAnswer(quesNo){
+        document.querySelector('div.answer-area div[id="' + currentAnswer + '"]').parentElement.style.border = "";
+        document.querySelector('div.answer-area div[id="' + currentAnswer + '"]').style.borderRadius = "";
+        currentAnswer = quesNo;
+        document.querySelector('div.answer-area div[id="' + currentAnswer + '"]').parentElement.style.border = "2px solid blue";
+        document.querySelector('div.answer-area div[id="' + currentAnswer + '"]').style.borderRadius = "inherit";
+    }
+
     function updateOutput(examId, layout, secNo, quesNo) {
+        $( ".show-audio-text" ).remove();
+        document.querySelector('div.answer-area div[id="' + currentAnswer + '"]').parentElement.style.border = "";
+        document.querySelector('div.answer-area div[id="' + currentAnswer + '"]').style.borderRadius = "";
         $.post("taking/questions?layout=" + layout + "&sectNo=" + secNo + "&quesNo=" + quesNo, {id: examId}).done(function (fragment) {
             $("#question_contain").replaceWith(fragment);
+            updateView();
+            showAudioTextDialog();
+            $("#currentQuestion").val(quesNo)
+            $("#currentPart").val(secNo)
+        });
+    }
+
+    function save() {
+        let checkedAnswers = [...document.querySelectorAll('input[type="radio"]:checked')];
+        let unansweredCount = [[${answerSheet.size}]];
+        let unansweredArr = Array.from(Array(unansweredCount), (e, i) => i + 1);
+        let url = '';
+        checkedAnswers.forEach(item => {
+            url += item.name + "="+ item.value + '&'
+        });
+        $.post("taking/stop?"+url, {id: [[${exam.id}]],
+                                timeRemain:$("#timeElapsedForm").val(),
+                                currentQuestion:$("#currentQuestion").val(),
+                                currentPart:$("#currentPart").val()}).done(function (result) {
+            $("div#result").children("strong").text(result);
+            $("div#result").css({ display: "inline" });
         });
     }
 
@@ -211,12 +270,10 @@
         let confirmBody = '';
         unansweredArr.forEach(item => {
             if (!checkedAnswers.includes(item)) {
-                unansweredCount--;
                 confirmBody += item + ', '
             }
         });
-        console.log($("#confirmTitle"));
-        document.getElementById('confirmTitle').innerHTML = 'You have ' + unansweredCount + ' questions left unanswered';
+        document.getElementById('confirmTitle').innerHTML = 'You have ' + (unansweredCount - checkedAnswers.length) + ' questions left unanswered';
         document.getElementById('confirmBody').innerHTML = confirmBody;
         dlgConfirm.css('display', 'block');
         dlgConfirm.addClass("in");
@@ -257,6 +314,32 @@
         }
         $("#timeElapsedForm").val(timeElapsed);
     }, 1000);
+         $(function() {
+            showAudioTextDialog();
+            $("#saveBtn")[0].addEventListener("click", save);
+         });
+
+         function showAudioTextDialog() {
+            if ($(".show-audio-text")[0]){
+                $( "#showAudioBtn" ).show();
+            }else{
+                $( "#showAudioBtn" ).hide();
+            }
+            $( ".show-audio-text" ).dialog({
+               autoOpen: false,  
+            });
+            $( "#showAudioBtn" ).click(function() {
+                $( ".show-audio-text" ).dialog('open');
+            });
+        }
+
+    setInterval(function(){
+        let skipBtn = document.getElementById('skipBtn');
+        if(skipBtn){
+            skipBtn.click();
+        }
+    },10000);
+
 
 </script>
 </body>

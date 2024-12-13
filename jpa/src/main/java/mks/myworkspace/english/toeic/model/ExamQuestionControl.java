@@ -1,6 +1,5 @@
 package mks.myworkspace.english.toeic.model;
 
-import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
@@ -15,6 +14,8 @@ public class ExamQuestionControl {
     private Integer sectNo;
 
     private Integer quesNo;
+
+    private Boolean isShowBack = Boolean.FALSE;
 
     private List<ExamQuestion> questions;
 

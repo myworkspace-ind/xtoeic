@@ -5,9 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "sam_publishedsection_t")
@@ -20,6 +22,9 @@ public class PublishedSection {
     @Id
     @Column(name = "SECTIONID")
     private Integer id;
+
+    @Column(name = "ASSESSMENTID")
+    private Integer assessmentId;
 
     @Column(name = "DURATION")
     private Integer duration;
@@ -50,13 +55,5 @@ public class PublishedSection {
 
     @Column(name = "LASTMODIFIEDDATE")
     private Date lastModifiedDate;
-
-    @ManyToOne
-    @JoinColumn(name = "ASSESSMENTID", referencedColumnName = "ID")
-    private PublishedAssessment publishedAssessment;
-
-    @OrderBy(value = "sequence")
-    @OneToMany(mappedBy = "publishedSection", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<PublishedItem> publishedItems;
 
 }

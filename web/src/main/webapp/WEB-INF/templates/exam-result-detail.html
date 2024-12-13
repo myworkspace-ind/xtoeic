@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr" class="Mrphs-html">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <!-- Head material from Tool in PDA mode (will include title and headscripts) -->
+
+    <meta charset="UTF-8">
+
+    <!-- Style -->
+    <link href="resources/app-assets/css/mystyle.css" rel="stylesheet"
+          type="text/css" media="all">
+    <link rel="stylesheet" type="text/css"
+          href="resources/app-assets/vendors/css/tables/datatable/datatables.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="resources/app-assets/vendors/css/tables/extensions/autoFill.dataTables.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="resources/app-assets/vendors/css/tables/extensions/colReorder.dataTables.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="resources/app-assets/vendors/css/tables/datatable/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="resources/app-assets/vendors/css/tables/datatable/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="resources/app-assets/vendors/css/tables/datatable/select.dataTables.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="resources/app-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="resources/app-assets/vendors/css/extensions/offline/themes/offline-theme-slide.css">
+    <link rel="stylesheet" type="text/css"
+          href="resources/app-assets/vendors/css/extensions/offline/themes/offline-language-english.css">
+    <!-- For Sakai only -->
+    <script type="text/javascript"
+            src="https://xlms.myworkspace.vn/library/js/headscripts.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- End of Head material from Tool -->
+    <title>xTOEIC</title>
+    <!--[if (lt IE 9)]>
+    <link href="/library/skin/morpheus-default/tool-ie.css?version=51361631" rel="stylesheet">
+    <![endif]-->
+    <link
+            href="https://xlms.myworkspace.vn/library/skin/morpheus-default/tool.css?version=51361631"
+            rel="stylesheet" media="screen, tty, tv, handheld, projection">
+    <link
+            href="https://xlms.myworkspace.vn/library/skin/morpheus-default/print.css?version=51361631"
+            rel="stylesheet" media="print">
+    <link
+            href="https://xlms.myworkspace.vn/library/skin/morpheus-default/addon-apps.css?version=51361631"
+            rel="stylesheet" type="text/css">
+    <link
+            href="https://xlms.myworkspace.vn/library/webjars/jquery-ui/1.12.1/jquery-ui.min.css?version=51361631"
+            rel="stylesheet"/>
+    <link
+            href="https://xlms.myworkspace.vn/library/js/jquery/cluetip/1.2.10/css/jquery.cluetip.css?version=51361631"
+            rel="stylesheet">
+    <link
+            href="https://xlms.myworkspace.vn/library/webjars/qtip2/3.0.3/jquery.qtip.min.css?version=51361631"
+            rel="stylesheet">
+    <link
+            href="https://xlms.myworkspace.vn/library/webjars/pnotify/3.2.1/pnotify.css?version=51361631"
+            rel="stylesheet">
+    <link
+            href="https://xlms.myworkspace.vn/library/webjars/pnotify/3.2.1/pnotify.buttons.css?version=51361631"
+            rel="stylesheet">
+    <link
+            href="https://xlms.myworkspace.vn/library/webjars/cropper/4.0.0/dist/cropper.min.css?version=51361631"
+            rel="stylesheet">
+    <link
+            href="https://xlms.myworkspace.vn/library/webjars/fontawesome/4.7.0/css/font-awesome.min.css?version=51361631"
+            rel="stylesheet">
+    <script
+            src="https://xlms.myworkspace.vn/library/skin/morpheus-default/js/lib/modernizr.js?version=51361631"></script>
+    <script
+            src="/webcomponents/assets/@webcomponents/webcomponentsjs/webcomponents-loader.js?version=51361631"></script>
+    <script
+            src="https://xlms.myworkspace.vn/library/webjars/momentjs/2.24.0/min/moment-with-locales.min.js?version=51361631"></script>
+    <script src="/profile2-tool/javascript/profile2-eb.js?version=51361631"></script>
+
+    <!-- inlined tool header contribution -->
+
+    <!-- end inlined tool header contribution -->
+</head>
+
+<body style="padding: 12px;">
+
+<div class="Mrphs-siteHierarchy">
+
+    <a th:href="@{/}"
+       title="Tool Home"
+       class="Mrphs-hierarchy-item Mrphs-hierarchy--toolName"> <span
+            class="Mrphs-breadcrumb--reset-icon fa fa-share" aria-hidden="true"></span>
+        <span class="Mrphs-breadcrumb--icon icon-sakai--sakai-toeic "></span>
+        <span class="Mrphs-breadcrumb--toolNameText">TOEIC</span>
+    </a>
+
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div data-toolbar="set-04"
+             class="btn-toolbar btn-toolbar-primary mx-auto"
+             data-toolbar-style="primary">
+            <!-- <i class="fa fa-info-circle"></i> -->
+        </div>
+    </div>
+    <div class="col-md-4 text-center">
+        <h2 id="assessmentTitle" th:text="${exam.title}"></h2>
+    </div>
+</div>
+
+<!-- <div id="test_page" class="hidden"> -->
+<div id="test_page" class="mx-2" style="border: 2px solid darkcyan; border-radius: 16px; padding: 12px">
+    <div class="toeic-contain">
+        <div class="row">
+            <!-- question area -->
+            <div class="question-area col-sm-7" style="border-right: 1px solid darkcyan">
+                <div th:insert="fragment/exam :: exam_taking_guide"></div>
+            </div>
+            <!-- end col 8 -->
+
+            <!-- answer area -->
+            <div class="col-sm-5">
+                <div class="title-part">
+                    <h3 class="text-center">
+                        <button class="btn btn-info" onclick="toastr.remove();">
+                            <i class="fa fa-bell-slash"></i>
+                        </button>
+                        Answer sheet
+                    </h3>
+                </div>
+                <hr>
+                <div style="height: 60vh; overflow-y: scroll;" id="answer_scroll">
+                    <div id="answer_sheet" class="answer-area" th:each="answerMap : ${answerSheet}">
+                        <div class="toeic-form" th:id="${answerMap.key}" style="padding-left: 8px;">
+                            <label class="ques-no" th:text="|${#numbers.formatInteger(answerMap.key,2)}.|"></label>
+                            <span th:each="answer : ${answerMap.value}">
+                                    <label class="radio-inline" style="padding-right: 8px">
+                                        <input th:name="${answerMap.key}" type="radio" tabindex="-1" attrid="2300"
+                                               poolname="Part1" disabled
+                                               th:answerid="${answer.id}" num="1" name="optradio[2300]"
+                                               th:value="${answer.id}" th:checked="${answer.isChecked}">
+                                        <strong th:text="${answer.label}"></strong>
+                                        <span th:if="${answer.isCorrect}">
+                                            <i class="fa fa-check" style="color: limegreen" aria-hidden="true"></i>
+                                        </span>
+                                        <span th:if="${!answer.isCorrect && answer.isChecked}">
+                                            <i class="fa fa-times" style="color: red" aria-hidden="true"></i>
+                                        </span>
+                                    </label>
+                                </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end col 4 -->
+
+        </div>
+        <!-- Footer bar -->
+    </div>
+</div>
+<script>
+
+    updateView();
+
+    function updateView() {
+        let quesNos = document.querySelectorAll('div.toiec-question p.text-question');
+        let firstQuesNo = parseInt(quesNos[0].innerHTML.replace(".", ""));
+        let lastQuesNo = parseInt(quesNos[quesNos.length - 1].innerHTML.replace(".", ""));
+        document.getElementById('answer_scroll').scrollTop =
+            document.querySelector('div.answer-area div[id="' + firstQuesNo + '"]').offsetTop
+            - ((document.getElementById('answer_scroll').offsetHeight - document.getElementById('answer_scroll').offsetTop) * 0.3);
+        let answerRows = document.querySelectorAll('div.answer-area');
+        for (let i = 1; i <= answerRows.length; i++) {
+            let answer = document.querySelector('div.answer-area div[id="' + i + '"]');
+            if (firstQuesNo <= i && i <= lastQuesNo) {
+                answer.style.background = "#c7e5ff";
+            } else {
+                answer.style.background = "";
+            }
+        }
+    }
+
+    function updateOutput(examId, layout, secNo, quesNo) {
+        $.post("../taking/questions?layout=" + layout + "&sectNo=" + secNo + "&quesNo=" + quesNo + "&showBack=true", {id: examId}).done(function (fragment) {
+            $("#question_contain").replaceWith(fragment);
+            updateView();
+        });
+    }
+
+</script>
+</body>

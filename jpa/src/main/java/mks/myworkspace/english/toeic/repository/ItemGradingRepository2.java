@@ -11,12 +11,12 @@ import java.util.Optional;
 public interface ItemGradingRepository2 extends JpaRepository<ItemGrading2, Integer> {
 
     ItemGrading2 findByAssessmentGradingIdAndPublishedItemId(
-        Integer assessmentGradingId,
-        Integer publishedItemId
+            Integer assessmentGradingId,
+            Integer publishedItemId
     );
 
     List<ItemGrading2> findAllByAssessmentGradingId(
-        Integer assessmentGradingId
+            Integer assessmentGradingId
     );
 
 }

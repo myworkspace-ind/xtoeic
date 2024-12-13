@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "sam_publishedassessment_t")
@@ -70,9 +69,5 @@ public class PublishedAssessment {
     @OneToOne(mappedBy = "publishedAssessment", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private PublishedAccessControl accessControl;
-
-    @OrderBy(value = "sequence")
-    @OneToMany(mappedBy = "publishedAssessment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<PublishedSection> sections;
 
 }

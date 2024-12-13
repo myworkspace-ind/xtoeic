@@ -5,7 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "sam_publishedanswer_t")
@@ -18,6 +21,9 @@ public class PublishedAnswer {
     @Id
     @Column(name = "ANSWERID")
     private Integer id;
+
+    @Column(name = "ITEMID")
+    private Integer itemId;
 
     @Column(name = "ITEMTEXTID")
     private Integer itemTextId;
@@ -45,9 +51,5 @@ public class PublishedAnswer {
 
     @Column(name = "partial_credit")
     private Double partialCredit;
-
-    @ManyToOne
-    @JoinColumn(name = "ITEMID")
-    private PublishedItem publishedItem;
 
 }

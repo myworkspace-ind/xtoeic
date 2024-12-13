@@ -11,6 +11,8 @@ public class ExamResult {
 
     private Integer id;
 
+    private Integer assessmentId;
+
     private Date attemptDate;
 
     private Date submittedDate;
