@@ -19,7 +19,6 @@ public interface ExamRepository extends JpaRepository<Exam, Long> {
 	@Query("SELECT e FROM Exam e WHERE e.title LIKE 'ETS%'")
 	List<Exam> findExamsWithETSTitlePrefix();
 	
-	
 	@Query("SELECT e FROM Exam e WHERE e.title LIKE 'ETS%' AND e.description LIKE '%Type: Practice%'")
 	List<Exam> findExamsWithETSTitleAndPracticeType();
 	
@@ -48,20 +47,15 @@ public interface ExamRepository extends JpaRepository<Exam, Long> {
 		       "ORDER BY item.sequence, answer.label")
 		List<Object[]> findAllExamPart1Details(@Param("examId") Long examId);
 		
-		
-	
-	
-		
-
-		@Query("SELECT item, itemText, answer " +
-			       "FROM Part part " +
-			       "JOIN part.items item " +
-			       "JOIN item.itemTexts itemText " +
-			       "JOIN itemText.answers answer " +
-			       "WHERE part.exam.id = 126 " +  // Gán giá trị cố định là 126
-			       "AND part.title = 'Part2' " +
-			       "AND item.sequence = 1 " +
-			       "ORDER BY answer.label")
-			List<Object[]> findPart2FirstQuestionDetails();
-
+		 
+	@Query("SELECT item, itemText, answer " +
+		       "FROM Part part " +
+		       "JOIN part.items item " +
+		       "JOIN item.itemTexts itemText " +
+		       "JOIN itemText.answers answer " +
+		       "WHERE part.exam.id = 126 " +  // Gán giá trị cố định là 126
+		       "AND part.title = 'Part2' " +
+		       "AND item.sequence = 1 " +
+		       "ORDER BY answer.label")
+		List<Object[]> findPart2FirstQuestionDetails(); 
 }

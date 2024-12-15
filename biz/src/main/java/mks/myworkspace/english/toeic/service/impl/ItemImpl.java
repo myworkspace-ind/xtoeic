@@ -28,8 +28,5 @@ public class ItemImpl implements ItemService{
 	@Override
 	public Optional<Item> findById(Long id) {
         return repo.findById(id);
-    }
-
-
-	
+    }  
 }

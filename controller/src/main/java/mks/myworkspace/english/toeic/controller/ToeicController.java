@@ -32,7 +32,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -425,68 +424,6 @@ public class ToeicController extends BaseController {
 		return mav;
 	}
 	
-	
-
-
-//	@RequestMapping(value = "/exam-part-1-vovantri", method = RequestMethod.GET)
-//	public ModelAndView displayExamPart1_vovantri(@RequestParam("id") Long examId, HttpServletRequest request, HttpSession httpSession) {
-//	    ModelAndView mav = new ModelAndView("exam-part-1-vovantri");
-//	    initSession(request, httpSession);
-//
-//	    mav.addObject("currentSiteId", getCurrentSiteId());
-//	    mav.addObject("userDisplayName", getCurrentUserDisplayName());
-//
-//	    List<Object[]> examPart1Details = examService.findAllExamPart1Details(examId);
-//	    //List<Object[]> examPart1Details = examService.getExamPart1Details(examId);
-
-//	    // Lấy dòng đầu tiên
-//	    Object[] firstRow = examPart1Details.get(0);
-//
-//	    // Truy cập cột 0 và cột 1
-//	    Item item = (Item) firstRow[0];
-//	    ItemText itemText = (ItemText) firstRow[1];
-//	    System.out.println("Item Sequence: " + item.getSequence()); 
-//
-//	    // Lấy text từ itemText
-//	    String text = itemText.getText();
-//	    System.out.println("Item Text: " + text);
-//
-//	    // Tách thủ công image URL và audio URL từ chuỗi
-//	    String imageUrl = extractUrl(text, "image");
-//	    String audioUrl = extractUrl(text, "audio");
-//	    
-//	    mav.addObject("imageUrl", imageUrl);
-//	    mav.addObject("audioUrl", audioUrl);
-//
-//	    System.out.println("Image URL: " + imageUrl);
-//	    System.out.println("Audio URL: " + audioUrl);
-//
-//	    // Ghi các câu a,b,c,d
-//	    List<Answer> answers = new ArrayList<>();
-//	    for (Object[] row : examPart1Details) {
-//	        Answer answer = (Answer) row[2];
-//	        answers.add(answer);   
-//
-//	        System.out.println("-------------------------");
-//	        System.out.println("Answer Sequence: " + answer.getSequence());
-//	        System.out.println("Answer Label: " + answer.getLabel());
-//	        System.out.println("Answer Text: " + answer.getText());
-//	        System.out.println("Is Correct: " + answer.getIsCorrect());
-//	        System.out.println("Score: " + answer.getScore());
-//	        System.out.println("-------------------------");
-//	    }
-//	    
-//	    mav.addObject("answers", answers);  
-//	    Optional<Exam> examOpt = examService.findById(examId);
-//
-//	    examOpt.ifPresentOrElse(
-//	        exam -> mav.addObject("exam", exam),
-//	        () -> mav.addObject("errorMessage", "Exam not found.")
-//	    );
-//
-//	    return mav;
-//	}
-
 	// Hàm tách URL từ chuỗi JSON thủ công
 	private String extractUrl(String text, String key) {
 		// Biểu thức chính quy tìm URL (cả URL đầy đủ và URL tương đối)
@@ -515,7 +452,7 @@ public class ToeicController extends BaseController {
 			Long id = 0L;
 
 	
-// show list of exams
+			// show list of exams
 			// Tìm các thực thể liên quan
 			Optional<AssessmentGrading> assessmentGradingOpt = assessmentGradingService.findById(assessmentGradingId);
 			Optional<Item> itemOpt = itemService.findById(itemId);

@@ -15,7 +15,7 @@ import mks.myworkspace.english.toeic.service.ExamService;
 
 @Service
 public class ExamServiceImpl implements ExamService{
-
+		
 	@Autowired
 	private ExamRepository repo;
 	
@@ -47,26 +47,16 @@ public class ExamServiceImpl implements ExamService{
 	@Override
 	public Optional<Exam> findById(Long id) {
         return repo.findById(id);
-    } 
-	
-	public List<Object[]> getExamPart1Details(Long examId) {
-        return repo.findExamPart1Details(examId);
-    }
-
-	@Override
-	public List<Object[]> findAllExamPart1Details(Long examId) {
-		return repo.findAllExamPart1Details(examId);
-	}
-	
-	
-	
-	
-
-	 
+    }  
 
 	@Override
 	public List<Object[]> findPart2FirstQuestionDetails() {
 		return repo.findPart2FirstQuestionDetails();
+	}
+	
+	@Override
+	public List<Object[]> findAllExamPart1Details(Long examId) {
+		return repo.findAllExamPart1Details(examId);
 	}
 	
 

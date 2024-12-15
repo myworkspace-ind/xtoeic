@@ -28,5 +28,4 @@ public interface ExamService {
 
 	List<Object[]> findAllExamPart1Details(Long examId);
 
-
 }

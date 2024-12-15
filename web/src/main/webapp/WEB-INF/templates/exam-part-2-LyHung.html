@@ -170,6 +170,14 @@
 							class="test-box"
 							th:classappend="${iterStat.index == 0 ? 'active' : 'hidden'}">
 
+
+							<!-- Câu hỏi hiện tại -->
+							<div class="toeic-index">
+								<h4 id="question_number">
+									Question <span th:text="${iterStat.index + 1}"></span>
+								</h4>
+							</div>
+
 							<!-- Audio câu hỏi -->
 							<div class="for-listening text-center audio_question">
 								<div class="black"></div>
