@@ -14,9 +14,9 @@
         ">
     
 	<!-- Step 3 -->
-<!-- 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"> -->
-<!-- 		<property name="entityManagerFactory" ref="entityManagerFactory" /> -->
-<!-- 	</bean> -->
+ 	<bean id="transactionManagerJpa" class="org.springframework.orm.jpa.JpaTransactionManager">
+ 		<property name="dataSource" ref="dataSource0" />
+ 	</bean>
 <!-- 	<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager"> -->
 <!-- 		<property name="sessionFactory" ref="entityManagerFactory" /> -->
 <!-- 	</bean> -->
@@ -27,4 +27,5 @@
 	</bean>
 	<!-- Enable transaction management -->
 	<tx:annotation-driven transaction-manager="transactionManager"/>
+	<tx:annotation-driven transaction-manager="transactionManagerJpa"/>
 </beans>

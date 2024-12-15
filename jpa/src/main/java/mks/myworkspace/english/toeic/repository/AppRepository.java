@@ -96,7 +96,7 @@ public class AppRepository {
 	    parameters.put("AGENTID", itemGrading.getAgentId());
 	    parameters.put("ANSWERTEXT", itemGrading.getAnswerText());
 	    parameters.put("ISCORRECT", itemGrading.getIsCorrect());
-//	    parameters.put("ID", itemGrading.getId());
+	    parameters.put("ID", itemGrading.getId());
 
 	    // Insert và lấy ID của bản ghi mới
 	    id = simpleJdbcInsert.executeAndReturnKey(parameters).longValue();

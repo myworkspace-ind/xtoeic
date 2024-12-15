@@ -57,6 +57,12 @@ public class ExamServiceImpl implements ExamService{
 	public List<Object[]> findAllExamPart1Details(Long examId) {
 		return repo.findAllExamPart1Details(examId);
 	}
+	
+	
+	
+	
+
+	 
 
 	@Override
 	public List<Object[]> findPart2FirstQuestionDetails() {

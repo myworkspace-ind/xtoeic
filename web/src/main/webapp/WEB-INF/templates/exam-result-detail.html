@@ -115,7 +115,7 @@
         <div class="row">
             <!-- question area -->
             <div class="question-area col-sm-7" style="border-right: 1px solid darkcyan">
-                <div th:insert="fragments/exam :: exam_taking_guide"></div>
+                <div th:insert="fragments/exam-taking-guide :: exam_taking_guide"></div>
             </div>
             <!-- end col 8 -->
 
@@ -182,8 +182,8 @@
     }
 
     function updateOutput(examId, layout, secNo, quesNo) {
-        $.post("../taking/questions?layout=" + layout + "&sectNo=" + secNo + "&quesNo=" + quesNo + "&showBack=true", {id: examId}).done(function (fragments) {
-            $("#question_contain").replaceWith(fragments);
+        $.post("../taking/questions?layout=" + layout + "&sectNo=" + secNo + "&quesNo=" + quesNo + "&showBack=true", {id: examId}).done(function (fragment) {
+            $("#question_contain").replaceWith(fragment);
             updateView();
         });
     }

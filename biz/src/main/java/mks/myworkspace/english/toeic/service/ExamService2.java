@@ -2,15 +2,19 @@ package mks.myworkspace.english.toeic.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+import mks.myworkspace.english.toeic.entity.AssessmentGrading;
+import mks.myworkspace.english.toeic.entity.AssessmentGrading2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import mks.myworkspace.english.toeic.model.ExamResult;
+
 import mks.myworkspace.english.toeic.model.Exam;
 import mks.myworkspace.english.toeic.model.ExamAnswer;
 import mks.myworkspace.english.toeic.model.ExamQuestionControl;
-import mks.myworkspace.english.toeic.model.ExamResult;
 import mks.myworkspace.english.toeic.model.ExamSection;
 
 
@@ -36,5 +40,7 @@ public interface ExamService2 {
     Map<String,Object> submitAnswer(Integer examId, Map<String, String> answerForm);
 
     Page<ExamResult> getPagingResult(Integer examId, Pageable pageable);
+
+    AssessmentGrading2 getCurrentAssesmentGrading(Integer examId);
 
 }

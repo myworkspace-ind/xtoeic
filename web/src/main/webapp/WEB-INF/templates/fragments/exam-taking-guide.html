@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="exam_taking_guide" class="area-part" id="question_contain">
+    <div class="title-part" style="text-align: center">
+        <h3 id="title_part_multi" th:text="${section.title}"></h3>
+    </div>
+    <hr>
+    <div class="test-box">
+        <div style="max-height: 60vh; overflow-y: scroll;">
+            <p th:utext="|${section.description}|"></p>
+        </div>
+    </div>
+    <div class="row" style="padding-top: 12px">
+        <div class="col-sm-12">
+            <div class="footer-bar">
+                <div class="toeic-btn text-right">
+                    <button
+                            id="skipBtn"
+                            class="btn btn-default"
+                            th:attr="onclick=|updateOutput(${exam.id}, '${layout}', '${sectNo}', '${layout=='question' ? quesNo : ''}')|">
+                        SKIP
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

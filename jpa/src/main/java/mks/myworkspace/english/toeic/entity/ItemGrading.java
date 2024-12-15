@@ -55,8 +55,8 @@ public class ItemGrading implements Serializable {
     @Column(name = "ISCORRECT")
     private Boolean isCorrect;
     
-//    @Column(name = "ID")
-//    private Long id;
+    @Column(name = "ID")
+    private Long id;
 
     // Constructor đầy đủ tham số
     public ItemGrading(Long itemGradingId, AssessmentGrading assessmentGrading, Item item, 
@@ -70,6 +70,7 @@ public class ItemGrading implements Serializable {
         this.agentId = agentId;
         this.answerText = answerText;
         this.isCorrect = isCorrect;
+        this.id = id;
     }
 
     // Phương thức toString 
@@ -84,6 +85,7 @@ public class ItemGrading implements Serializable {
                ", agentId='" + agentId + '\'' + "\n" +
                ", answerText='" + answerText + '\'' + "\n" +
                ", isCorrect=" + isCorrect + "\n" +
+               ", id=" + id + "\n" +
                ']';
     }
 
