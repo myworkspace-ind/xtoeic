@@ -27,11 +27,7 @@ import mks.myworkspace.english.toeic.service.ExamService2;
 public class ExamController {
     private final ExamService2 examService;
 
-    @GetMapping({"/index", "/"})
-    public String home(Model model) {
-        return "redirect:exam";
-    }
-
+    
     @GetMapping("")
     public String exam(Model model) {
         model.addAttribute("examList", examService.getExams());

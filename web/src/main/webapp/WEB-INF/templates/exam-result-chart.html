@@ -115,6 +115,30 @@
       max-width: 400px;
       /* Limit max width */
     }
+
+    a.home {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+
+    a.export {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #2196F3;
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+    }
   </style>
 </head>
 
@@ -136,8 +160,8 @@
         TOTAL SCORE: <span id="totalScore">10</span>
       </div>
       <div class="buttons">
-        <button th:onclick="goHome()">Home</a></button>
-        <button class="export" onclick="exportResults()">Result</button>
+        <a class="home" th:href="@{/exam}">Home</a>
+        <a class="export" th:href="@{/exam/{examId}/result/{gradingId}(examId = ${examId}, gradingId = ${gradingId})}">Result</a>
       </div>
     </div>
   </div>
@@ -157,7 +181,7 @@
     }
 
     function exportResults(){
-    	window.location.href = "/toeic-web/exam/"+[[${examId}]]+'/result/'+[[${gradingId}]]
+    	window.location.href = "/exam/"+[[${examId}]]+'/result/'+[[${gradingId}]]
     }
     // Radar chart for TOEIC scores
     const ctx = document.getElementById('radarChart').getContext('2d');

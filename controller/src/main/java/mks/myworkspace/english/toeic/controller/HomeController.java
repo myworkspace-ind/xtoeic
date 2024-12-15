@@ -24,7 +24,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -59,7 +61,7 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
 	public ModelAndView displayHome(HttpServletRequest request, HttpSession httpSession) {
 //		ModelAndView mav = new ModelAndView("home");
-		ModelAndView mav = new ModelAndView("home");
+		ModelAndView mav = new ModelAndView("redirect:exam");
 
 		initSession(request, httpSession);
 		
