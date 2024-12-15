@@ -22,7 +22,7 @@
                 <div class="show-audio-text" th:utext="${question.audioText}" th:if="${question.audioText != null && question.audioText != ''}">Show audio text</div>
                 <div class="toiec-question">
                     <p class="text-question" th:id="${question.id}"
-                       th:text="|${#numbers.formatInteger(question.questionNo,2)}. ${question.text != null ? question.text : ''}|"></p>
+                       th:utext="|${#numbers.formatInteger(question.questionNo,2)}. ${question.text != null ? question.text : ''}|"></p>
 
                     <span th:if="${question.audio != null}">
                             <div id="pic_question_multi">
