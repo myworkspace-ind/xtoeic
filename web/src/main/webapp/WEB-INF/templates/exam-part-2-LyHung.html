@@ -170,23 +170,12 @@
 							class="test-box"
 							th:classappend="${iterStat.index == 0 ? 'active' : 'hidden'}">
 
+
 							<!-- Câu hỏi hiện tại -->
 							<div class="toeic-index">
 								<h4 id="question_number">
 									Question <span th:text="${iterStat.index + 1}"></span>
 								</h4>
-							</div>
-
-							<!-- Hình ảnh câu hỏi -->
-							<p>
-								Link ảnh gốc: <a th:href="${questionDetail.imageUrl}"
-									th:text="${questionDetail.imageUrl}"></a>
-							</p>
-							<div class="toiec-question pic_question">
-								<img
-									style="cursor: pointer; max-width: 100%; max-height: 190px;"
-									th:src="${questionDetail.imageUrl}" onclick="showImage(this)"
-									alt="Đường dẫn trên không thể load trực tiếp lên html do yêu cầu đăng nhập vào myworkspace">
 							</div>
 
 							<!-- Audio câu hỏi -->

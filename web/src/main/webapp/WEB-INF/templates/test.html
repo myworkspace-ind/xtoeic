@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Test Page</title>
+</head>
+<body>
+    <h1>Sections and Questions</h1>
+    <div th:each="section : ${sections}">
+        <h2>Section: [[${section.title}]]</h2>
+        <p>Description: [[${section.description}]]</p>
+
+        <ul>
+            <li th:each="question : ${section.questions}">
+                <p>
+                    Question [[${question.globalSequence}]]: 
+                    <span th:utext="${question.text}"></span>
+                </p>
+                
+                <!-- Hiển thị danh sách đáp án -->
+                <ul>
+                    <li th:each="answer : ${question.answers}">
+                        Answer [[${answer.sequence}]]: [[${answer.text}]]
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

@@ -14,5 +14,5 @@ public interface ItemService {
 	
 	List<Item> getItemByExamIDAndPartTitle(Long assessmentId, String title);
 	
-	Optional<Item> findById(Long id); 
+	Optional<Item> findById(Long id);
 }
