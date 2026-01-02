@@ -5,16 +5,24 @@
 	<parent>
 		<artifactId>toeic</artifactId>
 		<groupId>mks.myworkspace.english.toeic</groupId>
-		<version>23.2</version>
+		<version>25.0</version>
 	</parent>
 <!-- 	<groupId>mks.myworkspace.english.toeic</groupId> -->
 	<artifactId>toeic-common</artifactId>
 
 	<dependencies>
 		<dependency>
+			<groupId>mks.myworkspace.english.toeic</groupId>
+			<artifactId>toeic-api</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
 	</dependencies>
 	<build>
 		<!-- configure the build to use the standard maven structure -->

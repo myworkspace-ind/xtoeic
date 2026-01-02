@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <registration>
 	<tool id="sakai.toeic" 
-		title="toeic" 
-		description="This description is set in the toeic-tool registration file, found in the webapp/tools directory">
+		title="TOEIC" 
+		description="Learn English everyday.">
 
 		<category name="course" />
       	<category name="project" />

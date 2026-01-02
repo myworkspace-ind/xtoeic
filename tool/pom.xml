@@ -4,12 +4,11 @@
 	<parent>
 		<artifactId>toeic</artifactId>
 		<groupId>mks.myworkspace.english.toeic</groupId>
-		<version>23.2</version>
+		<version>25.0</version>
         <relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>mks.myworkspace.english.toeic</groupId>
 	<artifactId>toeic-tool</artifactId>
-<!-- 	<version>23.2</version> -->
 	<packaging>war</packaging>
 
 	<dependencies>

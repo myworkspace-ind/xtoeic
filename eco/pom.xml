@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>toeic</artifactId>
 		<groupId>mks.myworkspace.english.toeic</groupId>
-		<version>23.2</version>
+		<version>25.0</version>
 	</parent>
 <!-- 	<groupId>mks.myworkspace.english.toeic</groupId> -->
 	<artifactId>toeic-eco</artifactId>
@@ -46,12 +46,10 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
-            <version>${spring.data.commons.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
-<!--            <version>${spring.data.jpa.version}</version>-->
         </dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -61,14 +59,12 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 		</dependency>
+		<!--
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-		</dependency>
+		-->
 
 		<!-- Sakai dependencies -->
 		<dependency>
@@ -88,10 +84,14 @@
 <!--        <artifactId>spring-webflux</artifactId>-->
 <!--        <version>${sakai.spring.version>}</version>-->
 <!--      </dependency>-->
-      <dependency>
-        <groupId>com.googlecode.json-simple</groupId>
-        <artifactId>json-simple</artifactId>
-      </dependency>
+        <dependency>
+            <groupId>org.sakaiproject.samigo</groupId>
+            <artifactId>samigo-api</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<!-- configure the build to use the standard maven structure -->

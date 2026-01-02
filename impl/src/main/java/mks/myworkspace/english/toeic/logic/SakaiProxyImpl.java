@@ -35,6 +35,7 @@ import org.sakaiproject.site.api.SiteService;
 import org.sakaiproject.site.util.SiteParticipantHelper;
 import org.sakaiproject.tool.api.SessionManager;
 import org.sakaiproject.tool.api.ToolManager;
+import org.sakaiproject.tool.assessment.shared.api.questionpool.QuestionPoolServiceAPI;
 import org.sakaiproject.user.api.UserDirectoryService;
 
 import lombok.Getter;
@@ -161,10 +162,12 @@ public class SakaiProxyImpl implements SakaiProxy {
     
     @Getter @Setter
     private SiteService siteService;
-    
 
     @Getter @Setter
     public AuthzGroupService authzGroupService = null;
+
+    @Getter @Setter
+    private QuestionPoolServiceAPI questionPoolService;
     
 	@Override
 	public boolean isUserRoleSwapped() {

@@ -12,12 +12,15 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.springframework.data.annotation.Immutable;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "sam_publishedanswerfeedback_t",  uniqueConstraints = @UniqueConstraint(columnNames = "ANSWERFEEDBACKID"))
+@Immutable
 @Getter
 @Setter
 @NoArgsConstructor

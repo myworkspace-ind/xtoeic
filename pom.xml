@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>mks.myworkspace.english.toeic</groupId>
 	<artifactId>toeic</artifactId>
-	<version>23.2</version>
+	<version>25.0</version>
 	<packaging>pom</packaging>
 	<name>sakai-spring-maven-archetype</name>
 	<description>Archetype to generate a project with sakai and spring</description>
@@ -13,7 +13,7 @@
     <parent>
         <groupId>org.sakaiproject</groupId>
         <artifactId>master</artifactId>
-        <version>23.2</version>
+        <version>25.0</version>
         <relativePath>../master/pom.xml</relativePath>
     </parent>
 
@@ -24,61 +24,78 @@
 			<dependency>
 				<groupId>mks.myworkspace.english.toeic</groupId>
 				<artifactId>toeic-api</artifactId>
-				<version>23.2</version>
+				<version>25.0</version>
 			</dependency>
 
 			<dependency>
 				<groupId>mks.myworkspace.english.toeic</groupId>
 				<artifactId>toeic-impl</artifactId>
-				<version>23.2</version>
+				<version>25.0</version>
 			</dependency>
-
+	        <dependency>
+	          <groupId>mksgroup.java</groupId>
+	          <artifactId>javacommon</artifactId>
+	          <version>${javacommon.version}</version>
+	        </dependency>
+	        <dependency>
+	            <groupId>com.google.code.gson</groupId>
+	            <artifactId>gson</artifactId>
+	            <version>2.8.4</version>
+	        </dependency>
 
 		</dependencies>
 	</dependencyManagement>
 	<properties>
-        <sakai.kernel.version>23.2</sakai.kernel.version>
+        <sakai.kernel.version>25.0</sakai.kernel.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>5.3.27</spring.version>
-        <spring.security.version>5.5.7</spring.security.version>
-        <spring.data.commons.version>2.5.3</spring.data.commons.version>
-        <spring.data.jpa.version>2.5.3</spring.data.jpa.version>
-        <module.version>23.2</module.version>
+        <spring.version>5.3.39</spring.version>
+        <spring.security.version>5.7.14</spring.security.version>
+        <spring.data.commons.version>2.5.12</spring.data.commons.version>
+        <spring.data.jpa.version>2.5.12</spring.data.jpa.version>
+        <module.version>25.0</module.version>
         <thymeleaf.version>3.0.15.RELEASE</thymeleaf.version>
         
         <!-- More -->
-        <sakai.log4j.version>2.20.0</sakai.log4j.version>
+        <sakai.log4j.version>2.24.3</sakai.log4j.version>
         <sakai.slf4j.version>1.7.36</sakai.slf4j.version>
-        <sakai.poi.version>5.2.3</sakai.poi.version>
+        <sakai.poi.version>5.4.1</sakai.poi.version>
+        <sakai.jackson.version>2.17.2</sakai.jackson.version>
+        <javacommon.version>0.7.2</javacommon.version>
+        <sakai.weld.shaded.version>3.1.9.Final</sakai.weld.shaded.version>
 	</properties>
 
+<!--	<repositories>-->
+<!--		<repository>-->
+<!--			<id>sakai-maven</id>-->
+<!--			<name>Sakai Maven Repo</name>-->
+<!--			<layout>default</layout>-->
+<!--			<url>http://source.sakaiproject.org/maven2</url>-->
+<!--			<releases>-->
+<!--			</releases>-->
+<!--			<snapshots>-->
+<!--				<enabled>false</enabled>-->
+<!--			</snapshots>-->
+<!--		</repository>-->
+<!--	</repositories>-->
+
+<!--	<pluginRepositories>-->
+<!--		<pluginRepository>-->
+<!--			<id>Sakai Plugin Repo</id>-->
+<!--			<url>http://source.sakaiproject.org/maven2</url>-->
+<!--			<releases>-->
+<!--			</releases>-->
+<!--			<snapshots>-->
+<!--				<enabled>false</enabled>-->
+<!--			</snapshots>-->
+<!--		</pluginRepository>-->
+<!--	</pluginRepositories>-->
+
 	<repositories>
-		<repository>
-			<id>sakai-maven</id>
-			<name>Sakai Maven Repo</name>
-			<layout>default</layout>
-			<url>http://source.sakaiproject.org/maven2</url>
-			<releases>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
+	  <repository>
+	    <id>xmyworkspace-repo</id>
+	    <url>https://xmyworkspace.com/maven</url>
+	  </repository>
 	</repositories>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>Sakai Plugin Repo</id>
-			<url>http://source.sakaiproject.org/maven2</url>
-			<releases>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
-
-
   <modules>
     <module>api</module>
 	<module>common</module>

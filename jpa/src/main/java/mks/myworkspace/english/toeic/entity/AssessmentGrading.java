@@ -3,7 +3,6 @@ package mks.myworkspace.english.toeic.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,12 +13,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.springframework.data.annotation.Immutable;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "sam_assessmentgrading_t", uniqueConstraints = @UniqueConstraint(columnNames = "ASSESSMENTGRADINGID"))
+@Immutable
 @Getter
 @Setter
 @NoArgsConstructor

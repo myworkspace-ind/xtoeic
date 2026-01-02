@@ -24,8 +24,10 @@ hs_err_pid*
 replay_pid*
 
 .settings
-tool
+
 target
 .classpath
 .factorypath
 .project
+/tool/src/main/webapp/WEB-INF/app-config.properties
+/tool/src/main/webapp/WEB-INF/templates

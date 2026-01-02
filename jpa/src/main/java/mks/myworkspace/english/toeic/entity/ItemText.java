@@ -14,12 +14,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.springframework.data.annotation.Immutable;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "sam_publisheditemtext_t", uniqueConstraints = @UniqueConstraint(columnNames = "ITEMTEXTID"))
+@Immutable
 @Getter
 @Setter
 @NoArgsConstructor

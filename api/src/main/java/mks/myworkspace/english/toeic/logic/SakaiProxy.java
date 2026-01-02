@@ -22,6 +22,7 @@ package mks.myworkspace.english.toeic.logic;
 import java.util.List;
 
 import org.sakaiproject.authz.api.Role;
+import org.sakaiproject.tool.assessment.shared.api.questionpool.QuestionPoolServiceAPI;
 
 /**
  * An interface to abstract all Sakai related API calls in a central method that can be injected into our app.
@@ -109,4 +110,5 @@ public interface SakaiProxy {
 	
 	List<Role> getRoles();
 	String getUserRole();
+	QuestionPoolServiceAPI getQuestionPoolService();
 }
