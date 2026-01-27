@@ -206,7 +206,26 @@
 			<artifactId>sakai-component-manager</artifactId>
 			<version>${sakai.kernel.version}</version>
 		</dependency>
-		
+
+		<!-- Test & Quizes (Samigo) -->
+        <dependency>
+            <groupId>org.sakaiproject.samigo</groupId>
+            <artifactId>samigo-api</artifactId>
+            <version>${sakai.kernel.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sakaiproject.samigo</groupId>
+            <artifactId>samigo-services</artifactId>
+            <version>${sakai.kernel.version}</version>
+            <exclusions>
+            	<exclusion>
+            		<groupId>org.sakaiproject.kernel</groupId>
+            		<artifactId>sakai-kernel-util</artifactId>
+            	</exclusion>
+            </exclusions>
+        </dependency>
+
 		<!-- Logging-->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
@@ -272,7 +291,12 @@
 			<version>3.4.0</version>
 		</dependency>
 	</dependencies>
-
+	<repositories>
+	  <repository>
+	    <id>xmyworkspace-repo</id>
+	    <url>https://xmyworkspace.com/maven</url>
+	  </repository>
+	</repositories>
 	<build>
 		<!-- configure the build to use the standard maven structure -->
 		<sourceDirectory>src/main/java</sourceDirectory>

@@ -22,6 +22,7 @@ package mks.myworkspace.english.toeic.logic;
 import java.util.List;
 
 import org.sakaiproject.authz.api.Role;
+import org.sakaiproject.tool.assessment.data.ifc.questionpool.QuestionPoolDataIfc;
 import org.sakaiproject.tool.assessment.shared.api.questionpool.QuestionPoolServiceAPI;
 
 /**
@@ -111,4 +112,17 @@ public interface SakaiProxy {
 	List<Role> getRoles();
 	String getUserRole();
 	QuestionPoolServiceAPI getQuestionPoolService();
+
+    /**
+     * Get all question pools in sakai of current user.
+     * @return List of question pools in highest level.
+     */
+    public List<QuestionPoolDataIfc> getPools();
+    
+    /**
+     * Get all sub question pools of current user.
+     * @param poolId
+     * @return
+     */
+    public List<QuestionPoolDataIfc> getPools(Long poolId);
 }

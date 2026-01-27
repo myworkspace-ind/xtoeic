@@ -56,7 +56,7 @@
         <sakai.weld.shaded.version>3.1.9.Final</sakai.weld.shaded.version>
 	</properties>
 
-	<repositories>
+	<!-- <repositories>
 		<repository>
 			<id>sakai-maven</id>
 			<name>Sakai Maven Repo</name>
@@ -80,8 +80,14 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</pluginRepository>
-	</pluginRepositories>
+	</pluginRepositories> -->
 
+	<repositories>
+	  <repository>
+	    <id>xmyworkspace-repo</id>
+	    <url>https://xmyworkspace.com/maven</url>
+	  </repository>
+	</repositories>
 
   <modules>
     <module>api</module>

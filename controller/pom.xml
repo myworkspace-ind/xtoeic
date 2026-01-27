@@ -79,8 +79,7 @@
       <dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>javax.servlet-api</artifactId>
-        <version>4.0.1</version>
-<!--         <scope>provided</scope> -->
+        <scope>provided</scope> 
       </dependency>
 <!--         <dependency> -->
 <!--             <groupId>javax.servlet.jsp</groupId> -->
@@ -103,24 +102,38 @@
             <groupId>org.sakaiproject.kernel</groupId>
             <artifactId>sakai-component-manager</artifactId>
         </dependency>
-        
+
+		<!-- Test & Quizes (Samigo) -->
+        <dependency>
+            <groupId>org.sakaiproject.samigo</groupId>
+            <artifactId>samigo-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sakaiproject.samigo</groupId>
+            <artifactId>samigo-services</artifactId>
+            <exclusions>
+            	<exclusion>
+            		<groupId>org.sakaiproject.kernel</groupId>
+            		<artifactId>sakai-kernel-util</artifactId>
+            	</exclusion>
+            </exclusions>
+        </dependency>
+
         <!-- Support JPA -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-commons</artifactId>
-			<version>${spring.data.jpa.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
-			<version>${spring.data.jpa.version}</version>
 		</dependency>
 		
 		<!-- JPA API -->
 		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>javax.persistence-api</artifactId>
-			<version>2.2</version> <!-- Example version -->
 		</dependency>
  
 	</dependencies>

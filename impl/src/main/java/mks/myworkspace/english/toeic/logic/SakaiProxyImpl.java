@@ -35,6 +35,7 @@ import org.sakaiproject.site.api.SiteService;
 import org.sakaiproject.site.util.SiteParticipantHelper;
 import org.sakaiproject.tool.api.SessionManager;
 import org.sakaiproject.tool.api.ToolManager;
+import org.sakaiproject.tool.assessment.data.ifc.questionpool.QuestionPoolDataIfc;
 import org.sakaiproject.tool.assessment.shared.api.questionpool.QuestionPoolServiceAPI;
 import org.sakaiproject.user.api.UserDirectoryService;
 
@@ -223,4 +224,42 @@ public class SakaiProxyImpl implements SakaiProxy {
 
 		return roles;
 	}
+
+    public List<QuestionPoolDataIfc> getPools() {
+        List<QuestionPoolDataIfc> pools;
+
+        String currentUserId = getCurrentUserId();
+        log.info("currentUserId=" + currentUserId);
+
+        pools = questionPoolService.getAllPools(currentUserId);
+//        List<QuestionPoolDataIfc> pools = questionPoolService.getPoolIdsByAgent(currentUserId);
+        
+        // Get root Pools by remove all subpools recursively
+        if (pools != null) {
+            // Scan from right to left
+            Long parrentPoolId;
+            for (int i = pools.size() - 1; i >= 0; i--) {
+                parrentPoolId = pools.get(i).getParentPoolId();
+                
+                log.info("parent poolId=" + parrentPoolId + "; pool Title:" + pools.get(i).getTitle() + ";poolId:" + pools.get(i).getQuestionPoolId());
+                if (parrentPoolId > 0) {
+                    pools.remove(i);
+                }
+            }
+        }
+
+        return pools;
+    }
+
+    /* (non-Javadoc)
+     * @see m.k.s.sakai.app.question.logic.SakaiProxy#getPools(java.lang.Long)
+     */
+    public List<QuestionPoolDataIfc> getPools(Long poolId) {
+        String currentUserId = getCurrentUserId();
+        log.info("Get sub pools of '" + poolId + ";currentUserId=" + currentUserId);
+
+        List<QuestionPoolDataIfc> pools = questionPoolService.getSubPools(poolId);
+
+        return pools;
+    }
 }
